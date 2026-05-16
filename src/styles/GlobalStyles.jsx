@@ -16,16 +16,6 @@ const styles = css`
     }
   }
 
-  /* 서서히 나타남 */
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-
   /* 살짝 튀어오르며 모달 등장 */
   @keyframes modalIn {
     from {
@@ -91,7 +81,15 @@ const styles = css`
   *::before,
   *::after {
     box-sizing: border-box;
-    cursor: none !important;
+  }
+
+  /* 마우스 기기에서만 커서 숨김 — 터치 기기는 기본 동작 유지 */
+  @media (pointer: fine) {
+    *,
+    *::before,
+    *::after {
+      cursor: none !important;
+    }
   }
 
   html,
@@ -152,7 +150,7 @@ const styles = css`
     min-height: 100vh;
     min-height: 100dvh;
     background: ${T.bgBase};
-    color: ${T.white};
+    color: ${T.main};
     font-family: ${T.fontSans};
     line-height: 1.6;
     overflow-x: hidden;
@@ -181,8 +179,6 @@ const styles = css`
   }
 
   #root {
-    position: relative;
-    z-index: 1;
     min-height: 100%;
   }
 
@@ -218,7 +214,7 @@ const styles = css`
 
   ::selection {
     background: rgba(201, 84, 122, 0.28);
-    color: ${T.white};
+    color: ${T.main};
   }
 
   ::-webkit-scrollbar {
