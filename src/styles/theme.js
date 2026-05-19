@@ -59,6 +59,7 @@ export const T = {
 
   // 브레이크포인트 (max-width 기준 / 데스크탑 우선)
   bp: {
+    mini: "480px",
     mobile: "768px",
     tablet: "1024px",
     desktop: "1440px",
@@ -66,13 +67,14 @@ export const T = {
 
   // ── 폰트 사이즈
   fontSize: {
+    xxs: "12px",
     xs: "14px",
     sm: "16px",
     md: "18px",
     lg: "clamp(18px, calc(0.5208vw + 14px), 24px)",
     xl: "clamp(20px, calc(1.0417vw + 12px), 32px)",
     xxl: "clamp(24px, calc(1.5625vw + 12px), 42px)", // 섹션 타이틀
-    hero: "clamp(48px, 5.73vw, 110px)", // 히어로
+    hero: "clamp(52px, 10vw, 110px)", // 히어로
   },
 
   // ── 공통 spacing 값
@@ -104,12 +106,13 @@ export const T = {
   },
 
   radius: {
-    sm: "6px", // 배지, 스크롤바
-    md: "10px", // 버튼, 인풋
-    lg: "12px", // 카드, 패널
-    xl: "18px", // 모달
-    pill: "40px", // 배지
-    full: "50%", // 원형
+    xs: "6px",
+    sm: "8px",
+    md: "10px",
+    lg: "12px",
+    xl: "18px",
+    pill: "40px",
+    full: "50%",
   },
 }
 

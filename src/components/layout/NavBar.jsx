@@ -19,9 +19,11 @@ export default function NavBar({ accent = T.pink, scrolled = false }) {
   return (
     <>
       <Nav>
-        <Logo to="/" aria-label="화성야화 메인으로 이동">
-          <LogoImage src={logoImage} alt="화성야화" />
-        </Logo>
+        <h1>
+          <Logo to="/" aria-label="화성야화 메인으로 이동">
+            <LogoImage src={logoImage} alt="화성야화" />
+          </Logo>
+        </h1>
 
         <Right>
           <NavLinks>
@@ -68,11 +70,15 @@ const Nav = styled.nav`
 const Logo = styled(Link)`
   display: flex;
   align-items: center;
-  width: 136px;
+  width: 112px;
   transition: opacity ${T.transition.fast};
 
   &:hover {
     opacity: 0.82;
+  }
+
+  @media (max-width: ${T.bp.mini}) {
+    width: 96px;
   }
 `
 
@@ -90,11 +96,15 @@ const NavLinks = styled.div`
   display: flex;
   align-items: center;
   gap: ${T.spacing[32]};
+  max-width: 600px;
+  overflow: hidden;
   transition:
+    max-width ${T.transition.mid},
     opacity ${T.transition.mid},
     transform ${T.transition.mid};
 
   @media (max-width: ${T.bp.mobile}) {
+    max-width: 0;
     opacity: 0;
     pointer-events: none;
     transform: translateX(24px);
@@ -139,12 +149,19 @@ const NavItem = styled(NavLink, {
 
 const DesktopBookBtn = styled(Button)`
   margin-left: ${T.spacing[42]};
+  max-width: 200px;
+  overflow: hidden;
   transition:
+    max-width ${T.transition.mid},
     opacity ${T.transition.mid},
     transform ${T.transition.fast},
-    margin-left ${T.transition.mid};
+    margin-left ${T.transition.mid},
+    height ${T.transition.mid},
+    padding ${T.transition.mid},
+    font-size ${T.transition.mid};
 
   @media (max-width: ${T.bp.mobile}) {
+    max-width: 0;
     opacity: 0;
     pointer-events: none;
     transform: translateX(48px);
@@ -189,7 +206,7 @@ const Bar = styled.span`
   display: block;
   width: 100%;
   height: 2px;
-  background: ${T.main};
+  background: ${T.sub};
   border-radius: 1px;
   transition: ${T.transition.mid};
   transform-origin: center;

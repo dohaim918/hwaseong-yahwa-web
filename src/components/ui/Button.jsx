@@ -1,14 +1,12 @@
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-//  Button — 공용 버튼 컴포넌트
-//
 //  props:
 //    variant  — 'gradient' | 'outline'  (기본: gradient)
 //    size     — 'sm' | 'md' | 'lg'      (기본: md)
 //    accent   — 색상값 (기본: T.pink)
-//               gradient: NIGHT_STYLE[n].grad 문자열도 가능
-//    onClick  — 클릭 핸들러
-//    disabled — 비활성
-//    children — 버튼 텍스트
+//    night    — NIGHT_STYLE[n] 객체 — accent·gradient 한 번에 지정
+//    gradient — 풀 그라디언트 문자열 직접 지정 (night 없을 때)
+//    bordered — gradient 버튼에 테두리 추가
+//    radius   — border-radius 오버라이드 (기본: T.radius.pill)
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 import styled from "@emotion/styled"
@@ -18,17 +16,27 @@ export default function Button({
   variant = "gradient",
   size = "md",
   accent = T.pink,
+  night,
+  gradient,
+  bordered,
+  radius,
   type = "button",
   onClick,
   disabled = false,
   children,
   ...props
 }) {
+  const effectiveAccent = night?.color ?? accent
+  const effectiveGradient = night?.grad ?? gradient
+
   return (
     <StyledBtn
       $variant={variant}
       $size={size}
-      $accent={accent}
+      $accent={effectiveAccent}
+      $gradient={effectiveGradient}
+      $bordered={bordered}
+      $radius={radius}
       type={type}
       onClick={onClick}
       disabled={disabled}
@@ -41,101 +49,128 @@ export default function Button({
 
 const SIZE = {
   sm: {
-    padding: `${T.spacing[8]} ${T.spacing[20]}`,
+    height: "36px",
+    padding: `0 ${T.spacing[20]}`,
     fontSize: T.fontSize.xs,
-    radius: T.radius.xl,
+    radius: T.radius.pill,
     letterSpacing: "1px",
     shadow: (c) => `0 0 16px ${alpha(c, 0.27)}`,
-    shadowHover: (c) => `0 0 28px ${alpha(c, 0.55)}`,
+    shadowHover: (c) => `0 0 18px ${alpha(c, 0.55)}`,
+    mobile: { height: "32px", padding: `0 ${T.spacing[16]}` },
+    mini: { height: "32px", padding: `0 ${T.spacing[12]}`, fontSize: T.fontSize.xxs },
   },
   md: {
-    padding: `${T.spacing[12]} ${T.spacing[24]}`,
+    height: "42px",
+    padding: `0 ${T.spacing[24]}`,
     fontSize: T.fontSize.sm,
-    radius: T.radius.xl,
+    radius: T.radius.pill,
     letterSpacing: "0.5px",
     shadow: (c) => `0 0 20px ${alpha(c, 0.3)}`,
-    shadowHover: (c) => `0 0 32px ${alpha(c, 0.55)}`,
+    shadowHover: (c) => `0 0 22px ${alpha(c, 0.55)}`,
+    mobile: { height: "38px", padding: `0 ${T.spacing[20]}`, fontSize: T.fontSize.xs },
+    mini: { height: "34px", padding: `0 ${T.spacing[16]}`, fontSize: T.fontSize.xxs },
   },
   lg: {
-    padding: `14px ${T.spacing[36]}`,
+    height: "46px",
+    padding: `0 ${T.spacing[36]}`,
     fontSize: T.fontSize.xs,
-    radius: T.radius.xl,
+    radius: T.radius.pill,
     letterSpacing: "1.5px",
     shadow: (c) => `0 0 24px ${alpha(c, 0.35)}`,
-    shadowHover: (c) => `0 0 40px ${alpha(c, 0.55)}`,
+    shadowHover: (c) => `0 0 28px ${alpha(c, 0.55)}`,
+    mobile: { height: "42px", padding: `0 ${T.spacing[24]}` },
+    mini: { height: "36px", padding: `0 ${T.spacing[20]}`, fontSize: T.fontSize.xxs },
   },
 }
+
+const r = (size, bp, key) => SIZE[size][bp]?.[key] ?? SIZE[size][key]
 
 const StyledBtn = styled.button`
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: ${T.spacing[6]};
   white-space: nowrap;
   font-family: ${T.fontSans};
   font-weight: 700;
-  letter-spacing: 0.5px;
   border: none;
   outline: none;
   transition:
     filter ${T.transition.fast},
     box-shadow ${T.transition.mid},
     background ${T.transition.slow},
+    border-radius ${T.transition.mid},
+    height ${T.transition.mid},
+    padding ${T.transition.mid},
+    font-size ${T.transition.mid},
     opacity ${T.transition.fast};
 
-  /* ── 사이즈 ── */
+  svg {
+    display: block;
+    width: 1em;
+    height: 1em;
+    flex-shrink: 0;
+  }
+
+  height: ${({ $size }) => SIZE[$size].height};
   padding: ${({ $size }) => SIZE[$size].padding};
   font-size: ${({ $size }) => SIZE[$size].fontSize};
-  border-radius: ${({ $size }) => SIZE[$size].radius};
+  border-radius: ${({ $radius, $size }) => $radius ?? SIZE[$size].radius};
   letter-spacing: ${({ $size }) => SIZE[$size].letterSpacing};
 
-  /* ── variant: gradient ── */
-  ${({ $variant, $accent, $size }) =>
+  /* ── gradient ── */
+  ${({ $variant, $accent, $size, $gradient, $bordered }) =>
     $variant === "gradient" &&
     `
     color: ${T.white};
-    background: linear-gradient(135deg, ${$accent}, ${alpha($accent, 0.55)});
+    background: ${$gradient ?? `linear-gradient(135deg, ${$accent}, ${alpha($accent, 0.55)})`};
     box-shadow: ${SIZE[$size].shadow($accent)};
-    border: none;
+    ${$bordered ? `border: 1.5px solid ${alpha($accent, 0.4)};` : ""}
 
     &:hover:not(:disabled) {
       filter: brightness(1.15);
       box-shadow: ${SIZE[$size].shadowHover($accent)};
     }
-
     &:active:not(:disabled) {
       filter: brightness(0.95);
       transform: scale(0.98);
     }
   `}
 
-  /* ── variant: outline ── */
-  ${({ $variant, $accent }) =>
+  /* ── outline ── */
+  ${({ $variant, $accent, $size }) =>
     $variant === "outline" &&
     `
     color: ${$accent};
     background: ${alpha($accent, 0.05)};
     border: 1.5px solid ${$accent};
-    box-shadow: none;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    box-shadow: ${SIZE[$size].shadow($accent)};
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
 
     &:hover:not(:disabled) {
       background: ${alpha($accent, 0.1)};
+      box-shadow: ${SIZE[$size].shadowHover($accent)};
     }
-
     &:active:not(:disabled) {
       background: ${alpha($accent, 0.18)};
       transform: scale(0.98);
     }
   `}
 
-  /* ── disabled ── */
   &:disabled {
     opacity: 0.4;
   }
 
   @media (max-width: ${T.bp.mobile}) {
-    font-size: ${T.fontSize.xs};
-    padding: ${T.spacing[8]} ${T.spacing[16]};
+    height: ${({ $size }) => r($size, "mobile", "height")};
+    padding: ${({ $size }) => r($size, "mobile", "padding")};
+    font-size: ${({ $size }) => r($size, "mobile", "fontSize")};
+  }
+
+  @media (max-width: ${T.bp.mini}) {
+    height: ${({ $size }) => r($size, "mini", "height")};
+    padding: ${({ $size }) => r($size, "mini", "padding")};
+    font-size: ${({ $size }) => r($size, "mini", "fontSize")};
   }
 `
