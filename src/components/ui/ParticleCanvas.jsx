@@ -17,19 +17,20 @@ const COLOR_MAP = {
   white: [240, 238, 255],
 }
 
-// 파티클 하나 생성
+const REF_H = 900
+const getCount = (w) => (w < 480 ? 45 : w < 768 ? 65 : 100)
 const spawn = (w, h) => ({
   x: Math.random() * w,
   y: h + 10,
-  vy: -(Math.random() * 2.2 + 0.8), // 속도 올림
-  vx: (Math.random() - 0.5) * 1.0, // 좌우 흔들림 늘림
+  vy: -(Math.random() * 0.5 + 0.2) * (h / REF_H),
+  vx: (Math.random() - 0.5) * 0.3 * (h / REF_H),
   life: 0,
-  max: Math.random() * 0.6 + 0.25, // 수명 줄임 → 더 빠르게 순환
+  max: Math.random() * 1.4 + 0.8,
   r: Math.random() * 2.5 + 0.8, // 크기 (v1 유지)
   col: Math.random() > 0.45 ? "pink" : Math.random() > 0.5 ? "amber" : "white",
 })
 
-export default function ParticleCanvas({ mousePos }) {
+export default function ParticleCanvas({ mousePos, opacity = 1, blendMode = "soft-light" }) {
   const cvRef = useRef(null)
   const animRef = useRef(null)
 
@@ -46,8 +47,8 @@ export default function ParticleCanvas({ mousePos }) {
     resize()
     window.addEventListener("resize", resize)
 
-    // 파티클 100개 — 화면 전체에 퍼져서 시작
-    const pts = Array.from({ length: 100 }, () => {
+    // 화면 너비에 따라 파티클 수 조정 — 소형 화면 밀도 과다 방지
+    const pts = Array.from({ length: getCount(cv.width) }, () => {
       const p = spawn(cv.width, cv.height)
       p.life = Math.random() * p.max
       p.y = Math.random() * cv.height
@@ -62,7 +63,7 @@ export default function ParticleCanvas({ mousePos }) {
 
       pts.forEach((p) => {
         // 위치 업데이트
-        p.life += 0.008 + Math.random() * 0.004
+        p.life += 0.003 + Math.random() * 0.002
         p.x += p.vx + Math.sin(frame * 0.01 + p.y * 0.01) * 0.25
         p.y += p.vy
 
@@ -122,6 +123,8 @@ export default function ParticleCanvas({ mousePos }) {
         inset: 0,
         width: "100%",
         height: "100%",
+        opacity,
+        mixBlendMode: blendMode,
         pointerEvents: "none",
       }}
     />

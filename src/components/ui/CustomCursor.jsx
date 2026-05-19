@@ -28,12 +28,10 @@ export default function CustomCursor({ accent = T.pink }) {
   const raf = useRef(null)
 
   useEffect(() => {
-    // 마우스 이동 감지
     const onMove = (e) => {
       pos.current = { x: e.clientX, y: e.clientY }
     }
 
-    // 버튼·링크 위에 있으면 호버 상태
     const onOver = (e) => {
       isHov.current = !!(
         e.target.closest("button") ||
@@ -43,12 +41,11 @@ export default function CustomCursor({ accent = T.pink }) {
       )
     }
 
-    // rAF 루프 — lerp로 부드럽게 따라오게
     const animate = () => {
       cur.current.x += (pos.current.x - cur.current.x) * 0.13
       cur.current.y += (pos.current.y - cur.current.y) * 0.13
-      rot.current += isHov.current ? 2 : 0.5 // 호버 시 빠르게 회전
-      sc.current += ((isHov.current ? 1.2 : 1) - sc.current) * 0.1 // 호버 시 커짐
+      rot.current += isHov.current ? 2 : 0.5
+      sc.current += ((isHov.current ? 1.2 : 1) - sc.current) * 0.1
 
       if (cursorRef.current) {
         cursorRef.current.style.transform = `translate(${cur.current.x}px, ${cur.current.y}px) rotate(${rot.current}deg) scale(${sc.current})`
@@ -56,13 +53,27 @@ export default function CustomCursor({ accent = T.pink }) {
       raf.current = requestAnimationFrame(animate)
     }
 
+    const onEnter = () => {
+      if (!raf.current) raf.current = requestAnimationFrame(animate)
+    }
+
+    const onLeave = () => {
+      cancelAnimationFrame(raf.current)
+      raf.current = null
+      isHov.current = false
+    }
+
     window.addEventListener("mousemove", onMove, { passive: true })
     window.addEventListener("mouseover", onOver, { passive: true })
+    document.addEventListener("mouseenter", onEnter)
+    document.addEventListener("mouseleave", onLeave)
     raf.current = requestAnimationFrame(animate)
 
     return () => {
       window.removeEventListener("mousemove", onMove)
       window.removeEventListener("mouseover", onOver)
+      document.removeEventListener("mouseenter", onEnter)
+      document.removeEventListener("mouseleave", onLeave)
       cancelAnimationFrame(raf.current)
     }
   }, [])
