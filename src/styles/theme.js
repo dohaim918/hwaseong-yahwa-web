@@ -45,6 +45,7 @@ export const T = {
 
   // ── 레이아웃
   navHeight: "100px", // 상단 고정 네비
+  navHeightMini: "80px", // mini 브레이크포인트 네비
   // tabNavHeight: "66px",   // 프로그램 페이지 탭 네비
   // panelWidth:   "320px",  // 예약 사이드 패널
 
@@ -62,7 +63,7 @@ export const T = {
     mini: "480px",
     mobile: "768px",
     tablet: "1024px",
-    desktop: "1440px",
+    desktop: "1280px",
   },
 
   // ── 폰트 사이즈
@@ -111,6 +112,7 @@ export const T = {
     md: "10px",
     lg: "12px",
     xl: "18px",
+    card: "20px",
     pill: "40px",
     full: "50%",
   },
@@ -145,6 +147,18 @@ export const textGradStops = (stops, deg = 135) => `
 export const accentLine = (color) =>
   `linear-gradient(90deg, transparent, ${alpha(color, 0.53)}, transparent)`
 
+// 섹션 상단 accent 라인 — ::before로 주입 / 사용: ${sectionAccent(T.pink)}
+export const sectionAccent = (color) => `
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: ${accentLine(color)};
+    z-index: 1;
+  }
+`
+
 // ── 텍스트 그라디언트 프리셋 — 사용: ${GRADIENT.xxx}
 export const GRADIENT = {
   emeraldAmber: textGrad(T.emerald, T.amber), // About 섹션
@@ -176,10 +190,10 @@ const HERO_GRAD = {
 
 // ── 야(夜)별 스타일 생성 팩토리
 // 버튼 호버 → filter: brightness(1.2) 권장
-const makeNight = (color, dim, dark, gradTo, heroGrad) => ({
+const makeNight = (color, dim, dark, gradTo, heroGrad, glow) => ({
   color,
   bg: alpha(color, 0.08),
-  cardBg: `linear-gradient(175deg, ${alpha(dark, 0.92)}, rgba(6,4,18,0.97))`,
+  cardBg: `linear-gradient(175deg, ${alpha(dark, 0.92)}, ${alpha(T.bgDark, 0.97)})`,
   border: {
     default: `1px solid ${alpha(color, 0.3)}`,
     hover: `1px solid ${alpha(color, 0.6)}`,
@@ -192,15 +206,26 @@ const makeNight = (color, dim, dark, gradTo, heroGrad) => ({
   grad: `linear-gradient(135deg, ${color}, ${dim})`,
   textGrad: textGrad(color, gradTo),
   heroGrad,
+  bgGrad:
+    `linear-gradient(175deg,${alpha(dark, 0.6)} 0%,${alpha(T.bgDark, 0.58)} 100%),` +
+    `linear-gradient(175deg,${alpha(dark, 0)} 40%,${alpha(T.bgDark, 0.78)} 100%)`,
+  glow,
   shadow: {
     default: `0 0 10px ${alpha(color, 0.2)}, 0 4px 24px ${alpha(color, 0.1)}`,
     hover: `0 0 24px ${alpha(color, 0.6)}, 0 4px 32px ${alpha(color, 0.3)}`,
   },
 })
 
+const NIGHT_GLOW = {
+  1: `radial-gradient(ellipse at center,rgba(180,20,50,.55) 0%,rgba(120,8,25,.20) 45%,transparent 70%)`,
+  2: `radial-gradient(ellipse at center,rgba(160,70,5,.55) 0%,rgba(100,40,2,.20) 45%,transparent 70%)`,
+  3: `radial-gradient(ellipse at center,rgba(5,140,70,.45) 0%,rgba(4,80,40,.20) 45%,transparent 70%)`,
+  4: `radial-gradient(ellipse at center,rgba(90,30,180,.50) 0%,rgba(50,10,120,.20) 45%,transparent 70%)`,
+}
+
 export const NIGHT_STYLE = {
-  1: makeNight(T.pink, T.pinkDim, T.pinkDark, T.amber, HERO_GRAD[1]),
-  2: makeNight(T.amber, T.amberDim, T.amberDark, T.pink, HERO_GRAD[2]),
-  3: makeNight(T.emerald, T.emeraldDim, T.emeraldDark, T.amber, HERO_GRAD[3]),
-  4: makeNight(T.violet, T.violetDim, T.violetDark, T.pink, HERO_GRAD[4]),
+  1: makeNight(T.pink, T.pinkDim, T.pinkDark, T.amber, HERO_GRAD[1], NIGHT_GLOW[1]),
+  2: makeNight(T.amber, T.amberDim, T.amberDark, T.pink, HERO_GRAD[2], NIGHT_GLOW[2]),
+  3: makeNight(T.emerald, T.emeraldDim, T.emeraldDark, T.amber, HERO_GRAD[3], NIGHT_GLOW[3]),
+  4: makeNight(T.violet, T.violetDim, T.violetDark, T.pink, HERO_GRAD[4], NIGHT_GLOW[4]),
 }

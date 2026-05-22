@@ -1,19 +1,18 @@
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //  props:
 //    accent   — 현재 섹션 accent 색상 (기본값: T.pink)
-//    scrolled — 스크롤 여부 (Layout에서 전달)
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 import { useState } from "react"
 import { Link, NavLink } from "react-router-dom"
 import styled from "@emotion/styled"
 import { T, alpha } from "@/styles/theme"
-import { NAV_ITEMS } from "@/constants/nav"
+import { UI_TEXT } from "@/data/uiText"
 import MobileMenu from "@/components/layout/MobileMenu"
 import Button from "@/components/ui/Button"
 import logoImage from "@/assets/images/logo/hwaseong-yahwa-logo.png"
 
-export default function NavBar({ accent = T.pink, scrolled = false }) {
+export default function NavBar({ accent = T.pink }) {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
@@ -27,15 +26,15 @@ export default function NavBar({ accent = T.pink, scrolled = false }) {
 
         <Right>
           <NavLinks>
-            {NAV_ITEMS.map((item) => (
+            {UI_TEXT.nav.items.map((item) => (
               <NavItem key={item.label} to={item.to} $accent={accent}>
                 {item.label}
               </NavItem>
             ))}
           </NavLinks>
 
-          <DesktopBookBtn accent={accent} size="sm">
-            예약하기
+          <DesktopBookBtn as={Link} to="/booking" accent={accent} size="sm">
+            {UI_TEXT.nav.ctaLabel}
           </DesktopBookBtn>
 
           <Hamburger $open={isOpen} onClick={() => setIsOpen((p) => !p)} aria-label="메뉴">
@@ -59,6 +58,10 @@ const Nav = styled.nav`
   z-index: 100;
   height: ${T.navHeight};
   padding: 0 ${T.pagePad};
+
+  @media (max-width: ${T.bp.mini}) {
+    height: ${T.navHeightMini};
+  }
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -152,6 +155,8 @@ const DesktopBookBtn = styled(Button)`
   max-width: 200px;
   overflow: hidden;
   transition:
+    filter ${T.transition.fast},
+    box-shadow ${T.transition.mid},
     max-width ${T.transition.mid},
     opacity ${T.transition.mid},
     transform ${T.transition.fast},
@@ -208,6 +213,8 @@ const Bar = styled.span`
   height: 2px;
   background: ${T.sub};
   border-radius: 1px;
-  transition: ${T.transition.mid};
+  transition:
+    transform ${T.transition.mid},
+    opacity ${T.transition.mid};
   transform-origin: center;
 `

@@ -31,27 +31,28 @@ const spawn = (w, h) => ({
 })
 
 export default function ParticleCanvas({ mousePos, opacity = 1, blendMode = "soft-light" }) {
-  const cvRef = useRef(null)
+  const canvasRef = useRef(null)
   const animRef = useRef(null)
 
   useEffect(() => {
-    const cv = cvRef.current
-    if (!cv) return
-    const ctx = cv.getContext("2d")
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext("2d")
 
     // 캔버스 크기를 부모에 맞춤
     const resize = () => {
-      cv.width = cv.offsetWidth
-      cv.height = cv.offsetHeight
+      canvas.width = canvas.offsetWidth
+      canvas.height = canvas.offsetHeight
     }
     resize()
-    window.addEventListener("resize", resize)
+    const ro = new ResizeObserver(resize)
+    ro.observe(canvas)
 
     // 화면 너비에 따라 파티클 수 조정 — 소형 화면 밀도 과다 방지
-    const pts = Array.from({ length: getCount(cv.width) }, () => {
-      const p = spawn(cv.width, cv.height)
+    const pts = Array.from({ length: getCount(canvas.width) }, () => {
+      const p = spawn(canvas.width, canvas.height)
       p.life = Math.random() * p.max
-      p.y = Math.random() * cv.height
+      p.y = Math.random() * canvas.height
       return p
     })
 
@@ -59,7 +60,7 @@ export default function ParticleCanvas({ mousePos, opacity = 1, blendMode = "sof
 
     const draw = () => {
       frame++
-      ctx.clearRect(0, 0, cv.width, cv.height)
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
 
       pts.forEach((p) => {
         // 위치 업데이트
@@ -72,14 +73,14 @@ export default function ParticleCanvas({ mousePos, opacity = 1, blendMode = "sof
           const dx = p.x - mousePos.current.x
           const dy = p.y - mousePos.current.y
           const d = Math.sqrt(dx * dx + dy * dy)
-          if (d < 120) {
+          if (d > 0 && d < 120) {
             p.x += (dx / d) * 0.6
             p.y += (dy / d) * 0.6
           }
         }
 
         // 수명 다하면 재생성
-        if (p.life >= p.max) Object.assign(p, spawn(cv.width, cv.height))
+        if (p.life >= p.max) Object.assign(p, spawn(canvas.width, canvas.height))
 
         // 알파값 — 중간에 가장 밝고 양 끝에서 사라짐
         const t = p.life / p.max
@@ -111,13 +112,13 @@ export default function ParticleCanvas({ mousePos, opacity = 1, blendMode = "sof
 
     return () => {
       cancelAnimationFrame(animRef.current)
-      window.removeEventListener("resize", resize)
+      ro.disconnect()
     }
-  }, [])
+  }, [mousePos])
 
   return (
     <canvas
-      ref={cvRef}
+      ref={canvasRef}
       style={{
         position: "absolute",
         inset: 0,

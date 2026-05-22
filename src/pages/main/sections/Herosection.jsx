@@ -1,68 +1,58 @@
-import { useEffect } from "react"
-import { Link, useOutletContext } from "react-router-dom"
+import { Link } from "react-router-dom"
 import styled from "@emotion/styled"
 import { T, alpha, textGradStops, NIGHT_STYLE } from "@/styles/theme"
+import { UI_TEXT } from "@/data/uiText"
 import FullSection from "@/components/layout/FullSection"
 import { ArrowRightIcon, StarIcon } from "@/components/ui/icons"
+import { AccentLabelRow, GradLine } from "@/components/ui/deco"
 import Button from "@/components/ui/Button"
 import ParticleCanvas from "@/components/ui/ParticleCanvas"
-// import FortressWall from "@/components/ui/FortressWall"
 import heroBg from "@/assets/images/hero-bg.png"
 
-export default function HeroSection({ visible = true, mousePos }) {
-  const { setAccent, setScrolled } = useOutletContext()
+const t = UI_TEXT.hero
 
-  useEffect(() => {
-    setAccent(T.pink)
-    setScrolled(false)
-  }, [])
-
+export default function HeroSection({ mousePos }) {
   return (
     <FullSection bgSrc={heroBg} bgOpacity={0.8}>
       <ParticleCanvas mousePos={mousePos} />
       <Orb />
-      {/* <FortressWall /> */}
 
       <Content>
         <TopGroup>
           <Header>
-            <Hanja>華城夜火</Hanja>
-            <LabelRow>
-              <LabelLine $dir="left" />
-              <LabelText>2026 MEDIA ART FESTIVAL</LabelText>
-              <LabelLine $dir="right" />
-            </LabelRow>
+            <Hanja>{t.hanjaLabel}</Hanja>
+            <HeroLabelRow color={T.pink} hideMini>
+              <LabelText>{t.festivalLabel}</LabelText>
+            </HeroLabelRow>
           </Header>
-          <Title>화성야화</Title>
+          <Title>{t.h2.plain}</Title>
 
           <Divider>
-            <DividerLine $dir="left" />
+            <GradLine $color={T.pink} $dir="left" />
             <StarIcon color={T.pink} opacity={0.9} />
-            <DividerLine $dir="right" />
+            <GradLine $color={T.pink} $dir="right" />
           </Divider>
 
           <SubGroup>
-            <Sub>유네스코 세계유산이 미디어아트를 만나다</Sub>
-            <EventDate>09.20 — 09.29 · UNESCO HWASEONG</EventDate>
+            <Sub>{t.sub}</Sub>
+            <EventDate>
+              {t.date} · {t.location}
+            </EventDate>
           </SubGroup>
         </TopGroup>
 
         <CtaRow>
-          <Link to="/programs">
-            <Button size="lg" night={NIGHT_STYLE[1]} variant="gradient">
-              프로그램 보기
-            </Button>
-          </Link>
-          <Link to="/booking">
-            <HeroBookBtn size="lg" accent={T.pink} variant="outline">
-              예약하기
-              <ArrowRightIcon size={17} />
-            </HeroBookBtn>
-          </Link>
+          <Button as={Link} to="/programs" size="lg" night={NIGHT_STYLE[1]} variant="gradient">
+            {t.ctaPrimary}
+          </Button>
+          <Button as={Link} to="/booking" size="lg" accent={T.pink} variant="outline">
+            {UI_TEXT.nav.ctaLabel}
+            <ArrowRightIcon size={17} />
+          </Button>
         </CtaRow>
       </Content>
 
-      <ScrollIndicator $visible={visible}>
+      <ScrollIndicator>
         <ScrollLine />
         <ScrollChev />
         <ScrollLabel>SCROLL</ScrollLabel>
@@ -163,28 +153,8 @@ const Hanja = styled.div`
   }
 `
 
-const LabelRow = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: ${T.spacing[12]};
-  width: 100%;
+const HeroLabelRow = styled(AccentLabelRow)`
   ${fadeUp(0.05)}
-`
-
-const LabelLine = styled.div`
-  width: 28px;
-  height: 1px;
-  background: ${({ $dir }) =>
-    $dir === "left"
-      ? `linear-gradient(90deg, transparent, ${T.pink})`
-      : `linear-gradient(90deg, ${T.pink}, transparent)`};
-  transition: opacity ${T.transition.mid};
-
-  @media (max-width: ${T.bp.mini}) {
-    opacity: 0;
-    pointer-events: none;
-  }
 `
 
 const LabelText = styled.span`
@@ -234,15 +204,6 @@ const Divider = styled.div`
   gap: ${T.spacing[12]};
   width: 100%;
   ${fadeUp(0.42)}
-`
-
-const DividerLine = styled.div`
-  flex: 1;
-  height: 1px;
-  background: ${({ $dir }) =>
-    $dir === "left"
-      ? `linear-gradient(90deg, transparent, ${T.pink})`
-      : `linear-gradient(90deg, ${T.pink}, ${alpha(T.pink, 0.13)})`};
 `
 
 const SubGroup = styled.div`
@@ -303,25 +264,6 @@ const CtaRow = styled.div`
   }
 `
 
-const HeroBookBtn = styled(Button)`
-  position: relative;
-  overflow: hidden;
-  background: linear-gradient(135deg, ${alpha(T.pink, 0.1)}, ${alpha(T.pink, 0.05)});
-
-  &::before {
-    z-index: -1;
-    content: "";
-    position: absolute;
-    inset: 0;
-
-    background: ${alpha(T.bgDark, 0.8)};
-  }
-
-  &:hover:not(:disabled) {
-    background: ${alpha(T.pink, 0.5)};
-  }
-`
-
 const ScrollIndicator = styled.div`
   position: absolute;
   bottom: ${T.spacing[24]};
@@ -333,8 +275,6 @@ const ScrollIndicator = styled.div`
   flex-direction: column;
   align-items: center;
   gap: ${T.spacing[16]};
-  opacity: ${({ $visible }) => ($visible ? 1 : 0)};
-  transition: opacity ${T.transition.mid};
 
   ${fadeUp(1.1)}
 

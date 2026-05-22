@@ -2,7 +2,7 @@ import { useEffect } from "react"
 import { Link, useLocation } from "react-router-dom"
 import styled from "@emotion/styled"
 import { T, alpha } from "@/styles/theme"
-import { NAV_ITEMS } from "@/constants/nav"
+import { UI_TEXT } from "@/data/uiText"
 import { CloseIcon, ArrowRightIcon } from "@/components/ui/icons"
 import Button from "@/components/ui/Button"
 
@@ -19,9 +19,11 @@ export default function MobileMenu({ isOpen, onClose, accent = T.pink }) {
   }, [isOpen, onClose])
 
   useEffect(() => {
-    document.body.style.overflow = isOpen ? "hidden" : ""
+    if (!isOpen) return
+    const prevOverflow = document.body.style.overflow
+    document.body.style.overflow = "hidden"
     return () => {
-      document.body.style.overflow = ""
+      document.body.style.overflow = prevOverflow
     }
   }, [isOpen])
 
@@ -37,7 +39,7 @@ export default function MobileMenu({ isOpen, onClose, accent = T.pink }) {
           <Glow $accent={accent} />
 
           <NavList>
-            {NAV_ITEMS.map((item, i) => (
+            {UI_TEXT.nav.items.map((item, i) => (
               <Item
                 key={item.label}
                 to={item.to}
@@ -55,7 +57,7 @@ export default function MobileMenu({ isOpen, onClose, accent = T.pink }) {
 
           <BottomArea>
             <BookBtn accent={accent} onClick={onClose}>
-              예약하기
+              {UI_TEXT.nav.ctaLabel}
               <ArrowRightIcon size={14} />
             </BookBtn>
           </BottomArea>
@@ -104,6 +106,7 @@ const Inner = styled.div`
   overflow-y: auto;
 
   @media (max-width: ${T.bp.mini}) {
+    padding-top: ${T.navHeightMini};
     padding-left: ${T.spacing[32]};
   }
 `
@@ -116,6 +119,10 @@ const CloseBtn = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @media (max-width: ${T.bp.mini}) {
+    height: ${T.navHeightMini};
+  }
   color: ${alpha(T.sub, 0.52)};
   transition: color ${T.transition.fast};
 
@@ -193,7 +200,7 @@ const BottomArea = styled.div`
   align-items: flex-start;
   opacity: 0;
   animation: fadeUp ${T.transition.slow} forwards;
-  animation-delay: ${0.05 + NAV_ITEMS.length * 0.07}s;
+  animation-delay: ${0.05 + UI_TEXT.nav.items.length * 0.07}s;
 `
 
 const BookBtn = styled(Button)`
