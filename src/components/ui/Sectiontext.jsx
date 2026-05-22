@@ -10,6 +10,7 @@
 
 import styled from "@emotion/styled"
 import { T } from "@/styles/theme"
+import { GradLine } from "@/components/ui/deco"
 export { GradSpan } from "@/components/ui/GradSpan"
 
 export default function SectionHeader({
@@ -21,6 +22,7 @@ export default function SectionHeader({
   desc,
   descColor,
   center = false,
+  hideLabelMini = false,
   ...props
 }) {
   const hasTitle = title || gradTitle
@@ -29,10 +31,10 @@ export default function SectionHeader({
   return (
     <Wrap $center={center} {...props}>
       {label && (
-        <LabelRow>
-          <Line $color={labelColor} $dir="left" />
+        <LabelRow $hideMini={hideLabelMini}>
+          <GradLine $color={labelColor} $dir="left" $width="32px" />
           <LabelText $color={labelColor}>{label}</LabelText>
-          <Line $color={labelColor} $dir="right" />
+          <GradLine $color={labelColor} $dir="right" $width="32px" />
         </LabelRow>
       )}
 
@@ -57,23 +59,23 @@ const Wrap = styled.div`
   gap: ${T.spacing[16]};
   align-items: ${({ $center }) => ($center ? "center" : "flex-start")};
   text-align: ${({ $center }) => ($center ? "center" : "left")};
+  transition: gap ${T.transition.mid};
+
+  @media (max-width: ${T.bp.tablet}) {
+    gap: ${T.spacing[12]};
+  }
 `
 
 const LabelRow = styled.div`
   display: flex;
   align-items: center;
   gap: ${T.spacing[8]};
+
+  @media (max-width: ${T.bp.mini}) {
+    display: ${({ $hideMini }) => ($hideMini ? "none" : "flex")};
+  }
 `
 
-const Line = styled.div`
-  width: 32px;
-  height: 1px;
-  flex-shrink: 0;
-  background: ${({ $color, $dir }) =>
-    $dir === "left"
-      ? `linear-gradient(90deg, transparent, ${$color})`
-      : `linear-gradient(90deg, ${$color}, transparent)`};
-`
 
 const LabelText = styled.span`
   font-family: ${T.fontSans};
@@ -81,7 +83,19 @@ const LabelText = styled.span`
   font-weight: 700;
   letter-spacing: 4px;
   white-space: nowrap;
+  line-height: 1;
   color: ${({ $color }) => $color};
+  transition:
+    font-size ${T.transition.mid},
+    letter-spacing ${T.transition.mid};
+
+  @media (max-width: ${T.bp.tablet}) {
+    font-size: ${T.fontSize.xxs};
+    letter-spacing: 3px;
+  }
+  @media (max-width: ${T.bp.mobile}) {
+    letter-spacing: 2px;
+  }
 `
 
 const TitleWrap = styled.div`
@@ -93,25 +107,29 @@ const Title = styled.h2`
   font-family: ${T.fontSerif};
   font-size: ${T.fontSize.xxl};
   font-weight: 700;
-  line-height: 1.65;
+  line-height: 1.4;
   letter-spacing: -0.5px;
   color: ${T.main};
 
   ${({ $gradient }) => $gradient}
 
   @media (max-width: ${T.bp.mobile}) {
-    letter-spacing: -0.3px;
+    font-size: clamp(20px, 4.5vw, 24px);
   }
 `
 
 const Desc = styled.p`
   font-family: ${T.fontSans};
   font-size: ${T.fontSize.sm};
-  line-height: 2;
+  line-height: clamp(20px, 2.8vw, 28px);
   color: ${({ $color }) => $color || T.sub};
   white-space: pre-line;
+  transition: font-size ${T.transition.mid};
 
-  @media (max-width: ${T.bp.mobile}) {
+  @media (max-width: ${T.bp.tablet}) {
     font-size: ${T.fontSize.xs};
+  }
+  @media (max-width: ${T.bp.mobile}) {
+    font-size: ${T.fontSize.xxs};
   }
 `

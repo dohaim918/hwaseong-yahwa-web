@@ -45,7 +45,7 @@ export default function CustomCursor({ accent = T.pink }) {
       cur.current.x += (pos.current.x - cur.current.x) * 0.13
       cur.current.y += (pos.current.y - cur.current.y) * 0.13
       rot.current += isHov.current ? 2 : 0.5
-      sc.current += ((isHov.current ? 1.2 : 1) - sc.current) * 0.1
+      sc.current += ((isHov.current ? 1.4 : 1) - sc.current) * 0.1
 
       if (cursorRef.current) {
         cursorRef.current.style.transform = `translate(${cur.current.x}px, ${cur.current.y}px) rotate(${rot.current}deg) scale(${sc.current})`

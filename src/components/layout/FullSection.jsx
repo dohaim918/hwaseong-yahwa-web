@@ -1,5 +1,5 @@
 import styled from "@emotion/styled"
-import { T, alpha } from "@/styles/theme"
+import { T } from "@/styles/theme"
 
 // 풀스크린 배경 섹션 셸 — bgSrc/bgOpacity로 배경 이미지 제어
 // 사용: <FullSection bgSrc={img} bgOpacity={0.8}>{children}</FullSection>
@@ -25,6 +25,10 @@ const Section = styled.section`
   scroll-snap-align: start;
   flex-shrink: 0;
   margin-top: calc(-1 * ${T.navHeight});
+
+  @media (max-width: ${T.bp.mini}) {
+    margin-top: calc(-1 * ${T.navHeightMini});
+  }
   margin-left: calc(-1 * ${T.pagePad});
   margin-right: calc(-1 * ${T.pagePad});
 

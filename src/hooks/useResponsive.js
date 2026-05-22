@@ -21,30 +21,21 @@ import { T } from "@/styles/theme"
 // resize 이벤트와 달리 브레이크포인트를 넘는 순간에만 발생 (reflow 없음)
 // ⚠️ 모듈 최상단에서 window 직접 접근 — Vite+React(CSR)라 문제없지만
 //    Next.js 등 SSR 환경으로 이전 시 useEffect 안으로 옮겨야 함
-const mqMini   = window.matchMedia(`(max-width: ${T.bp.mini})`)
-const mqMobile = window.matchMedia(`(max-width: ${T.bp.mobile})`)
-const mqTablet = window.matchMedia(`(max-width: ${T.bp.tablet})`)
-
-const getCurrent = () => {
-  if (mqMini.matches)   return "mini"
-  if (mqMobile.matches) return "mobile"
-  if (mqTablet.matches) return "tablet"
-  return "desktop"
-}
+const MQS = [
+  window.matchMedia(`(max-width: ${T.bp.mini})`),
+  window.matchMedia(`(max-width: ${T.bp.mobile})`),
+  window.matchMedia(`(max-width: ${T.bp.tablet})`),
+]
+const KEYS = ["mini", "mobile", "tablet"]
+const getCurrent = () => KEYS.find((_, i) => MQS[i].matches) ?? "desktop"
 
 export function useResponsive() {
   const [current, setCurrent] = useState(getCurrent)
 
   useEffect(() => {
     const update = () => setCurrent(getCurrent())
-    mqMini.addEventListener("change", update)
-    mqMobile.addEventListener("change", update)
-    mqTablet.addEventListener("change", update)
-    return () => {
-      mqMini.removeEventListener("change", update)
-      mqMobile.removeEventListener("change", update)
-      mqTablet.removeEventListener("change", update)
-    }
+    MQS.forEach((mq) => mq.addEventListener("change", update))
+    return () => MQS.forEach((mq) => mq.removeEventListener("change", update))
   }, [])
 
   return {

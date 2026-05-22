@@ -13,6 +13,7 @@ import styled from "@emotion/styled"
 import { T, alpha } from "@/styles/theme"
 
 export default function Button({
+  as,
   variant = "gradient",
   size = "md",
   accent = T.pink,
@@ -31,13 +32,14 @@ export default function Button({
 
   return (
     <StyledBtn
+      as={as}
       $variant={variant}
       $size={size}
       $accent={effectiveAccent}
       $gradient={effectiveGradient}
       $bordered={bordered}
       $radius={radius}
-      type={type}
+      type={as ? undefined : type}
       onClick={onClick}
       disabled={disabled}
       {...props}
@@ -85,7 +87,11 @@ const SIZE = {
 
 const r = (size, bp, key) => SIZE[size][bp]?.[key] ?? SIZE[size][key]
 
-const StyledBtn = styled.button`
+const STYLE_PROPS = new Set(["$variant", "$size", "$accent", "$gradient", "$bordered", "$radius"])
+
+const StyledBtn = styled("button", {
+  shouldForwardProp: (prop) => !STYLE_PROPS.has(prop),
+})`
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -103,7 +109,8 @@ const StyledBtn = styled.button`
     height ${T.transition.mid},
     padding ${T.transition.mid},
     font-size ${T.transition.mid},
-    opacity ${T.transition.fast};
+    opacity ${T.transition.fast},
+    transform ${T.transition.fast};
 
   svg {
     display: block;
@@ -123,6 +130,7 @@ const StyledBtn = styled.button`
     $variant === "gradient" &&
     `
     color: ${T.white};
+    filter: brightness(1);
     background: ${$gradient ?? `linear-gradient(135deg, ${$accent}, ${alpha($accent, 0.55)})`};
     box-shadow: ${SIZE[$size].shadow($accent)};
     ${$bordered ? `border: 1.5px solid ${alpha($accent, 0.4)};` : ""}
@@ -133,7 +141,7 @@ const StyledBtn = styled.button`
     }
     &:active:not(:disabled) {
       filter: brightness(0.95);
-      transform: scale(0.98);
+      transform: scale(0.96);
     }
   `}
 
@@ -142,24 +150,33 @@ const StyledBtn = styled.button`
     $variant === "outline" &&
     `
     color: ${$accent};
-    background: ${alpha($accent, 0.05)};
+    background:
+      linear-gradient(135deg, ${alpha($accent, 0.1)}, ${alpha($accent, 0.05)}),
+      ${alpha(T.bgDark, 0.8)};
     border: 1.5px solid ${$accent};
     box-shadow: ${SIZE[$size].shadow($accent)};
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
 
     &:hover:not(:disabled) {
-      background: ${alpha($accent, 0.1)};
+      background:
+        linear-gradient(135deg, ${alpha($accent, 0.25)}, ${alpha($accent, 0.15)}),
+        ${alpha(T.bgDark, 0.8)};
       box-shadow: ${SIZE[$size].shadowHover($accent)};
     }
     &:active:not(:disabled) {
-      background: ${alpha($accent, 0.18)};
-      transform: scale(0.98);
+      background:
+        linear-gradient(135deg, ${alpha($accent, 0.2)}, ${alpha($accent, 0.1)}),
+        ${alpha(T.bgDark, 0.8)};
+      transform: scale(0.96);
     }
   `}
 
   &:disabled {
     opacity: 0.4;
+  }
+
+  &:focus-visible {
+    outline: 2px solid ${({ $accent }) => alpha($accent, 0.7)};
+    outline-offset: 4px;
   }
 
   @media (max-width: ${T.bp.mobile}) {
