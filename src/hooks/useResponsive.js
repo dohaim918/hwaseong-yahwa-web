@@ -8,7 +8,7 @@
 //
 //  @media 쿼리 → CSS(스타일)만 바뀌는 경우
 //  스타일만 바뀜 → @media 쿼리
-// ─────────────────────────────────
+// ─────────────────────────────────────
 //  useResponsive → JS 로직이 바뀌는 경우
 //  컴포넌트 자체 교체 → useResponsive
 //  데이터/로직 교체  → useResponsive
@@ -18,28 +18,26 @@
 import { useEffect, useState } from "react"
 import { T } from "@/styles/theme"
 
-// resize 이벤트와 달리 브레이크포인트를 넘는 순간에만 발생 (reflow 없음)
-// ⚠️ 모듈 최상단에서 window 직접 접근 — Vite+React(CSR)라 문제없지만
-//    Next.js 등 SSR 환경으로 이전 시 useEffect 안으로 옮겨야 함
-const MQS = [
-  window.matchMedia(`(max-width: ${T.bp.mini})`),
-  window.matchMedia(`(max-width: ${T.bp.mobile})`),
-  window.matchMedia(`(max-width: ${T.bp.tablet})`),
-]
 const KEYS = ["mini", "mobile", "tablet"]
-const getCurrent = () => KEYS.find((_, i) => MQS[i].matches) ?? "desktop"
+const BPS = [T.bp.mini, T.bp.mobile, T.bp.tablet]
+
+const getCurrent = () => {
+  if (typeof window === "undefined") return "desktop"
+  return KEYS.find((_, i) => window.matchMedia(`(max-width: ${BPS[i]})`).matches) ?? "desktop"
+}
 
 export function useResponsive() {
   const [current, setCurrent] = useState(getCurrent)
 
   useEffect(() => {
+    const mqs = BPS.map((bp) => window.matchMedia(`(max-width: ${bp})`))
     const update = () => setCurrent(getCurrent())
-    MQS.forEach((mq) => mq.addEventListener("change", update))
-    return () => MQS.forEach((mq) => mq.removeEventListener("change", update))
+    mqs.forEach((mq) => mq.addEventListener("change", update))
+    return () => mqs.forEach((mq) => mq.removeEventListener("change", update))
   }, [])
 
   return {
-    current, // 'mini' | 'mobile' | 'tablet' | 'desktop'
+    current,
     isMini: current === "mini",
     isMobile: current === "mobile",
     isTablet: current === "tablet",

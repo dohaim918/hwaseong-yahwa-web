@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { useOutletContext } from "react-router-dom"
 import styled from "@emotion/styled"
-import { T, alpha, textGrad, sectionAccent } from "@/styles/theme"
+import { T, alpha, textGrad, sectionAccent, revealUp } from "@/styles/theme"
 import { getCardData } from "@/data/nightData"
 import { UI_TEXT } from "@/data/uiText"
 import { PROGRAM_ASSETS } from "@/data/programAssets"
@@ -9,6 +9,7 @@ import { GradSpan } from "@/components/ui/GradSpan"
 import { GradLine } from "@/components/ui/deco"
 import SectionHeader from "@/components/ui/Sectiontext"
 import { useResponsive } from "@/hooks/useResponsive"
+import { useSectionReveal } from "@/hooks/useSectionReveal"
 import NightCard from "./NightCard"
 import ProgCarousel from "./ProgCarousel"
 import { StarIcon } from "@/components/ui/icons"
@@ -16,6 +17,7 @@ import { StarIcon } from "@/components/ui/icons"
 const cards = getCardData()
 const t = UI_TEXT.progSection
 const DEFAULT_TITLE_GRAD = textGrad(T.amber, T.pink)
+const PROGRAM_CARD_H = "clamp(460px, calc(72dvh - 180px), 1400px)"
 
 // ─────────────────────────────────────────────────────
 //  ProgSection
@@ -26,24 +28,31 @@ export default function ProgSection() {
   const hasHover = activeId !== null
   const { setAccent } = useOutletContext()
   const { isMobileOrTablet } = useResponsive()
+  const { ref: secRef, inView, animIn } = useSectionReveal()
 
   useEffect(() => {
+    if (!inView) return
     const color = isMobileOrTablet
       ? cards[carouselIdx]?.color
       : cards.find((c) => c.id === activeId)?.color
     setAccent(color ?? T.pink)
-  }, [activeId, carouselIdx, isMobileOrTablet, setAccent])
+  }, [activeId, carouselIdx, isMobileOrTablet, setAccent, inView])
 
   const activeCard = isMobileOrTablet ? cards[carouselIdx] : cards.find((c) => c.id === activeId)
   const titleGrad = activeCard?.style?.textGrad ?? DEFAULT_TITLE_GRAD
 
   return (
-    <Sec>
+    <Sec ref={secRef}>
       <HdCards>
         <Hd>
           <SparkleImg src={PROGRAM_ASSETS.sparkle} alt="" />
           <SectionHeader
             label={t.sectionLabel}
+            labelAccent={T.pink}
+            gap={T.spacing[16]}
+            pb={T.spacing[12]}
+            animIn={animIn}
+            animDelay={0.05}
             title={
               <>
                 {t.h2.gradStart}
@@ -52,27 +61,34 @@ export default function ProgSection() {
             }
             desc={t.desc}
             center
-            // hideLabelMini
           />
         </Hd>
 
         {isMobileOrTablet ? (
-          <ProgCarousel cards={cards} activeIdx={carouselIdx} onActiveIdxChange={setCarouselIdx} />
+          <CarouselAnim $in={animIn}>
+            <ProgCarousel
+              cards={cards}
+              activeIdx={carouselIdx}
+              onActiveIdxChange={setCarouselIdx}
+            />
+          </CarouselAnim>
         ) : (
           <CardsRow onMouseLeave={() => setActiveId(null)}>
-            {cards.map((card) => (
+            {cards.map((card, idx) => (
               <NightCard
                 key={card.id}
                 card={card}
                 active={activeId === card.id}
                 hasHover={hasHover}
                 onEnter={() => setActiveId(card.id)}
+                animIn={animIn}
+                animIdx={idx}
               />
             ))}
           </CardsRow>
         )}
       </HdCards>
-      <ProgBottom>
+      <ProgBottom $in={animIn}>
         <BottomDeco>
           <GradLine $color={alpha(T.sub, 0.5)} $dir="left" $width={T.spacing[42]} $hideMini />
           <StarIcon size={14} color={alpha(T.sub, 0.6)} />
@@ -91,6 +107,7 @@ const Sec = styled.section`
   position: relative;
   overflow-x: clip;
   height: 100vh;
+  height: 100dvh;
   scroll-snap-align: start;
   display: flex;
   flex-direction: column;
@@ -118,7 +135,6 @@ const Sec = styled.section`
 const Hd = styled.div`
   position: relative;
   z-index: 1;
-  padding-bottom: ${T.spacing[12]};
 
   &::before {
     content: "";
@@ -146,6 +162,12 @@ const SparkleImg = styled.img`
     transform ${T.transition.mid},
     top ${T.transition.mid};
 
+  @media (min-width: 1921px) {
+    top: clamp(-70%, calc(-50% - ((100vw - 1920px) / 20)), -50%);
+  }
+  @media (min-width: 2560px) {
+    top: clamp(-100%, calc(-70% - ((100vw - 2560px) / 10)), -70%);
+  }
   @media (max-width: ${T.bp.tablet}) {
     transform: scale(1.4);
     top: -30%;
@@ -162,12 +184,14 @@ const SparkleImg = styled.img`
 
 const HdCards = styled.div`
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: auto ${PROGRAM_CARD_H};
+  align-content: end;
 
   @media (max-width: ${T.bp.tablet}) {
-    justify-content: flex-start;
+    grid-template-rows: auto minmax(0, 1fr);
+    align-content: stretch;
     padding-top: calc(${T.navHeight} + clamp(${T.spacing[48]}, 10vh, 80px));
   }
 
@@ -181,8 +205,9 @@ const CardsRow = styled.div`
   justify-content: center;
   gap: ${T.spacing[20]};
   align-items: center;
-  height: clamp(400px, 56vh, 900px);
-  padding: 0 ${T.pagePad};
+  height: 100%;
+  min-height: 0;
+  padding: 0 calc(${T.pagePad} + clamp(0px, calc((100vw - 1920px) / 8), 80px));
 `
 
 const ProgBottom = styled.div`
@@ -192,6 +217,16 @@ const ProgBottom = styled.div`
   gap: ${T.spacing[12]};
   padding-top: ${T.spacing[24]};
   padding-bottom: clamp(40px, 7.4vh, 160px);
+  ${({ $in }) => revealUp($in, 0.55)}
+`
+
+const CarouselAnim = styled.div`
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  ${({ $in }) => revealUp($in, 0.25)}
 `
 
 const BottomDeco = styled.div`

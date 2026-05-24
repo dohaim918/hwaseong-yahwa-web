@@ -2,6 +2,11 @@
 //  NavBar accent 상태를 모든 페이지와 공유
 //  useOutletContext로 각 페이지에서 set 함수 호출
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+//
+//  mainRef — Main 스크롤 컨테이너 DOM ref
+//  MainPage는 현재 IntersectionObserver 기반이라 사용 안 하지만,
+//  ProgramsPage에서 야별 전환 시 scrollTo(0) 또는 특정 섹션 스크롤이
+//  필요할 수 있으므로 OutletContext에 유지해 둔다.
 
 import { useState, useRef } from "react"
 import { Outlet } from "react-router-dom"
@@ -26,12 +31,8 @@ export default function Layout() {
 }
 
 const Main = styled.main`
-  padding: ${T.navHeight} ${T.pagePad} 0;
-
-  @media (max-width: ${T.bp.mini}) {
-    padding-top: ${T.navHeightMini};
-  }
-  height: 100vh;
+  padding: 0 ${T.pagePad};
+  height: 100dvh;
   overflow-y: scroll;
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
