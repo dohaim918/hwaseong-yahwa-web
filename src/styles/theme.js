@@ -143,6 +143,19 @@ export const textGradStops = (stops, deg = 135) => `
   background-clip: text;
 `
 
+// ── fadeUp 애니메이션 헬퍼 — 사용: ${fadeUp(0.3)} (delay 단위: 초)
+export const fadeUp = (delay = 0) =>
+  `animation: fadeUp 0.75s cubic-bezier(.22,.68,0,1.2) ${delay}s both;`
+
+// ── 스크롤 다운 방향 등장 전용 헬퍼
+//    inView=false → 숨김 상태 (fadeUp from 과 동일 위치, 즉시)
+//    inView=true  → fadeUp 애니메이션 재생
+//    사용: ${({ $in }) => revealUp($in, 0.3)}
+export const revealUp = (inView, delay = 0) =>
+  inView
+    ? `animation: fadeUp 0.75s cubic-bezier(.22,.68,0,1.2) ${delay}s both;`
+    : `opacity: 0; transform: translateY(26px);`
+
 // ── 섹션 상단 accent 라인 헬퍼 (중앙에서 양쪽으로 퍼지는 그라디언트 라인)
 export const accentLine = (color) =>
   `linear-gradient(90deg, transparent, ${alpha(color, 0.53)}, transparent)`
@@ -155,7 +168,7 @@ export const sectionAccent = (color) => `
     top: 0; left: 0; right: 0;
     height: 2px;
     background: ${accentLine(color)};
-    z-index: 1;
+    z-index: 11;
   }
 `
 

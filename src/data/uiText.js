@@ -46,7 +46,7 @@ export const UI_TEXT = {
   //  메인 ProgSection (프로그레스 페이지와 공유)
   // ─────────────────────────────────────
   progSection: {
-    sectionLabel: "PROGRAMS",
+    sectionLabel: "LIGHTS OF THE NIGHT",
     h2: {
       plain: "당신은 어떤 밤을 걷고 싶나요",
       gradStart: "당신은 어떤 밤을 ",
@@ -72,17 +72,17 @@ export const UI_TEXT = {
     desc: "조선 정조 시대의 성벽이 빛과 예술로 깨어나는 밤.\n그 길을 따라 빛과 소리, 이야기가 흐르는 밤이 펼쳐집니다.",
     // 행사 정보 박스
     info: {
-      location: { label: "장소", value: "수원화성 일원" },
-      hours: { label: "시간", value: "18:00 ~ 22:30" },
-      price: { label: "입장", value: "성인 20,000원~" },
+      location: { label: "장소", value: "수원화성 일원", mini: "수원화성" },
+      hours: { label: "시간", value: "18:00 ~ 22:30", mini: "18 ~ 22시" },
+      price: { label: "티켓", value: "성인 2만원~", mini: "2만원~" },
     },
     // 오시는 길
     access: {
       title: "오시는 길",
-      routes: [
+      items: [
         { icon: "subway", label: "화서역 2번 출구", sub: "도보 10분" },
         { icon: "bus", label: "정류장 하차 후", sub: "도보 3분" },
-        { icon: "car", label: "화성행궁 주차장 유료", sub: "(주말 조기 만차)" },
+        { icon: "car", label: "화성행궁 주차장", sub: "(주말 조기 만차)" },
       ],
     },
   },

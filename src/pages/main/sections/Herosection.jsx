@@ -1,19 +1,24 @@
-import { Link } from "react-router-dom"
+import { useCallback } from "react"
+import { Link, useOutletContext } from "react-router-dom"
 import styled from "@emotion/styled"
-import { T, alpha, textGradStops, NIGHT_STYLE } from "@/styles/theme"
+import { T, alpha, textGradStops, NIGHT_STYLE, fadeUp, SECTION_COLOR } from "@/styles/theme"
 import { UI_TEXT } from "@/data/uiText"
 import FullSection from "@/components/layout/FullSection"
 import { ArrowRightIcon, StarIcon } from "@/components/ui/icons"
 import { AccentLabelRow, GradLine } from "@/components/ui/deco"
 import Button from "@/components/ui/Button"
 import ParticleCanvas from "@/components/ui/ParticleCanvas"
+import { useActiveSection } from "@/components/ui/Anim"
 import heroBg from "@/assets/images/hero-bg.png"
 
 const t = UI_TEXT.hero
 
 export default function HeroSection({ mousePos }) {
+  const { setAccent } = useOutletContext()
+  const secRef = useActiveSection(useCallback(() => setAccent(SECTION_COLOR[0]), [setAccent]))
+
   return (
-    <FullSection bgSrc={heroBg} bgOpacity={0.8}>
+    <FullSection ref={secRef} bgSrc={heroBg} bgOpacity={0.8}>
       <ParticleCanvas mousePos={mousePos} />
       <Orb />
 
@@ -60,8 +65,6 @@ export default function HeroSection({ mousePos }) {
     </FullSection>
   )
 }
-
-const fadeUp = (delay = 0) => `animation: fadeUp 0.75s cubic-bezier(.22,.68,0,1.2) ${delay}s both;`
 
 const Orb = styled.div`
   position: absolute;

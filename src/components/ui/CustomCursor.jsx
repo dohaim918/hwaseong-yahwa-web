@@ -15,10 +15,9 @@ import { T } from "@/styles/theme"
 const PETAL_PATH = "M 0,0 C -4,-2.5 -4.5,-9 0,-13 C 4.5,-9 4,-2.5 0,0"
 const PETAL_ANGLES = [0, 72, 144, 216, 288]
 
-// viewport 크기가 아닌 실제 입력 방식으로 판단 (pointer: fine = 마우스/트랙패드)
-const isPointerFine = window.matchMedia("(pointer: fine)").matches
-
 export default function CustomCursor({ accent = T.pink }) {
+  // viewport 크기가 아닌 실제 입력 방식으로 판단 (pointer: fine = 마우스/트랙패드)
+  const isPointerFine = typeof window !== "undefined" && window.matchMedia("(pointer: fine)").matches
   const cursorRef = useRef(null)
   const pos = useRef({ x: -200, y: -200 }) // 실제 마우스 위치
   const cur = useRef({ x: -200, y: -200 }) // 현재 커서 위치 (lerp 적용)

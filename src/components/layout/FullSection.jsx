@@ -1,18 +1,42 @@
+import { forwardRef } from "react"
 import styled from "@emotion/styled"
+import { keyframes } from "@emotion/react"
 import { T } from "@/styles/theme"
 
-// 풀스크린 배경 섹션 셸 — bgSrc/bgOpacity로 배경 이미지 제어
-// 사용: <FullSection bgSrc={img} bgOpacity={0.8}>{children}</FullSection>
-export default function FullSection({ children, bgSrc, bgOpacity = 0.8 }) {
+// ── 풀스크린 배경 섹션 셸
+//
+//  props:
+//    bgSrc        배경 이미지 src — 있으면 bgIn 애니메이션 자동 적용
+//    bgOpacity    배경 이미지 투명도 (기본: 0.8)
+//    ref          forwardRef — Section DOM 노드로 전달
+//
+//  사용 예:
+//    <FullSection bgSrc={img} bgOpacity={0.8}>
+const makeBgIn = (opacity) => keyframes`
+  from { opacity: 0; transform: scale(1.08); }
+  to   { opacity: ${opacity}; transform: scale(1); }
+`
+
+const FullSection = forwardRef(function FullSection(
+  {
+    children,
+    className,
+    bgSrc,
+    bgOpacity = 1,
+  },
+  ref
+) {
   return (
-    <Section>
+    <Section ref={ref} className={className}>
       {/* <BgGrad /> */}
       {bgSrc && <BgImage src={bgSrc} alt="" $opacity={bgOpacity} />}
       <BottomFade />
       {children}
     </Section>
   )
-}
+})
+
+export default FullSection
 
 const Section = styled.section`
   position: relative;
@@ -24,11 +48,6 @@ const Section = styled.section`
   justify-content: center;
   scroll-snap-align: start;
   flex-shrink: 0;
-  margin-top: calc(-1 * ${T.navHeight});
-
-  @media (max-width: ${T.bp.mini}) {
-    margin-top: calc(-1 * ${T.navHeightMini});
-  }
   margin-left: calc(-1 * ${T.pagePad});
   margin-right: calc(-1 * ${T.pagePad});
 
@@ -44,10 +63,9 @@ const BgImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: ${({ $opacity }) => $opacity};
   pointer-events: none;
+  animation: ${({ $opacity }) => makeBgIn($opacity)} 1.4s cubic-bezier(.22,.68,0,1.1) both;
 `
-
 // 배경 이미지 대신 그라디언트만 쓸 때 복구 후보
 // const BgGrad = styled.div`
 //   position: absolute;
@@ -58,7 +76,6 @@ const BgImage = styled.img`
 //     radial-gradient(ellipse 30% 30% at 80% 70%, ${alpha(T.amberDim, 0.13)} 0%, transparent 50%),
 //     ${T.bgBase};
 // `
-
 const BottomFade = styled.div`
   position: absolute;
   bottom: 0;
@@ -67,5 +84,5 @@ const BottomFade = styled.div`
   height: 100px;
   background: linear-gradient(to top, ${T.bgBase}, transparent);
   pointer-events: none;
-  z-index: 2;
+  z-index: 4;
 `

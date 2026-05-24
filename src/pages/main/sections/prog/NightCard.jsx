@@ -1,5 +1,5 @@
 import styled from "@emotion/styled"
-import { T, alpha } from "@/styles/theme"
+import { T, alpha, revealUp } from "@/styles/theme"
 import { PROGRAM_ASSETS } from "@/data/programAssets"
 import { StarIcon } from "@/components/ui/icons"
 import CardDeco from "./CardDeco"
@@ -14,6 +14,8 @@ export default function NightCard({
   onEnter = () => {},
   isCarousel,
   maskSide,
+  animIn,
+  animIdx = 0,
 }) {
   const { id, nightCode, num, color, style, subtitle, keyword, hoverDesc, hoverCta } = card
   const imgs = PROGRAM_ASSETS.cards[id]
@@ -24,6 +26,8 @@ export default function NightCard({
       $hasHover={hasHover}
       $isCarousel={isCarousel}
       $maskSide={maskSide}
+      $animIn={animIn}
+      $animIdx={animIdx}
       onMouseEnter={onEnter}
       data-cursor-hover
     >
@@ -63,13 +67,17 @@ export default function NightCard({
 const CardOuter = styled.div`
   position: relative;
   flex: 1;
-  max-width: clamp(385px, 20vw, 540px);
+  height: 100%;
+  /* max-width: clamp(385px, 20vw, 540px); */
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  justify-content: center;
   transition:
     flex ${T.transition.mid},
     max-width ${T.transition.mid};
+  ${({ $isCarousel, $animIn, $animIdx }) =>
+    !$isCarousel && revealUp($animIn, 0.15 + $animIdx * 0.1)}
   ${({ $active, $hasHover, $isCarousel }) =>
     !$isCarousel &&
     $hasHover &&
@@ -104,8 +112,8 @@ const Glow = styled.div`
 const Card = styled.div`
   position: relative;
   width: 100%;
-  height: ${({ $active, $isCarousel }) =>
-    $isCarousel ? "100%" : $active ? "clamp(400px, 56vh, 900px)" : "clamp(356px, 50vh, 800px)"};
+  height: ${({ $active, $hasHover, $isCarousel }) =>
+    $isCarousel ? "100%" : $hasHover && $active ? "100%" : "90%"};
   border-radius: ${T.radius.card};
   overflow: hidden;
   display: flex;
@@ -130,6 +138,14 @@ const Content = styled.div`
   padding: ${({ $active }) =>
     $active ? `${T.spacing[42]} ${T.spacing[24]}` : `${T.spacing[32]} ${T.spacing[24]}`};
   transition: padding ${T.transition.mid};
+
+  @media (min-width: 1921px) {
+    padding-block: ${({ $active }) =>
+      $active
+        ? "clamp(42px, calc(42px + (100vw - 1920px) * 0.0297), 80px)"
+        : "clamp(32px, calc(32px + (100vw - 1920px) * 0.025), 64px)"};
+    padding-inline: ${T.spacing[24]};
+  }
 
   @media (max-width: ${T.bp.tablet}) {
     padding: ${({ $active }) =>

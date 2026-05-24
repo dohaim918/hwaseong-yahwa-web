@@ -1,13 +1,33 @@
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 import { Link, useLocation } from "react-router-dom"
 import styled from "@emotion/styled"
+import { keyframes } from "@emotion/react"
 import { T, alpha } from "@/styles/theme"
 import { UI_TEXT } from "@/data/uiText"
 import { CloseIcon, ArrowRightIcon } from "@/components/ui/icons"
 import Button from "@/components/ui/Button"
 
+const slideIn = keyframes`
+  from { transform: translateX(100%); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+`
+
 export default function MobileMenu({ isOpen, onClose, accent = T.pink }) {
   const { pathname } = useLocation()
+  const closeBtnRef = useRef(null)
+  const prevFocusRef = useRef(null)
+
+  // 더 탄탄한 접근성: 메뉴 진입 시 focus를 안으로 보내고 닫히면 이전 위치로 복귀
+  useEffect(() => {
+    if (!isOpen) return
+    prevFocusRef.current = document.activeElement
+    const focusId = requestAnimationFrame(() => closeBtnRef.current?.focus())
+    return () => {
+      cancelAnimationFrame(focusId)
+      prevFocusRef.current?.focus?.()
+      prevFocusRef.current = null
+    }
+  }, [isOpen])
 
   useEffect(() => {
     if (!isOpen) return
@@ -20,20 +40,20 @@ export default function MobileMenu({ isOpen, onClose, accent = T.pink }) {
 
   useEffect(() => {
     if (!isOpen) return
-    const prevOverflow = document.body.style.overflow
+    const prev = document.body.style.overflow
     document.body.style.overflow = "hidden"
     return () => {
-      document.body.style.overflow = prevOverflow
+      document.body.style.overflow = prev
     }
   }, [isOpen])
 
   const isActive = (to) => pathname === (to.split("#")[0] || "/")
 
   return (
-    <Overlay $isOpen={isOpen} onClick={onClose}>
+    <Overlay $isOpen={isOpen} onClick={onClose} role="dialog" aria-modal="true">
       {isOpen && (
         <Inner onClick={(e) => e.stopPropagation()}>
-          <CloseBtn onClick={onClose} aria-label="닫기">
+          <CloseBtn ref={closeBtnRef} onClick={onClose} aria-label="닫기">
             <CloseIcon size={28} />
           </CloseBtn>
           <Glow $accent={accent} />
@@ -56,7 +76,7 @@ export default function MobileMenu({ isOpen, onClose, accent = T.pink }) {
           </NavList>
 
           <BottomArea>
-            <BookBtn accent={accent} onClick={onClose}>
+            <BookBtn as={Link} to="/booking" accent={accent} onClick={onClose}>
               {UI_TEXT.nav.ctaLabel}
               <ArrowRightIcon size={14} />
             </BookBtn>
@@ -71,8 +91,31 @@ const Overlay = styled.div`
   position: fixed;
   inset: 0;
   z-index: 100;
+  display: flex;
+  justify-content: flex-end;
+  background: ${alpha(T.bgBase, 0.55)};
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  opacity: ${({ $isOpen }) => ($isOpen ? 1 : 0)};
+  visibility: ${({ $isOpen }) => ($isOpen ? "visible" : "hidden")};
+  pointer-events: ${({ $isOpen }) => ($isOpen ? "auto" : "none")};
+  transition:
+    opacity ${T.transition.fast},
+    visibility ${T.transition.fast};
+`
+
+const Inner = styled.div`
+  width: 100%;
+  max-width: 600px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: ${T.navHeight} ${T.rsvPad} ${T.spacing[48]} clamp(${T.spacing[32]}, 8vw, 68px);
+  position: relative;
+  overflow-y: auto;
   background:
-    /* 우하단 메인 핑크 */
+      /* 우하단 메인 핑크 */
     radial-gradient(
       ellipse 80% 40% at 50% 102%,
       ${alpha(T.pink, 0.08)} 0%,
@@ -88,22 +131,10 @@ const Overlay = styled.div`
     /* 기본 배경 */ ${alpha(T.bgBase, 0.97)};
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
-  opacity: ${({ $isOpen }) => ($isOpen ? 1 : 0)};
-  visibility: ${({ $isOpen }) => ($isOpen ? "visible" : "hidden")};
-  pointer-events: ${({ $isOpen }) => ($isOpen ? "auto" : "none")};
-  transition:
-    opacity ${T.transition.fast},
-    visibility ${T.transition.fast};
-`
-
-const Inner = styled.div`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: ${T.navHeight} ${T.rsvPad} ${T.spacing[48]} clamp(${T.spacing[32]}, 8vw, 68px);
-  position: relative;
-  overflow-y: auto;
+  box-shadow:
+    -40px 0 80px ${alpha(T.bgBase, 0.7)},
+    -1px 0 0 ${alpha(T.main, 0.05)};
+  animation: ${slideIn} ${T.transition.spring} both;
 
   @media (max-width: ${T.bp.mini}) {
     padding-top: ${T.navHeightMini};
@@ -112,22 +143,22 @@ const Inner = styled.div`
 `
 
 const CloseBtn = styled.button`
-  position: fixed;
+  position: absolute;
   top: 0;
   right: ${T.pagePad};
   height: ${T.navHeight};
   display: flex;
   align-items: center;
   justify-content: center;
-
-  @media (max-width: ${T.bp.mini}) {
-    height: ${T.navHeightMini};
-  }
   color: ${alpha(T.sub, 0.52)};
   transition: color ${T.transition.fast};
 
   &:hover {
     color: ${T.main};
+  }
+
+  @media (max-width: ${T.bp.mini}) {
+    height: ${T.navHeightMini};
   }
 `
 
@@ -150,7 +181,9 @@ const NavList = styled.nav`
   gap: ${T.spacing[36]};
 `
 
-const Item = styled(Link)`
+const Item = styled(Link, {
+  shouldForwardProp: (prop) => !prop.startsWith("$"),
+})`
   display: grid;
   grid-template-columns: ${T.spacing[42]} 1px auto;
   column-gap: ${T.spacing[20]};
@@ -164,7 +197,7 @@ const Item = styled(Link)`
   text-shadow: ${({ $active, $accent }) => ($active ? `0 0 20px ${alpha($accent, 0.28)}` : "none")};
   opacity: 0;
   animation: fadeUp ${T.transition.slow} forwards;
-  animation-delay: ${({ $i }) => `${0.05 + $i * 0.07}s`};
+  animation-delay: ${({ $i }) => `${0.25 + $i * 0.07}s`};
   transition:
     color ${T.transition.fast},
     text-shadow ${T.transition.fast};
@@ -200,7 +233,7 @@ const BottomArea = styled.div`
   align-items: flex-start;
   opacity: 0;
   animation: fadeUp ${T.transition.slow} forwards;
-  animation-delay: ${0.05 + UI_TEXT.nav.items.length * 0.07}s;
+  animation-delay: ${0.25 + UI_TEXT.nav.items.length * 0.07}s;
 `
 
 const BookBtn = styled(Button)`

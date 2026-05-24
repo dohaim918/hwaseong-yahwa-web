@@ -9,7 +9,7 @@
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 import styled from "@emotion/styled"
-import { T } from "@/styles/theme"
+import { T, revealUp } from "@/styles/theme"
 import { GradLine } from "@/components/ui/deco"
 export { GradSpan } from "@/components/ui/GradSpan"
 
@@ -23,13 +23,17 @@ export default function SectionHeader({
   descColor,
   center = false,
   hideLabelMini = false,
+  gap,
+  pb,
+  animIn,
+  animDelay = 0,
   ...props
 }) {
   const hasTitle = title || gradTitle
   const labelColor = labelAccent ?? T.sub
 
   return (
-    <Wrap $center={center} {...props}>
+    <Wrap $center={center} $gap={gap} $pb={pb} $animIn={animIn} $animDelay={animDelay} {...props}>
       {label && (
         <LabelRow $hideMini={hideLabelMini}>
           <GradLine $color={labelColor} $dir="left" $width="32px" />
@@ -56,13 +60,21 @@ export default function SectionHeader({
 const Wrap = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${T.spacing[16]};
+  gap: ${({ $gap }) => $gap ?? T.spacing[24]};
   align-items: ${({ $center }) => ($center ? "center" : "flex-start")};
   text-align: ${({ $center }) => ($center ? "center" : "left")};
+  padding-bottom: ${({ $pb }) => $pb ?? T.spacing[42]};
   transition: gap ${T.transition.mid};
+  ${({ $animIn, $animDelay }) => ($animIn !== undefined ? revealUp($animIn, $animDelay) : "")}
 
   @media (max-width: ${T.bp.tablet}) {
     gap: ${T.spacing[12]};
+  }
+  @media (max-width: ${T.bp.mobile}) {
+    padding-bottom: ${({ $pb }) => $pb ?? T.spacing[32]};
+  }
+  @media (max-width: ${T.bp.mini}) {
+    padding-bottom: ${({ $pb }) => $pb ?? T.spacing[24]};
   }
 `
 
@@ -75,7 +87,6 @@ const LabelRow = styled.div`
     display: ${({ $hideMini }) => ($hideMini ? "none" : "flex")};
   }
 `
-
 
 const LabelText = styled.span`
   font-family: ${T.fontSans};
