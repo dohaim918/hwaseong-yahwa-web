@@ -14,12 +14,14 @@ export const UI_TEXT = {
     brand: "화성야화",
     brandEn: "HWASEONG NIGHT",
     items: [
-      { label: "행사소개", to: "/about" },
-      { label: "프로그램", to: "/programs" },
-      { label: "관람안내", to: "/venue" },
-      { label: "갤러리", to: "/gallery" },
+      { label: "행사소개", to: "/about", type: "mvp" },
+      { label: "프로그램", to: "/programs", type: "link" },
+      { label: "관람안내", to: "/venue", type: "mvp" },
+      { label: "갤러리", to: "/gallery", type: "mvp" },
     ],
     ctaLabel: "예약하기",
+    ctaTo: "/booking",
+    ctaType: "link",
     allPrograms: "전체 프로그램 보기 →",
   },
 
@@ -99,10 +101,10 @@ export const UI_TEXT = {
     desc: "유네스코 세계유산 화성에서 펼쳐지는 4야간의 여정,\n성벽과 빛이 하나가 되는 미디어아트 축제",
     // 통계 카드 4개
     stats: [
-      { value: "4", unit: "일", label: "행사 기간" },
-      { value: "4", unit: "야", label: "프로그램 구분" },
-      { value: "23", unit: "팀", label: "참여 아티스트" },
-      { value: "12", unit: "만+", label: "누적 관람 인원" },
+      { value: 4, unit: "일", label: "행사 기간" },
+      { value: 4, unit: "야", label: "프로그램 구분" },
+      { value: 23, unit: "팀", label: "참여 아티스트" },
+      { value: 12, unit: "만+", label: "누적 관람 인원" },
     ],
     ctaPrimary: "프로그램 보기",
     ctaSecondary: "영상으로 보기",

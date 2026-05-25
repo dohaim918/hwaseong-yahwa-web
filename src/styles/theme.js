@@ -104,6 +104,7 @@ export const T = {
     mid: "0.28s ease",
     slow: "0.4s ease",
     spring: "0.42s cubic-bezier(0.22, 0.68, 0, 1.1)",
+    bgReveal: "1.4s cubic-bezier(0.22, 0.68, 0, 1.1)", // 배경 이미지 스크롤 리빌
   },
 
   radius: {

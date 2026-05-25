@@ -1,0 +1,22 @@
+import styled from "@emotion/styled"
+import { T } from "@/styles/theme"
+
+// 스크롤 진입 시 서서히 드러나는 풀섹션 배경 이미지
+export default function AnimatedBgImage({ src, opacity = 1, animate = true, alt = "", ...props }) {
+  return <BgImg src={src} alt={alt} $opacity={opacity} $animate={animate} {...props} />
+}
+
+const BgImg = styled.img`
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  pointer-events: none;
+  opacity: ${({ $animate, $opacity = 1 }) => ($animate ? $opacity : 0)};
+  transform: ${({ $animate }) => ($animate ? "scale(1)" : "scale(1.08)")};
+  transition:
+    opacity ${T.transition.bgReveal},
+    transform ${T.transition.bgReveal};
+`

@@ -83,16 +83,4 @@ export const keyframes = `
       opacity: 1;
     }
   }
-
-  /* 배경 이미지 등장 (scale-in + fade) */
-  @keyframes bgIn {
-    from {
-      opacity: 0;
-      transform: scale(1.08);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
 `
