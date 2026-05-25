@@ -1,6 +1,8 @@
+import { useState } from "react"
 import styled from "@emotion/styled"
 import { T, alpha } from "@/styles/theme"
 import { FlowerIcon } from "@/components/ui/icons"
+import MvpModal from "@/components/ui/MvpModal"
 
 // ─────────────────────────────────────────────
 //  SectionBar
@@ -25,22 +27,44 @@ export default function SectionBar({
   color = T.main,
   visible = true,
   onLinkClick,
+  modalTitle,
+  modalDesc,
 }) {
-  return (
-    <Bar $color={color} $visible={visible}>
-      <Left>
-        <FlowerIcon color={color} style={{ flexShrink: 0, overflow: "visible" }} />
-        <Label $color={color}>{label}</Label>
-        {sub && <Sub>{sub}</Sub>}
-      </Left>
+  const [modalOpen, setModalOpen] = useState(false)
 
-      {link && (
-        <LinkButton type="button" $color={color} onClick={onLinkClick}>
-          <span>{link.replace(" →", "")}</span>
-          <Arrow $color={color}>→</Arrow>
-        </LinkButton>
-      )}
-    </Bar>
+  const handleLinkClick = () => {
+    if (onLinkClick) {
+      onLinkClick()
+      return
+    }
+    setModalOpen(true)
+  }
+
+  return (
+    <>
+      <Bar $color={color} $visible={visible}>
+        <Left>
+          <FlowerIcon color={color} style={{ flexShrink: 0, overflow: "visible" }} />
+          <Label $color={color}>{label}</Label>
+          {sub && <Sub>{sub}</Sub>}
+        </Left>
+
+        {link && (
+          <LinkButton type="button" $color={color} aria-haspopup="dialog" onClick={handleLinkClick}>
+            <span>{link.replace(" →", "")}</span>
+            <Arrow $color={color}>→</Arrow>
+          </LinkButton>
+        )}
+      </Bar>
+
+      <MvpModal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        accent={color}
+        title={modalTitle}
+        desc={modalDesc}
+      />
+    </>
   )
 }
 
@@ -121,10 +145,6 @@ const Arrow = styled.span`
 `
 
 const LinkButton = styled.button`
-  appearance: none;
-  border: 0;
-  background: transparent;
-  padding: 0;
   display: flex;
   align-items: center;
   gap: ${T.spacing[8]};

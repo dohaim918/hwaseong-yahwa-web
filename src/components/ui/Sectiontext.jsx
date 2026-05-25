@@ -69,6 +69,7 @@ const Wrap = styled.div`
 
   @media (max-width: ${T.bp.tablet}) {
     gap: ${T.spacing[12]};
+    padding-bottom: ${({ $pb }) => $pb ?? T.spacing[36]};
   }
   @media (max-width: ${T.bp.mobile}) {
     padding-bottom: ${({ $pb }) => $pb ?? T.spacing[32]};

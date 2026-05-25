@@ -6,14 +6,19 @@
 import { useState } from "react"
 import { Link, NavLink } from "react-router-dom"
 import styled from "@emotion/styled"
+import { css } from "@emotion/react"
 import { T, alpha } from "@/styles/theme"
 import { UI_TEXT } from "@/data/uiText"
 import MobileMenu from "@/components/layout/MobileMenu"
 import Button from "@/components/ui/Button"
+import MvpModal from "@/components/ui/MvpModal"
 import logoImage from "@/assets/images/logo/hwaseong-yahwa-logo.png"
 
 export default function NavBar({ accent = T.pink }) {
   const [isOpen, setIsOpen] = useState(false)
+  const [modalOpen, setModalOpen] = useState(false)
+  const openMvpModal = () => setModalOpen(true)
+  const isCtaLink = UI_TEXT.nav.ctaType === "link"
 
   return (
     <>
@@ -26,16 +31,28 @@ export default function NavBar({ accent = T.pink }) {
 
         <Right>
           <NavLinks>
-            {UI_TEXT.nav.items.map((item) => (
-              <NavItem key={item.label} to={item.to} $accent={accent}>
-                {item.label}
-              </NavItem>
-            ))}
+            {UI_TEXT.nav.items.map((item) =>
+              item.type === "link" ? (
+                <NavItem key={item.label} to={item.to} $accent={accent}>
+                  {item.label}
+                </NavItem>
+              ) : (
+                <NavAction key={item.label} type="button" $accent={accent} onClick={openMvpModal}>
+                  {item.label}
+                </NavAction>
+              )
+            )}
           </NavLinks>
 
-          <DesktopBookBtn as={Link} to="/booking" accent={accent} size="sm">
-            {UI_TEXT.nav.ctaLabel}
-          </DesktopBookBtn>
+          {isCtaLink ? (
+            <DesktopBookBtn as={Link} to={UI_TEXT.nav.ctaTo} accent={accent} size="sm">
+              {UI_TEXT.nav.ctaLabel}
+            </DesktopBookBtn>
+          ) : (
+            <DesktopBookBtn accent={accent} size="sm" onClick={openMvpModal}>
+              {UI_TEXT.nav.ctaLabel}
+            </DesktopBookBtn>
+          )}
 
           <Hamburger $open={isOpen} onClick={() => setIsOpen((p) => !p)} aria-label="메뉴">
             <Bar />
@@ -45,7 +62,13 @@ export default function NavBar({ accent = T.pink }) {
         </Right>
       </Nav>
 
-      <MobileMenu isOpen={isOpen} onClose={() => setIsOpen(false)} accent={accent} />
+      <MobileMenu
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        accent={accent}
+        onMvpOpen={openMvpModal}
+      />
+      <MvpModal open={modalOpen} onClose={() => setModalOpen(false)} accent={accent} />
     </>
   )
 }
@@ -114,9 +137,7 @@ const NavLinks = styled.div`
   }
 `
 
-const NavItem = styled(NavLink, {
-  shouldForwardProp: (prop) => prop !== "$accent",
-})`
+const navTextStyle = css`
   position: relative;
   font-size: ${T.fontSize.sm};
   color: ${T.sub};
@@ -136,6 +157,16 @@ const NavItem = styled(NavLink, {
     transition: background ${T.transition.fast};
   }
 
+  &:hover {
+    color: ${T.main};
+  }
+`
+
+const NavItem = styled(NavLink, {
+  shouldForwardProp: (prop) => prop !== "$accent",
+})`
+  ${navTextStyle}
+
   &.active {
     color: ${({ $accent }) => $accent};
 
@@ -144,9 +175,19 @@ const NavItem = styled(NavLink, {
         `linear-gradient(90deg, transparent, ${$accent}, transparent)`};
     }
   }
+`
 
-  &:hover {
-    color: ${T.main};
+const NavAction = styled.button`
+  ${navTextStyle}
+
+  &:focus-visible {
+    color: ${({ $accent }) => $accent};
+    outline: none;
+
+    &::after {
+      background: ${({ $accent }) =>
+        `linear-gradient(90deg, transparent, ${$accent}, transparent)`};
+    }
   }
 `
 

@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react"
 import { Link, useLocation } from "react-router-dom"
 import styled from "@emotion/styled"
-import { keyframes } from "@emotion/react"
+import { css, keyframes } from "@emotion/react"
 import { T, alpha } from "@/styles/theme"
 import { UI_TEXT } from "@/data/uiText"
 import { CloseIcon, ArrowRightIcon } from "@/components/ui/icons"
@@ -12,10 +12,11 @@ const slideIn = keyframes`
   to   { transform: translateX(0);    opacity: 1; }
 `
 
-export default function MobileMenu({ isOpen, onClose, accent = T.pink }) {
+export default function MobileMenu({ isOpen, onClose, accent = T.pink, onMvpOpen }) {
   const { pathname } = useLocation()
   const closeBtnRef = useRef(null)
   const prevFocusRef = useRef(null)
+  const isCtaLink = UI_TEXT.nav.ctaType === "link"
 
   // 더 탄탄한 접근성: 메뉴 진입 시 focus를 안으로 보내고 닫히면 이전 위치로 복귀
   useEffect(() => {
@@ -48,9 +49,19 @@ export default function MobileMenu({ isOpen, onClose, accent = T.pink }) {
   }, [isOpen])
 
   const isActive = (to) => pathname === (to.split("#")[0] || "/")
+  const handleMvpClick = () => {
+    onClose()
+    onMvpOpen?.()
+  }
 
   return (
-    <Overlay $isOpen={isOpen} onClick={onClose} role="dialog" aria-modal="true">
+    <Overlay
+      $isOpen={isOpen}
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-label="모바일 메뉴"
+    >
       {isOpen && (
         <Inner onClick={(e) => e.stopPropagation()}>
           <CloseBtn ref={closeBtnRef} onClick={onClose} aria-label="닫기">
@@ -59,27 +70,42 @@ export default function MobileMenu({ isOpen, onClose, accent = T.pink }) {
           <Glow $accent={accent} />
 
           <NavList>
-            {UI_TEXT.nav.items.map((item, i) => (
-              <Item
-                key={item.label}
-                to={item.to}
-                $accent={accent}
-                $active={isActive(item.to)}
-                $i={i}
-                onClick={onClose}
-              >
-                <Num>{String(i + 1).padStart(2, "0")}</Num>
-                <Divider />
-                <span>{item.label}</span>
-              </Item>
-            ))}
+            {UI_TEXT.nav.items.map((item, i) =>
+              item.type === "link" ? (
+                <Item
+                  key={item.label}
+                  to={item.to}
+                  $accent={accent}
+                  $active={isActive(item.to)}
+                  $i={i}
+                  onClick={onClose}
+                >
+                  <Num>{String(i + 1).padStart(2, "0")}</Num>
+                  <Divider />
+                  <span>{item.label}</span>
+                </Item>
+              ) : (
+                <ActionItem key={item.label} type="button" $accent={accent} $i={i} onClick={handleMvpClick}>
+                  <Num>{String(i + 1).padStart(2, "0")}</Num>
+                  <Divider />
+                  <span>{item.label}</span>
+                </ActionItem>
+              )
+            )}
           </NavList>
 
           <BottomArea>
-            <BookBtn as={Link} to="/booking" accent={accent} onClick={onClose}>
-              {UI_TEXT.nav.ctaLabel}
-              <ArrowRightIcon size={14} />
-            </BookBtn>
+            {isCtaLink ? (
+              <BookBtn as={Link} to={UI_TEXT.nav.ctaTo} accent={accent} onClick={onClose}>
+                {UI_TEXT.nav.ctaLabel}
+                <ArrowRightIcon size={14} />
+              </BookBtn>
+            ) : (
+              <BookBtn accent={accent} onClick={handleMvpClick}>
+                {UI_TEXT.nav.ctaLabel}
+                <ArrowRightIcon size={14} />
+              </BookBtn>
+            )}
           </BottomArea>
         </Inner>
       )}
@@ -181,9 +207,8 @@ const NavList = styled.nav`
   gap: ${T.spacing[36]};
 `
 
-const Item = styled(Link, {
-  shouldForwardProp: (prop) => !prop.startsWith("$"),
-})`
+// Link와 button 메뉴가 같은 모양을 쓰도록 공통 스타일만 분리
+const menuItemStyle = css`
   display: grid;
   grid-template-columns: ${T.spacing[42]} 1px auto;
   column-gap: ${T.spacing[20]};
@@ -193,18 +218,42 @@ const Item = styled(Link, {
   font-weight: 700;
   line-height: 1.16;
   letter-spacing: -0.5px;
-  color: ${({ $active, $accent }) => ($active ? $accent : T.sub)};
-  text-shadow: ${({ $active, $accent }) => ($active ? `0 0 20px ${alpha($accent, 0.28)}` : "none")};
+  color: ${T.sub};
   opacity: 0;
   animation: fadeUp ${T.transition.slow} forwards;
-  animation-delay: ${({ $i }) => `${0.25 + $i * 0.07}s`};
   transition:
     color ${T.transition.fast},
     text-shadow ${T.transition.fast};
+`
+
+const Item = styled(Link, {
+  shouldForwardProp: (prop) => !prop.startsWith("$"),
+})`
+  ${menuItemStyle}
+  color: ${({ $active, $accent }) => ($active ? $accent : T.sub)};
+  text-shadow: ${({ $active, $accent }) => ($active ? `0 0 20px ${alpha($accent, 0.28)}` : "none")};
+  animation-delay: ${({ $i }) => `${0.25 + $i * 0.07}s`};
 
   &:hover {
     color: ${({ $accent }) => $accent};
     text-shadow: ${({ $accent }) => `0 0 20px ${alpha($accent, 0.28)}`};
+  }
+`
+
+const ActionItem = styled.button`
+  ${menuItemStyle}
+  width: 100%;
+  animation-delay: ${({ $i }) => `${0.25 + $i * 0.07}s`};
+
+  &:hover {
+    color: ${({ $accent }) => $accent};
+    text-shadow: ${({ $accent }) => `0 0 20px ${alpha($accent, 0.28)}`};
+  }
+
+  &:focus-visible {
+    color: ${({ $accent }) => $accent};
+    outline: 1px solid ${({ $accent }) => $accent};
+    outline-offset: ${T.spacing[8]};
   }
 `
 

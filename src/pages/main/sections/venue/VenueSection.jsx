@@ -1,4 +1,3 @@
-import { Fragment } from "react"
 import { useOutletContext } from "react-router-dom"
 import styled from "@emotion/styled"
 import { T, alpha, GRADIENT, sectionAccent, revealUp, SECTION_COLOR } from "@/styles/theme"
@@ -7,22 +6,14 @@ import SectionHeader from "@/components/ui/Sectiontext"
 import { GradSpan } from "@/components/ui/GradSpan"
 import FullSection from "@/components/layout/FullSection"
 import SectionBar from "@/components/ui/SectionBar"
-import {
-  MapPinIcon,
-  ClockIcon,
-  TicketIcon,
-  SubwayIcon,
-  BusIcon,
-  CarIcon,
-} from "@/components/ui/icons"
+import AnimatedBgImage from "@/components/ui/AnimatedBgImage"
+import { VenueAccessItem, VenueInfoItem } from "@/pages/main/sections/venue/VenueItems"
 import { useResponsive } from "@/hooks/useResponsive"
 import { useSectionReveal } from "@/hooks/useSectionReveal"
 import venueBg from "@/assets/images/venue/venue-bg.png"
 
 const t = UI_TEXT.venue
 
-const ACCESS_ICONS = { subway: SubwayIcon, bus: BusIcon, car: CarIcon }
-const INFO_ICONS = { location: MapPinIcon, hours: ClockIcon, price: TicketIcon }
 const CONTENT_W = "550px"
 
 export default function VenueSection() {
@@ -35,7 +26,7 @@ export default function VenueSection() {
   return (
     <VenueShell ref={secRef}>
       {/* <BgFallback /> */}
-      <BgImg src={venueBg} alt="" $animate={animIn} />
+      <AnimatedBgImage src={venueBg} opacity={0.8} animate={animIn} />
       <BgOverlay />
       {/* <TopFade /> */}
 
@@ -70,21 +61,9 @@ export default function VenueSection() {
 
           {/* info 박스 */}
           <InfoBox $animIn={animIn}>
-            {Object.entries(t.info).map(([key, item], i, arr) => {
-              const Icon = INFO_ICONS[key]
-              return (
-                <Fragment key={item.label}>
-                  <InfoItem>
-                    <InfoHead>
-                      <Icon size={24} color={T.amber} />
-                      <InfoLabel>{item.label}</InfoLabel>
-                    </InfoHead>
-                    <InfoValue>{isMini ? (item.mini ?? item.value) : item.value}</InfoValue>
-                  </InfoItem>
-                  {i < arr.length - 1 && <InfoDivider />}
-                </Fragment>
-              )
-            })}
+            {Object.entries(t.info).map(([key, item]) => (
+              <VenueInfoItem key={item.label} item={item} iconKey={key} compact={isMini} />
+            ))}
           </InfoBox>
 
           {/* 오시는 길 */}
@@ -94,21 +73,9 @@ export default function VenueSection() {
               <AccessLine />
             </AccessHead>
             <AccessList>
-              {t.access.items.map((item, i, arr) => {
-                const Icon = ACCESS_ICONS[item.icon]
-                return (
-                  <Fragment key={item.label}>
-                    <AccessItem>
-                      <Icon size={32} color={T.amber} />
-                      <AccessTxt>
-                        <AccessMain data-access-main>{item.label}</AccessMain>
-                        <AccessSub>{item.sub}</AccessSub>
-                      </AccessTxt>
-                    </AccessItem>
-                    {i < arr.length - 1 && <AccessDivider />}
-                  </Fragment>
-                )
-              })}
+              {t.access.items.map((item) => (
+                <VenueAccessItem key={item.label} item={item} />
+              ))}
             </AccessList>
           </AccessWrap>
         </ContentRight>
@@ -136,20 +103,6 @@ const VenueShell = styled(FullSection)`
 //     radial-gradient(ellipse 50% 40% at 70% 70%, #2a1a0a 0%, transparent 55%),
 //     linear-gradient(180deg, #0a0815 0%, ${T.bgBase} 100%);
 // `
-
-const BgImg = styled.img`
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 1;
-  pointer-events: none;
-  ${({ $animate }) =>
-    $animate
-      ? `animation: bgIn 1.4s cubic-bezier(.22,.68,0,1.1) both;`
-      : `opacity: 0; transform: scale(1.08);`}
-`
 
 const BgOverlay = styled.div`
   position: absolute;
@@ -232,11 +185,12 @@ const ContentRight = styled.div`
 `
 
 // ── info 박스 ──────────────────────────────────────────
-const InfoBox = styled.div`
+const InfoBox = styled.dl`
   display: flex;
   align-items: center;
   width: 100%;
   max-width: ${CONTENT_W};
+  margin: 0;
   padding: ${T.spacing[24]} ${T.spacing[20]};
   border: 1px solid ${alpha(T.amber, 0.2)};
   border-radius: ${T.radius.sm};
@@ -247,70 +201,6 @@ const InfoBox = styled.div`
 
   @media (max-width: ${T.bp.mini}) {
     padding: ${T.spacing[8]} ${T.spacing[4]};
-  }
-`
-
-const InfoItem = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: ${T.spacing[16]};
-  flex: 1;
-  padding: ${T.spacing[4]};
-  border-radius: ${T.radius.md};
-  @media (max-width: ${T.bp.tablet}) {
-    /* padding: ${T.spacing[8]}; */
-    gap: ${T.spacing[8]};
-  }
-`
-
-const InfoHead = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: ${T.spacing[12]};
-
-  @media (max-width: ${T.bp.mini}) {
-    gap: ${T.spacing[6]};
-  }
-`
-
-const InfoLabel = styled.span`
-  font-size: ${T.fontSize.sm};
-  color: ${T.amber};
-
-  @media (max-width: ${T.bp.mini}) {
-    font-size: ${T.fontSize.xs};
-  }
-`
-
-const InfoValue = styled.div`
-  font-family: ${T.fontSerif};
-  font-size: ${T.fontSize.sm};
-  font-weight: 700;
-  color: ${alpha(T.main, 0.72)};
-  white-space: nowrap;
-
-  @media (max-width: ${T.bp.tablet}) {
-    font-size: ${T.fontSize.xs};
-  }
-`
-
-const DividerBase = styled.span`
-  display: block;
-  width: 1px;
-  flex-shrink: 0;
-  align-self: center;
-`
-
-const InfoDivider = styled(DividerBase)`
-  height: 90px;
-  background: ${alpha(T.amber, 0.1)};
-
-  @media (max-width: ${T.bp.mini}) {
-    height: 80px;
-    /* display: none; */
   }
 `
 
@@ -372,88 +262,18 @@ const AccessLine = styled.span`
   );
 `
 
-const AccessList = styled.div`
+const AccessList = styled.ul`
   display: flex;
   /* align-items: center; */
   gap: ${T.spacing[8]};
   width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 
   @media (max-width: ${T.bp.mini}) {
     flex-direction: column;
     align-items: flex-start;
     gap: ${T.spacing[16]};
-  }
-`
-
-const AccessItem = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: ${T.spacing[12]};
-  flex: 1;
-  /* min-width: 0; */
-  /* cursor: default; */
-
-  svg {
-    opacity: 0.9;
-    flex-shrink: 0;
-    transition:
-      opacity ${T.transition.mid},
-      transform ${T.transition.mid};
-  }
-
-  &:hover svg {
-    opacity: 1;
-    transform: translateY(-2px);
-  }
-
-  &:hover [data-access-main] {
-    color: ${T.amber};
-  }
-
-  @media (max-width: ${T.bp.mini}) {
-    gap: ${T.spacing[24]};
-    padding: 0 ${T.spacing[8]};
-  }
-`
-
-const AccessTxt = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${T.spacing[4]};
-  /* min-width: 0; */
-`
-
-const AccessMain = styled.span`
-  font-size: ${T.fontSize.xs};
-  font-weight: 500;
-  /* line-height: 1.7; */
-  color: ${alpha(T.main, 0.72)};
-  transition: color ${T.transition.mid};
-  white-space: nowrap;
-
-  @media (max-width: ${T.bp.mini}) {
-    font-size: ${T.fontSize.xxs};
-  }
-`
-
-const AccessSub = styled.span`
-  font-size: ${T.fontSize.xs};
-  font-weight: 600;
-  /* line-height: 1.7; */
-  color: ${alpha(T.main, 0.4)};
-  white-space: nowrap;
-
-  @media (max-width: ${T.bp.mini}) {
-    font-size: ${T.fontSize.xxs};
-  }
-`
-
-const AccessDivider = styled(DividerBase)`
-  height: 52px;
-  background: ${alpha(T.amber, 0.2)};
-
-  @media (max-width: ${T.bp.mini}) {
-    display: none;
   }
 `

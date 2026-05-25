@@ -77,8 +77,6 @@ const CarouselTrack = styled.div`
 `
 
 const CarouselItem = styled.button`
-  appearance: none;
-  text-align: inherit;
   flex-shrink: 0;
   min-width: 0;
   height: 100%;

@@ -125,6 +125,11 @@ const styles = css`
     outline: none;
   }
 
+  button {
+    appearance: none;
+    text-align: inherit;
+  }
+
   textarea {
     resize: none;
   }
