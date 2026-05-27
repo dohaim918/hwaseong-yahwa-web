@@ -162,7 +162,6 @@ const Top = styled.div`
 `
 
 const NightLabel = styled.span`
-  font-family: ${T.fontSans};
   font-size: ${T.fontSize.xs};
   font-weight: 500;
   letter-spacing: 4px;
@@ -245,7 +244,6 @@ const Kw = styled.div`
 `
 
 const KwLabel = styled.span`
-  font-family: ${T.fontSans};
   font-size: ${T.fontSize.sm};
   font-weight: 500;
   letter-spacing: 0.1em;
@@ -292,7 +290,6 @@ const HoverInfo = styled.div`
 `
 
 const HoverDesc = styled.p`
-  font-family: ${T.fontSans};
   font-size: ${T.fontSize.sm};
   font-weight: 400;
   color: ${T.sub};
@@ -315,7 +312,6 @@ const CtaText = styled.span`
   align-items: center;
   justify-content: center;
   padding-top: ${T.spacing[8]};
-  font-family: ${T.fontSans};
   font-size: ${T.fontSize.sm};
   font-weight: 700;
   letter-spacing: 1px;

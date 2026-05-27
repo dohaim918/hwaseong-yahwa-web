@@ -6,13 +6,12 @@ import { getCardData } from "@/data/nightData"
 import { UI_TEXT } from "@/data/uiText"
 import { PROGRAM_ASSETS } from "@/data/programAssets"
 import { GradSpan } from "@/components/ui/GradSpan"
-import { GradLine } from "@/components/ui/deco"
 import SectionHeader from "@/components/ui/Sectiontext"
+import SectionTicker from "@/components/ui/SectionTicker"
 import { useResponsive } from "@/hooks/useResponsive"
 import { useSectionReveal } from "@/hooks/useSectionReveal"
 import NightCard from "./NightCard"
 import ProgCarousel from "./ProgCarousel"
-import { StarIcon } from "@/components/ui/icons"
 
 const cards = getCardData()
 const t = UI_TEXT.progSection
@@ -45,7 +44,7 @@ export default function ProgSection() {
     <Sec ref={secRef}>
       <HdCards>
         <Hd>
-          <SparkleImg src={PROGRAM_ASSETS.sparkle} alt="" />
+          <SparkleImg src={PROGRAM_ASSETS.sparkle} alt="" $animIn={animIn} />
           <SectionHeader
             label={t.sectionLabel}
             labelAccent={T.pink}
@@ -88,17 +87,7 @@ export default function ProgSection() {
           </CardsRow>
         )}
       </HdCards>
-      <ProgBottom $in={animIn}>
-        <BottomDeco>
-          <GradLine $color={alpha(T.sub, 0.5)} $dir="left" $width={T.spacing[42]} $hideMini />
-          <StarIcon size={14} color={alpha(T.sub, 0.6)} />
-        </BottomDeco>
-        <BottomText>{t.bottomHint}</BottomText>
-        <BottomDeco>
-          <StarIcon size={14} color={alpha(T.sub, 0.6)} />
-          <GradLine $color={alpha(T.sub, 0.5)} $dir="right" $width={T.spacing[42]} $hideMini />
-        </BottomDeco>
-      </ProgBottom>
+      <SectionTicker text={t.bottomHint} color={T.sub} animIn={animIn} />
     </Sec>
   )
 }
@@ -158,8 +147,11 @@ const SparkleImg = styled.img`
   pointer-events: none;
   user-select: none;
   z-index: -2;
+  opacity: ${({ $animIn }) => ($animIn ? 1 : 0)};
+  transform: ${({ $animIn }) => ($animIn ? "scale(1)" : "scale(1.08)")};
   transition:
-    transform ${T.transition.mid},
+    opacity ${T.transition.bgReveal},
+    transform ${T.transition.bgReveal},
     top ${T.transition.mid};
 
   @media (min-width: 1921px) {
@@ -210,16 +202,6 @@ const CardsRow = styled.div`
   padding: 0 calc(${T.pagePad} + clamp(0px, calc((100vw - 1920px) / 8), 80px));
 `
 
-const ProgBottom = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: ${T.spacing[12]};
-  padding-top: ${T.spacing[24]};
-  padding-bottom: clamp(40px, 7.4vh, 160px);
-  ${({ $in }) => revealUp($in, 0.55)}
-`
-
 const CarouselAnim = styled.div`
   flex: 1;
   width: 100%;
@@ -229,35 +211,3 @@ const CarouselAnim = styled.div`
   ${({ $in }) => revealUp($in, 0.25)}
 `
 
-const BottomDeco = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${T.spacing[4]};
-`
-
-const BottomText = styled.span`
-  font-family: ${T.fontSerif};
-  font-size: ${T.fontSize.md};
-  font-weight: 700;
-  color: ${alpha(T.sub, 0.6)};
-  letter-spacing: 4px;
-  white-space: nowrap;
-  line-height: 1;
-  transform: translateY(1px);
-  transition:
-    font-size ${T.transition.mid},
-    letter-spacing ${T.transition.mid};
-
-  @media (max-width: ${T.bp.tablet}) {
-    font-size: ${T.fontSize.sm};
-    letter-spacing: 3px;
-  }
-  @media (max-width: ${T.bp.mobile}) {
-    font-size: ${T.fontSize.xs};
-    letter-spacing: 2px;
-  }
-  @media (max-width: ${T.bp.mini}) {
-    font-size: ${T.fontSize.xxs};
-    letter-spacing: 1.5px;
-  }
-`

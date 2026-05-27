@@ -51,7 +51,7 @@ export default function SectionBar({
 
         {link && (
           <LinkButton type="button" $color={color} aria-haspopup="dialog" onClick={handleLinkClick}>
-            <span>{link.replace(" →", "")}</span>
+            <span>{link}</span>
             <Arrow $color={color}>→</Arrow>
           </LinkButton>
         )}
@@ -135,6 +135,10 @@ const Sub = styled.span`
     background: ${T.muted};
     margin-right: 2px;
     flex-shrink: 0;
+  }
+
+  @media (max-width: ${T.bp.mini}) {
+    display: none;
   }
 `
 

@@ -1,9 +1,10 @@
-import { useEffect, useRef } from "react"
+import { useRef } from "react"
 import { createPortal } from "react-dom"
 import styled from "@emotion/styled"
 import { T, alpha } from "@/styles/theme"
 import { Shimmer } from "@/components/ui/deco"
 import { CloseIcon, FlowerIcon } from "@/components/ui/icons"
+import { useFocusTrap } from "@/hooks/useFocusTrap"
 
 export default function MvpModal({
   open,
@@ -14,28 +15,7 @@ export default function MvpModal({
   accent = T.pink,
 }) {
   const closeRef = useRef(null)
-
-  useEffect(() => {
-    if (!open) return
-
-    const prevFocus = document.activeElement
-    const onKeyDown = (e) => {
-      if (e.key === "Escape") onClose?.()
-      if (e.key === "Tab") {
-        e.preventDefault()
-        closeRef.current?.focus()
-      }
-    }
-
-    document.addEventListener("keydown", onKeyDown)
-    const focusId = requestAnimationFrame(() => closeRef.current?.focus())
-
-    return () => {
-      cancelAnimationFrame(focusId)
-      document.removeEventListener("keydown", onKeyDown)
-      prevFocus?.focus?.()
-    }
-  }, [open, onClose])
+  useFocusTrap(open, { onClose, focusRef: closeRef, trapTab: true })
 
   if (!open) return null
 
@@ -114,8 +94,8 @@ const CloseBtn = styled.button`
   right: ${T.spacing[16]};
   display: inline-grid;
   place-items: center;
-  width: 32px;
-  height: 32px;
+  width: ${T.spacing[32]};
+  height: ${T.spacing[32]};
   color: ${alpha(T.sub, 0.7)};
   border-radius: ${T.radius.full};
   transition:

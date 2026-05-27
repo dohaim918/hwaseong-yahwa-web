@@ -28,7 +28,6 @@ const TabRow = styled.div`
 `
 
 const TabBtn = styled.button`
-  font-family: ${T.fontSans};
   font-size: ${T.fontSize.sm};
   font-weight: ${({ $active }) => ($active ? 700 : 500)};
   letter-spacing: 2px;

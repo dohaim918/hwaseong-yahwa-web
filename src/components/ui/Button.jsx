@@ -97,7 +97,6 @@ const StyledBtn = styled("button", {
   justify-content: center;
   gap: ${T.spacing[6]};
   white-space: nowrap;
-  font-family: ${T.fontSans};
   font-weight: 700;
   border: none;
   outline: none;
