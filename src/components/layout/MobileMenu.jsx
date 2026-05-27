@@ -6,6 +6,7 @@ import { T, alpha } from "@/styles/theme"
 import { UI_TEXT } from "@/data/uiText"
 import { CloseIcon, ArrowRightIcon } from "@/components/ui/icons"
 import Button from "@/components/ui/Button"
+import { useFocusTrap } from "@/hooks/useFocusTrap"
 
 const slideIn = keyframes`
   from { transform: translateX(100%); opacity: 0; }
@@ -15,29 +16,9 @@ const slideIn = keyframes`
 export default function MobileMenu({ isOpen, onClose, accent = T.pink, onMvpOpen }) {
   const { pathname } = useLocation()
   const closeBtnRef = useRef(null)
-  const prevFocusRef = useRef(null)
   const isCtaLink = UI_TEXT.nav.ctaType === "link"
 
-  // 더 탄탄한 접근성: 메뉴 진입 시 focus를 안으로 보내고 닫히면 이전 위치로 복귀
-  useEffect(() => {
-    if (!isOpen) return
-    prevFocusRef.current = document.activeElement
-    const focusId = requestAnimationFrame(() => closeBtnRef.current?.focus())
-    return () => {
-      cancelAnimationFrame(focusId)
-      prevFocusRef.current?.focus?.()
-      prevFocusRef.current = null
-    }
-  }, [isOpen])
-
-  useEffect(() => {
-    if (!isOpen) return
-    const onKey = (e) => {
-      if (e.key === "Escape") onClose()
-    }
-    window.addEventListener("keydown", onKey)
-    return () => window.removeEventListener("keydown", onKey)
-  }, [isOpen, onClose])
+  useFocusTrap(isOpen, { onClose, focusRef: closeBtnRef })
 
   useEffect(() => {
     if (!isOpen) return

@@ -1,9 +1,5 @@
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-//  uiText-v2.js  —  페이지·섹션 단위 UI 문자열
-//  스크린샷 직접 확인 기준으로 수정
-//   - Image 1: 프로그레스 섹션 페이지 전체
-//   - Image 2: FINAL INVITATION + 푸터
-//   - Image 3: 동선 모달 (패널 전/후)
+//  uiText.js  —  페이지·섹션 단위 UI 문자열
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 export const UI_TEXT = {
@@ -22,7 +18,7 @@ export const UI_TEXT = {
     ctaLabel: "예약하기",
     ctaTo: "/booking",
     ctaType: "link",
-    allPrograms: "전체 프로그램 보기 →",
+    allPrograms: "전체 프로그램 보기",
   },
 
   // ─────────────────────────────────────
@@ -64,7 +60,7 @@ export const UI_TEXT = {
   venue: {
     sectionLabel: "VENUE",
     sectionSub: "화성에서 만나요",
-    guideLink: "관람 안내 보기 →",
+    guideLink: "관람 안내 보기",
     subLabel: "THE NIGHT PATH",
     h2: {
       plain: "천 년의 시간,\n빛으로 깨어난 성곽의 밤",
@@ -117,7 +113,7 @@ export const UI_TEXT = {
   gallery: {
     sectionLabel: "GALLERY",
     sectionSub: "지난 밤의 기억들",
-    allLink: "전체 갤러리 →",
+    allLink: "전체 갤러리",
     subLabel: "MEMORIES OF THE NIGHT", // 화성야화 갤러리 브랜드 레이블 (고정)
     h2: {
       plain: "화성야화가 남긴 빛의 흔적",
@@ -127,7 +123,8 @@ export const UI_TEXT = {
     desc: "스쳐간 불빛과 사람들의 온기,\n그날의 장면들이 다시 천천히 펼쳐집니다.",
     viewScene: "View Scene",
     // 하단 티커 텍스트
-    ticker: "✦ 2026 화성야화에서, 잊지 못할 당신만의 밤을 만들어보세요. ✦",
+    ticker: "2026 화성야화에서, 잊지 못할 당신만의 밤을 만들어보세요.",
+    tickerMobile: "당신만의 밤을 만들어보세요.",
   },
 
   // ─────────────────────────────────────

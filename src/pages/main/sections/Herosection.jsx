@@ -1,4 +1,3 @@
-import { useCallback } from "react"
 import { Link, useOutletContext } from "react-router-dom"
 import styled from "@emotion/styled"
 import { T, alpha, textGradStops, NIGHT_STYLE, fadeUp, SECTION_COLOR } from "@/styles/theme"
@@ -8,14 +7,16 @@ import { ArrowRightIcon, StarIcon } from "@/components/ui/icons"
 import { AccentLabelRow, GradLine } from "@/components/ui/deco"
 import Button from "@/components/ui/Button"
 import ParticleCanvas from "@/components/ui/ParticleCanvas"
-import { useActiveSection } from "@/components/ui/Anim"
+import { useSectionReveal } from "@/hooks/useSectionReveal"
 import heroBg from "@/assets/images/hero-bg.png"
 
 const t = UI_TEXT.hero
 
 export default function HeroSection({ mousePos }) {
   const { setAccent } = useOutletContext()
-  const secRef = useActiveSection(useCallback(() => setAccent(SECTION_COLOR[0]), [setAccent]))
+  const { ref: secRef } = useSectionReveal({
+    onActive: () => setAccent(SECTION_COLOR[0]),
+  })
 
   return (
     <FullSection ref={secRef} bgSrc={heroBg} bgOpacity={0.8}>

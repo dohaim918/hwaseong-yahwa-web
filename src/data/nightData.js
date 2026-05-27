@@ -18,7 +18,7 @@
 //    getExperienceCards(id)
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-import { T, NIGHT_STYLE } from "../styles/theme"
+import { T, NIGHT_STYLE } from "@/styles/theme"
 
 export const BOOKING_COMMON = {
   steps: ["프로그램", "날짜·시간", "인원·티켓", "결제", "예약완료"],

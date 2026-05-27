@@ -226,7 +226,6 @@ const NumUnit = styled.span`
 
 const StatLabel = styled.dt`
   order: 2;
-  font-family: ${T.fontSans};
   font-size: ${T.fontSize.xxs};
   font-weight: 400;
   letter-spacing: 1px;

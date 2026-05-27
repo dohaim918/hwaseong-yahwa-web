@@ -177,6 +177,7 @@ export const sectionAccent = (color) => `
 export const GRADIENT = {
   emeraldAmber: textGrad(T.emerald, T.amber), // About 섹션
   amberPink: textGrad(T.amber, T.pink), // CTA 섹션
+  violetPink: textGrad(T.violet, T.pink, 160), // Gallery 섹션
   whitePinkAmber: textGradStops(
     [`${T.main} 0%`, `${alpha(T.main, 0.8)} 40%`, `${alpha(T.pink, 0.8)} 70%`, `${T.amber} 100%`],
     160

@@ -35,6 +35,18 @@ export const keyframes = `
     }
   }
 
+  /* opacity만 fade-in (transform 있는 요소에 사용) */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  /* 갤러리 이미지 전환 — 살짝 확대에서 원래 크기로 */
+  @keyframes imgScale {
+    from { opacity: 0; transform: scale(1.04); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+
   /* 갤러리 캐러셀 슬라이드 전환 */
   @keyframes carouselFade {
     from {

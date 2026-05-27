@@ -3,7 +3,7 @@ import HeroSection from "@/pages/main/sections/Herosection"
 import ProgSection from "@/pages/main/sections/prog/ProgSection"
 import VenueSection from "@/pages/main/sections/venue/VenueSection"
 import AboutSection from "@/pages/main/sections/about/AboutSection"
-// import GallerySection from "@/pages/main/sections/GallerySection"
+import GallerySection from "@/pages/main/sections/gallery/GallerySection"
 
 export default function MainPage() {
   const mousePos = useRef({ x: 0, y: 0 })
@@ -14,7 +14,7 @@ export default function MainPage() {
       <ProgSection />
       <VenueSection />
       <AboutSection />
-      {/* <GallerySection /> */}
+      <GallerySection />
     </div>
   )
 }

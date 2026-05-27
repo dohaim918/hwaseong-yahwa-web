@@ -90,7 +90,6 @@ const LabelRow = styled.div`
 `
 
 const LabelText = styled.span`
-  font-family: ${T.fontSans};
   font-size: ${T.fontSize.xs};
   font-weight: 700;
   letter-spacing: 4px;
@@ -131,7 +130,6 @@ const Title = styled.h2`
 `
 
 const Desc = styled.p`
-  font-family: ${T.fontSans};
   font-size: ${T.fontSize.sm};
   line-height: clamp(20px, 2.8vw, 28px);
   color: ${({ $color }) => $color || T.sub};
