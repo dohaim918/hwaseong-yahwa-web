@@ -149,3 +149,31 @@ export function ArrowRightIcon({ size = 18, color = "currentColor", ...rest }) {
     </svg>
   )
 }
+
+export function ChevronIcon({ size = 24, color = "currentColor", dir = "right", ...rest }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true" {...rest}>
+      <path
+        d={dir === "left" ? "M15 5l-7 7 7 7" : "M9 5l7 7-7 7"}
+        stroke={color}
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
+export function ExpandIcon({ size = 24, color = "currentColor", ...rest }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true" {...rest}>
+      <path
+        d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"
+        stroke={color}
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
