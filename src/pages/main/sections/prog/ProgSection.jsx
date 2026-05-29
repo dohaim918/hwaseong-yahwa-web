@@ -100,8 +100,7 @@ const Sec = styled.section`
   scroll-snap-align: start;
   display: flex;
   flex-direction: column;
-  margin-left: calc(-1 * ${T.pagePad});
-  margin-right: calc(-1 * ${T.pagePad});
+  margin-inline: calc(-1 * ${T.pagePad});
   ${sectionAccent(T.pink)}
 
   &::after {

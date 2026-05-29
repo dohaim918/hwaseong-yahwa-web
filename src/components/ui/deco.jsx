@@ -24,6 +24,20 @@
 import styled from "@emotion/styled"
 import { T, alpha } from "@/styles/theme"
 
+// section-deco.png 공용 베이스 — 각 섹션에서 styled(SectionDecoImg)로 extend
+// $animIn: opacity 0 → 0.6 트랜지션
+export const SectionDecoImg = styled.img`
+  position: absolute;
+  left: 50%;
+  width: clamp(280px, 43.75vw, 420px);
+  height: auto;
+  pointer-events: none;
+  mix-blend-mode: soft-light;
+  z-index: 4;
+  opacity: ${({ $animIn }) => ($animIn ? 0.6 : 0)};
+  transition: opacity ${T.transition.bgReveal};
+`
+
 export const GradLine = styled.div`
   height: 1px;
   flex-shrink: 0;

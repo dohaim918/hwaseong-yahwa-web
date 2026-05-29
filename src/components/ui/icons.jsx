@@ -1,13 +1,23 @@
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //  SVG 아이콘 모음
-
+//
 //  공통 props:
 //    size  — width & height (px, 기본값: 24)
 //    color — stroke / fill 색상 (기본값: "currentColor")
 //    ...rest — SVG 속성 전달 (className, style, onClick 등)
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+//
+//  그룹 구분:
+//    1. 기본 UI 아이콘   — Star, Flower, Close, MapPin, Clock, Ticket
+//    2. 교통 아이콘      — Subway, Bus, Car          (기본 size=32)
+//    3. 방향·인터랙션   — ArrowRight, Chevron, Expand
+//    4. SNS 아이콘      — Facebook, Youtube, Instagram, Kakao
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 import { useId } from "react"
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+//  1. 기본 UI 아이콘
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 export function StarIcon({ size = 14, color = "currentColor", opacity = 1, ...rest }) {
   return (
@@ -96,6 +106,10 @@ export function TicketIcon({ size = 24, color = "currentColor", ...rest }) {
   )
 }
 
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+//  2. 교통 아이콘  (경로 안내용 · 기본 size=32)
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 export function SubwayIcon({ size = 32, color = "currentColor", ...rest }) {
   return (
     <svg width={size} height={size} viewBox="0 0 32 32" fill="none" {...rest}>
@@ -128,6 +142,10 @@ export function CarIcon({ size = 32, color = "currentColor", ...rest }) {
     </svg>
   )
 }
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+//  3. 방향 · 인터랙션 아이콘
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 export function ArrowRightIcon({ size = 18, color = "currentColor", ...rest }) {
   return (
@@ -171,6 +189,75 @@ export function ExpandIcon({ size = 24, color = "currentColor", ...rest }) {
         d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"
         stroke={color}
         strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+//  4. SNS 아이콘  (Footer SnsBtn용 · 기본 size=24)
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+export function FacebookIcon({ size = 24, color = "currentColor", ...rest }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true" {...rest}>
+      <path
+        d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"
+        stroke={color}
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
+export function YoutubeIcon({ size = 24, color = "currentColor", ...rest }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true" {...rest}>
+      <path
+        d="M2.5 17A2.5 2.5 0 0 0 5 19h14a2.5 2.5 0 0 0 2.5-2.5v-9A2.5 2.5 0 0 0 19 5H5A2.5 2.5 0 0 0 2.5 7.5v9z"
+        stroke={color}
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="m9.75 8.98 5.5 3.02-5.5 3.02V8.98z"
+        stroke={color}
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
+export function InstagramIcon({ size = 24, color = "currentColor", ...rest }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true" {...rest}>
+      <rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke={color} strokeWidth="1.5" />
+      <path
+        d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"
+        stroke={color}
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke={color} strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  )
+}
+
+export function KakaoIcon({ size = 24, color = "currentColor", ...rest }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true" {...rest}>
+      <path
+        d="M12 3C6.48 3 2 6.71 2 11.29c0 2.84 1.73 5.34 4.35 6.83l-1.1 4.1a.4.4 0 0 0 .58.45l4.47-2.68c.54.07 1.1.1 1.7.1 5.52 0 10-3.71 10-8.29C22 6.71 17.52 3 12 3z"
+        stroke={color}
+        strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
       />

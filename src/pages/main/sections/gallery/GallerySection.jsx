@@ -13,7 +13,8 @@ import { useResponsive } from "@/hooks/useResponsive"
 import { useSectionReveal } from "@/hooks/useSectionReveal"
 import GalleryStage from "./GalleryStage"
 
-import galleryDeco from "@/assets/images/gallery/gallery-deco.png"
+import { SectionDecoImg } from "@/components/ui/deco"
+import sectionDeco from "@/assets/images/section-deco.png"
 import g1 from "@/assets/images/gallery/gallery1.png"
 import g2 from "@/assets/images/gallery/gallery2.png"
 import g3 from "@/assets/images/gallery/gallery3.png"
@@ -94,7 +95,7 @@ export default function GallerySection() {
       </Inner>
 
       {/* 하단 데코 이미지 */}
-      <DecoImg src={galleryDeco} alt="" aria-hidden="true" />
+      <DecoImg src={sectionDeco} alt="" aria-hidden="true" $animIn={animIn} />
 
       {/* 하단 티커 */}
       <SectionTicker
@@ -118,17 +119,9 @@ const GalleryShell = styled(FullSection)`
 `
 
 // ── 하단 데코 이미지 (티커 배경 연꽃 문양)
-const DecoImg = styled.img`
-  position: absolute;
+const DecoImg = styled(SectionDecoImg)`
   bottom: 0;
-  left: 50%;
   transform: translateX(-50%);
-  width: clamp(280px, 43.75vw, 420px);
-  height: auto;
-  pointer-events: none;
-  z-index: 4;
-  opacity: 0.6;
-  mix-blend-mode: soft-light;
 `
 
 // ── 배경 레이어

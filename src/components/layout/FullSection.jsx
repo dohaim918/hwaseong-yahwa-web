@@ -48,8 +48,7 @@ const Section = styled.section`
   justify-content: center;
   scroll-snap-align: start;
   flex-shrink: 0;
-  margin-left: calc(-1 * ${T.pagePad});
-  margin-right: calc(-1 * ${T.pagePad});
+  margin-inline: calc(-1 * ${T.pagePad});
 
   @media (max-width: ${T.bp.mobile}) {
     height: 100dvh;
