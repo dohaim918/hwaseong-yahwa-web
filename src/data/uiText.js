@@ -138,6 +138,10 @@ export const UI_TEXT = {
       gradStart: "2026 화성야화, ",
       gradEnd: "지금 예약하세요", // pink gradient
     },
+    h2Mini: {
+      gradStart: "화성야화, ",
+      gradEnd: "지금 예약하세요",
+    },
     desc: "인기 프로그램은 조기 마감됩니다 · 4야간 · 수원화성 일원",
     ctaPrimary: "프로그램 보기",
     ctaSecondary: "예약하기 →",
@@ -299,14 +303,15 @@ export const UI_TEXT = {
       행사안내: ["행사소개", "프로그램 일정", "참여 아티스트", "미디어자료"],
       "예약·문의": ["온라인 예약", "단체 예약", "자주 묻는 질문", "문의하기"],
       "관련 사이트": [
-        { label: "수원시 문화재단", external: true },
-        { label: "수원화성 공식", external: true },
-        { label: "문화재청", external: true },
-        { label: "수원시청", external: true },
+        { label: "수원시 문화재단", href: "https://www.swcf.or.kr/", external: true },
+        { label: "수원화성 공식", href: "https://www.swcf.or.kr/hwaseong", external: true },
+        { label: "문화재청", href: "https://www.cha.go.kr/", external: true },
+        { label: "수원시청", href: "https://www.suwon.go.kr/", external: true },
       ],
     },
 
     copyright: "© 2026 수원시 문화재단 HWASEONG NIGHT FIRE. All rights reserved.",
+    copyrightMini: "© 2026 수원시 문화재단 HWASEONG NIGHT FIRE.",
     legal: ["이용약관", "개인정보처리방침", "사업자정보"],
   },
 }

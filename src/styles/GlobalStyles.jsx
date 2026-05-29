@@ -128,6 +128,7 @@ const styles = css`
   button {
     appearance: none;
     text-align: inherit;
+    line-height: inherit;
   }
 
   textarea {
