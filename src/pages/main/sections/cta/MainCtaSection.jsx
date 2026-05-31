@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 import styled from "@emotion/styled"
-import { T, alpha, GRADIENT, sectionAccent, revealUp } from "@/styles/theme"
+import { T, alpha, GRADIENT, revealUp, glow } from "@/styles/theme"
 import { UI_TEXT } from "@/data/uiText"
 import { GradSpan, SectionDecoImg, EdgeFade } from "@/components/ui/Deco"
 import SectionHeader from "@/components/ui/SectionHeader"
@@ -9,8 +9,9 @@ import AnimatedBgImage from "@/components/ui/AnimatedBgImage"
 import { useSectionAccent } from "@/hooks/useSectionAccent"
 import { useResponsive } from "@/hooks/useResponsive"
 import Footer from "@/components/layout/Footer"
-import ctaBg from "@/assets/images/main-cta-bg.png"
-import sectionDeco from "@/assets/images/section-deco.png"
+import { ColumnSection } from "@/components/layout/FullSection"
+import ctaBg from "@/assets/images/main-cta-bg.webp"
+import sectionDeco from "@/assets/images/section-deco.webp"
 
 const t = UI_TEXT.mainCta
 
@@ -19,7 +20,7 @@ export default function MainCtaSection() {
   const { ref: secRef, animIn } = useSectionAccent(5)
 
   return (
-    <Sec ref={secRef}>
+    <ColumnSection ref={secRef} accent={T.pink}>
       {/* ── CTA 영역 (배경 + 콘텐츠) ── */}
       <CtaWrapper>
         <AnimatedBgImage src={ctaBg} opacity={0.75} animate={animIn} />
@@ -64,20 +65,9 @@ export default function MainCtaSection() {
         </CtaArea>
       </CtaWrapper>
       <Footer />
-    </Sec>
+    </ColumnSection>
   )
 }
-
-const Sec = styled.section`
-  position: relative;
-  overflow: clip;
-  height: 100dvh;
-  scroll-snap-align: start;
-  display: flex;
-  flex-direction: column;
-  flex-shrink: 0;
-  ${sectionAccent(T.pink)}
-`
 
 const CtaWrapper = styled.div`
   position: relative;
@@ -118,7 +108,7 @@ const GlowRose = styled(Glow)`
   top: 8%;
   width: clamp(180px, 22.7vw, 436px);
   height: clamp(200px, 25vw, 481px);
-  background: radial-gradient(ellipse at center, ${alpha(T.pink, 0.06)} 0%, transparent 65%);
+  background: ${glow(T.pink, { opacity: 0.06, stop: 65 })};
 `
 
 const GlowAmber = styled(Glow)`
@@ -126,7 +116,7 @@ const GlowAmber = styled(Glow)`
   top: 40%;
   width: clamp(180px, 24.5vw, 471px);
   height: clamp(200px, 27vw, 519px);
-  background: radial-gradient(ellipse at center, ${alpha(T.amber, 0.04)} 0%, transparent 65%);
+  background: ${glow(T.amber, { opacity: 0.04, stop: 65 })};
 `
 
 // transform에 scaleY(-1)이 있어 revealUp 대신 베이스의 opacity transition 사용

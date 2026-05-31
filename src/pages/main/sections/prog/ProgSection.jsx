@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import styled from "@emotion/styled"
-import { T, alpha, textGrad, sectionAccent, revealUp } from "@/styles/theme"
+import { T, textGrad, revealUp, glow } from "@/styles/theme"
 import { getCardData } from "@/data/nightData"
 import { UI_TEXT } from "@/data/uiText"
 import { PROGRAM_ASSETS } from "@/data/programAssets"
@@ -9,6 +9,7 @@ import SectionTicker from "@/components/ui/SectionTicker"
 import { GradSpan } from "@/components/ui/Deco"
 import { useResponsive } from "@/hooks/useResponsive"
 import { useSectionAccent } from "@/hooks/useSectionAccent"
+import { ColumnSection } from "@/components/layout/FullSection"
 import NightCard from "./NightCard"
 import ProgCarousel from "./ProgCarousel"
 
@@ -40,7 +41,7 @@ export default function ProgSection() {
   const titleGrad = activeCard?.style?.textGrad ?? DEFAULT_TITLE_GRAD
 
   return (
-    <Sec ref={secRef}>
+    <Sec ref={secRef} accent={T.pink}>
       <HdCards>
         <Hd>
           <SparkleImg src={PROGRAM_ASSETS.sparkle} alt="" $animIn={animIn} />
@@ -87,15 +88,10 @@ export default function ProgSection() {
   )
 }
 
-const Sec = styled.section`
-  position: relative;
+const Sec = styled(ColumnSection)`
+  /* ColumnSection 기본 overflow:clip → 상단 sparkle 세로 오버플로를 살리려 x축만 클립 */
+  overflow: visible;
   overflow-x: clip;
-  height: 100vh;
-  height: 100dvh;
-  scroll-snap-align: start;
-  display: flex;
-  flex-direction: column;
-  ${sectionAccent(T.pink)}
 
   &::after {
     content: "";
@@ -104,11 +100,7 @@ const Sec = styled.section`
     left: 0;
     right: 0;
     height: 60%;
-    background: radial-gradient(
-      ellipse 80% 30% at 50% 100%,
-      ${alpha(T.pink, 0.12)} 0%,
-      transparent 70%
-    );
+    background: ${glow(T.pink, { opacity: 0.12, shape: "ellipse 80% 30% at 50% 100%" })};
     pointer-events: none;
     z-index: 0;
   }
@@ -126,7 +118,7 @@ const Hd = styled.div`
     transform: translate(-50%, -50%);
     width: clamp(500px, 60vw, 900px);
     height: clamp(220px, 28vw, 420px);
-    background: radial-gradient(ellipse at center, ${alpha(T.pink, 0.12)} 0%, transparent 70%);
+    background: ${glow(T.pink, { opacity: 0.12 })};
     z-index: -1;
     pointer-events: none;
   }

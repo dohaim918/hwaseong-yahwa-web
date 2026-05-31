@@ -2,7 +2,7 @@ import { useRef } from "react"
 import { Link, useLocation } from "react-router-dom"
 import styled from "@emotion/styled"
 import { css } from "@emotion/react"
-import { T, alpha } from "@/styles/theme"
+import { T, alpha, pad2, focusRing, glass } from "@/styles/theme"
 import { UI_TEXT } from "@/data/uiText"
 import { CloseIcon, ArrowRightIcon } from "@/components/ui/icons"
 import Button from "@/components/ui/Button"
@@ -55,7 +55,7 @@ export default function MobileMenu({ isOpen, onClose, accent = T.pink, onMvpOpen
                 onClick={onClose}
                 tabIndex={isOpen ? 0 : -1}
               >
-                <Num>{String(i + 1).padStart(2, "0")}</Num>
+                <Num>{pad2(i + 1)}</Num>
                 <Divider />
                 <span>{item.label}</span>
               </Item>
@@ -68,7 +68,7 @@ export default function MobileMenu({ isOpen, onClose, accent = T.pink, onMvpOpen
                 onClick={handleMvpClick}
                 tabIndex={isOpen ? 0 : -1}
               >
-                <Num>{String(i + 1).padStart(2, "0")}</Num>
+                <Num>{pad2(i + 1)}</Num>
                 <Divider />
                 <span>{item.label}</span>
               </ActionItem>
@@ -142,8 +142,7 @@ const Inner = styled.div`
     /* 중앙 베이스 바이올렛 분위기 */
     radial-gradient(ellipse 55% 45% at 46% 44%, ${alpha(T.violet, 0.04)} 0%, transparent 70%),
     /* 기본 배경 */ ${alpha(T.bgBase, 0.97)};
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  ${glass("24px")}
   box-shadow:
     -40px 0 80px ${alpha(T.bgBase, 0.7)},
     -1px 0 0 ${alpha(T.main, 0.05)};
@@ -242,9 +241,8 @@ const ActionItem = styled.button`
 
   &:focus-visible {
     color: ${({ $accent }) => $accent};
-    outline: 1px solid ${({ $accent }) => $accent};
-    outline-offset: ${T.spacing[8]};
   }
+  ${({ $accent }) => focusRing($accent)}
 `
 
 const Num = styled.span`

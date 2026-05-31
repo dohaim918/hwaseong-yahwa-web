@@ -1,5 +1,5 @@
 import styled from "@emotion/styled"
-import { T, GRADIENT, sectionAccent } from "@/styles/theme"
+import { T, GRADIENT } from "@/styles/theme"
 import { UI_TEXT } from "@/data/uiText"
 import FullSection from "@/components/layout/FullSection"
 import SectionBar from "@/components/ui/SectionBar"
@@ -11,14 +11,14 @@ import { useSectionAccent } from "@/hooks/useSectionAccent"
 import GalleryStage from "./GalleryStage"
 
 import { EdgeFade, GradSpan, SectionDecoImg } from "@/components/ui/Deco"
-import sectionDeco from "@/assets/images/section-deco.png"
-import g1 from "@/assets/images/gallery/gallery1.png"
-import g2 from "@/assets/images/gallery/gallery2.png"
-import g3 from "@/assets/images/gallery/gallery3.png"
-import g4 from "@/assets/images/gallery/gallery4.png"
-import g5 from "@/assets/images/gallery/gallery5.png"
-import g6 from "@/assets/images/gallery/gallery6.png"
-import g7 from "@/assets/images/gallery/gallery7.png"
+import sectionDeco from "@/assets/images/section-deco.webp"
+import g1 from "@/assets/images/gallery/gallery1.webp"
+import g2 from "@/assets/images/gallery/gallery2.webp"
+import g3 from "@/assets/images/gallery/gallery3.webp"
+import g4 from "@/assets/images/gallery/gallery4.webp"
+import g5 from "@/assets/images/gallery/gallery5.webp"
+import g6 from "@/assets/images/gallery/gallery6.webp"
+import g7 from "@/assets/images/gallery/gallery7.webp"
 
 const GALLERY_IMAGES = [
   { src: g1, alt: "화성야화 — 성벽 야경" },
@@ -38,7 +38,7 @@ export default function GallerySection() {
   const { ref: secRef, inView, animIn } = useSectionAccent(4)
 
   return (
-    <GalleryShell ref={secRef}>
+    <GalleryShell ref={secRef} accent={T.violet}>
       {/* 배경 레이어 */}
       <BgGrad />
       <EdgeFade side="top" size="clamp(200px, 30vh, 320px)" opacity={0.85} z={1} />
@@ -93,7 +93,6 @@ export default function GallerySection() {
 }
 
 const GalleryShell = styled(FullSection)`
-  ${sectionAccent(T.violet)}
   flex-direction: column;
   justify-content: space-between;
   align-items: stretch;

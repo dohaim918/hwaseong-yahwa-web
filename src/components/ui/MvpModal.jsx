@@ -1,7 +1,7 @@
 import { createContext, useCallback, useContext, useId, useMemo, useRef, useState } from "react"
 import { createPortal } from "react-dom"
 import styled from "@emotion/styled"
-import { T, alpha, shimmerLine } from "@/styles/theme"
+import { T, alpha, shimmerLine, focusRing, glass } from "@/styles/theme"
 import { Shimmer } from "@/components/ui/Deco"
 import { CloseIcon, FlowerIcon } from "@/components/ui/icons"
 import { useFocusLock } from "@/hooks/useFocusLock"
@@ -124,8 +124,7 @@ const Overlay = styled.div`
   place-items: center;
   padding: ${T.spacing[24]};
   background: ${alpha(T.bgBase, 0.72)};
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  ${glass("10px")}
 `
 
 const Panel = styled.div`
@@ -173,10 +172,7 @@ const CloseBtn = styled.button`
     color: ${T.main};
   }
 
-  &:focus-visible {
-    outline: 1px solid currentColor;
-    outline-offset: 3px;
-  }
+  ${focusRing("currentColor", T.radius.full)}
 `
 
 const Mark = styled.div`

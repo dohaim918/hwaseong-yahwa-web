@@ -1,5 +1,5 @@
 import styled from "@emotion/styled"
-import { T, alpha } from "@/styles/theme"
+import { T, alpha, focusRing, revealUp } from "@/styles/theme"
 import { FlowerIcon } from "@/components/ui/icons"
 import { useMvpModal } from "@/components/ui/MvpModal"
 
@@ -68,10 +68,7 @@ const Bar = styled.div`
   padding: ${T.spacing[12]};
   border-top: 1px solid ${({ $color }) => alpha($color, 0.27)};
   border-bottom: 1px solid ${alpha(T.white, 0.05)};
-  ${({ $visible }) =>
-    $visible
-      ? `animation: fadeUp 0.5s ease 0.05s both;`
-      : `opacity: 0; transform: translateY(26px);`}
+  ${({ $visible }) => revealUp($visible, 0.05)}
 
   @media (max-width: ${T.bp.mini}) {
     margin-top: ${T.navHeightMini};
@@ -160,8 +157,5 @@ const LinkButton = styled.button`
     transform: translateX(3px);
   }
 
-  &:focus-visible {
-    outline: 1px solid ${({ $color }) => $color};
-    outline-offset: ${T.spacing[4]};
-  }
+  ${({ $color }) => focusRing($color)}
 `

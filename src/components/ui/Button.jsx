@@ -10,7 +10,7 @@
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 import styled from "@emotion/styled"
-import { T, alpha } from "@/styles/theme"
+import { T, alpha, focusRing } from "@/styles/theme"
 
 export default function Button({
   as,
@@ -174,10 +174,7 @@ const StyledBtn = styled("button", {
     opacity: 0.4;
   }
 
-  &:focus-visible {
-    outline: 2px solid ${({ $accent }) => alpha($accent, 0.7)};
-    outline-offset: 4px;
-  }
+  ${({ $accent, $radius, $size }) => focusRing(alpha($accent, 0.7), $radius ?? SIZE[$size].radius)}
 
   @media (max-width: ${T.bp.mobile}) {
     height: ${({ $size }) => r($size, "mobile", "height")};

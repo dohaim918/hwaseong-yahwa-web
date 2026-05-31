@@ -1,5 +1,5 @@
 import styled from "@emotion/styled"
-import { T, alpha } from "@/styles/theme"
+import { T, alpha, vDivider } from "@/styles/theme"
 import {
   BusIcon,
   CarIcon,
@@ -51,16 +51,7 @@ const InfoItem = styled.div`
   padding: ${T.spacing[4]};
   border-radius: ${T.radius.md};
 
-  &:not(:last-of-type)::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    right: 0;
-    width: 1px;
-    height: 90px;
-    background: ${alpha(T.amber, 0.1)};
-    transform: translateY(-50%);
-  }
+  ${vDivider(T.amber)}
 
   @media (max-width: ${T.bp.tablet}) {
     gap: ${T.spacing[8]};
@@ -114,16 +105,7 @@ const AccessItem = styled.li`
   gap: ${T.spacing[12]};
   flex: 1;
 
-  &:not(:last-of-type)::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    right: calc(-1 * ${T.spacing[4]});
-    width: 1px;
-    height: 52px;
-    background: ${alpha(T.amber, 0.2)};
-    transform: translateY(-50%);
-  }
+  ${vDivider(T.amber, { height: "52px", opacity: 0.2, right: `calc(-1 * ${T.spacing[4]})` })}
 
   svg {
     opacity: 0.9;

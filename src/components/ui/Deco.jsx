@@ -9,7 +9,7 @@ export const GradSpan = styled.span`
   ${({ $g }) => $g}
 `
 
-// section-deco.png 공용 베이스.
+// section-deco 공용 베이스.
 export const SectionDecoImg = styled.img`
   position: absolute;
   left: 50%;
@@ -38,27 +38,28 @@ export const GradLine = styled.div`
 `
 
 // 라벨 텍스트 양옆에 짧은 GradLine을 붙이는 행.
-export function AccentLabelRow({
+export function LabelRow({
   children,
   color,
   lineWidth = "28px",
   gap = T.spacing[12],
   hideMini = false,
+  justify = "center",
   ...props
 }) {
   return (
-    <LabelRow $gap={gap} {...props}>
+    <LabelRowWrap $gap={gap} $justify={justify} {...props}>
       <GradLine $color={color} $dir="left" $width={lineWidth} $hideMini={hideMini} />
       {children}
       <GradLine $color={color} $dir="right" $width={lineWidth} $hideMini={hideMini} />
-    </LabelRow>
+    </LabelRowWrap>
   )
 }
 
-const LabelRow = styled.div`
+const LabelRowWrap = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: ${({ $justify = "center" }) => $justify};
   gap: ${({ $gap }) => $gap};
   width: 100%;
 `
@@ -86,12 +87,7 @@ export const Ring = styled.div`
   border: 1px solid;
   pointer-events: none;
   z-index: 2;
-  transition:
-    opacity ${T.transition.mid},
-    width ${T.transition.mid},
-    height ${T.transition.mid},
-    top ${T.transition.mid},
-    left ${T.transition.mid};
+  transition: opacity ${T.transition.mid};
   opacity: ${({ $active }) => ($active ? 1 : 0)};
   border-color: ${({ $color, $outer }) => alpha($color, $outer ? 0.28 : 0.2)};
 

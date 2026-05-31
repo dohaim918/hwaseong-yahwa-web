@@ -4,12 +4,12 @@ import { T, alpha, GRADIENT, NIGHT_STYLE, fadeUp } from "@/styles/theme"
 import { UI_TEXT } from "@/data/uiText"
 import FullSection from "@/components/layout/FullSection"
 import { ArrowRightIcon, StarIcon } from "@/components/ui/icons"
-import { AccentLabelRow, GradLine } from "@/components/ui/Deco"
+import { LabelRow, GradLine } from "@/components/ui/Deco"
 import Button from "@/components/ui/Button"
 import AnimatedBgImage from "@/components/ui/AnimatedBgImage"
 import ParticleCanvas from "@/components/ui/ParticleCanvas"
 import { useSectionAccent } from "@/hooks/useSectionAccent"
-import heroBg from "@/assets/images/hero-bg.png"
+import heroBg from "@/assets/images/hero-bg.webp"
 
 const t = UI_TEXT.hero
 
@@ -156,7 +156,7 @@ const Hanja = styled.div`
   }
 `
 
-const HeroLabelRow = styled(AccentLabelRow)`
+const HeroLabelRow = styled(LabelRow)`
   ${fadeUp(0.05)}
 `
 

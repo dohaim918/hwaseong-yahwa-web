@@ -5,6 +5,9 @@
 //  grad = gradient
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+// 프리셋(GRADIENT·HERO_GRAD·NIGHT_STYLE) 빌드에 내부적으로 사용
+import { textGrad, textGradStops } from "@/styles/mixins"
+
 export const T = {
   // ── 배경
   bgBase: "#050410", // 전체 배경
@@ -38,8 +41,8 @@ export const T = {
   muted: "#3a304a", // 비활성 / 힌트
 
   // ── 폰트
-  fontSans: "'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif",
-  fontSerif: "'Noto Serif KR', serif",
+  fontSans: "'Noto Sans KR Variable', 'Apple SD Gothic Neo', sans-serif",
+  fontSerif: "'Noto Serif KR Variable', serif",
   fontMono: "monospace", // 티켓 번호, step 레이블
 
   // ── 레이아웃
@@ -128,54 +131,32 @@ export const alpha = (hex, opacity) => {
   return `rgba(${r}, ${g}, ${b}, ${opacity})`
 }
 
-// ── 텍스트 그라디언트 헬퍼
-// 2색 전용 — 사용: ${textGrad(T.emerald, T.amber)}
-export const textGrad = (from, to, deg = 135) => `
-  background: linear-gradient(${deg}deg, ${from}, ${to});
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-`
-// 다중 컬러스톱 전용 (HERO_GRAD, whitePinkAmber 등)
-export const textGradStops = (stops, deg = 135) => `
-  background: linear-gradient(${deg}deg, ${stops.join(", ")});
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-`
+// ── 숫자 2자리 제로패딩 헬퍼 — 사용: pad2(3) → "03"
+export const pad2 = (n) => String(n).padStart(2, "0")
 
-// ── fadeUp 애니메이션 헬퍼 — 사용: ${fadeUp(0.3)} (delay 단위: 초)
-export const fadeUp = (delay = 0) =>
-  `animation: fadeUp 0.75s cubic-bezier(.22,.68,0,1.2) ${delay}s both;`
-
-// ── 스크롤 다운 방향 등장 전용 헬퍼
-//    inView=false → 숨김 상태 (fadeUp from 과 동일 위치, 즉시)
-//    inView=true  → fadeUp 애니메이션 재생
-//    사용: ${({ $in }) => revealUp($in, 0.3)}
-export const revealUp = (inView, delay = 0) =>
-  inView
-    ? `animation: fadeUp 0.75s cubic-bezier(.22,.68,0,1.2) ${delay}s both;`
-    : `opacity: 0; transform: translateY(26px);`
+// ── CSS 조각 믹스인은 styles/mixins.js 로 분리 — 기존 import 호환을 위해 re-export
+//    (textGrad/textGradStops 는 아래 프리셋에서 내부적으로도 사용 → 별도 import)
+export {
+  glass,
+  focusRing,
+  sectionAccent,
+  vDivider,
+  glow,
+  textGrad,
+  textGradStops,
+  fadeUp,
+  revealUp,
+} from "@/styles/mixins"
 
 // ── 섹션 상단 accent 라인 헬퍼 (중앙에서 양쪽으로 퍼지는 그라디언트 라인)
-export const accentLine = (color) =>
-  `linear-gradient(90deg, transparent, ${alpha(color, 0.53)}, transparent)`
+// peak = 가운데 진하기(0~1), deg = 각도(90 가로 / 180 세로), edge = 양끝 진하기(0~1, 0이면 투명)
+export const accentLine = (color, { peak = 0.53, deg = 90, edge = 0 } = {}) =>
+  `linear-gradient(${deg}deg, ${alpha(color, edge)}, ${alpha(color, peak)}, ${alpha(color, edge)})`
 
 // 카드·모달 보더 상단/하단 포인트 라인 (중앙 white 피크 shimmer)
 export const shimmerLine = (color) =>
   `linear-gradient(90deg, transparent 0%, ${color} 30%, ${T.white} 50%, ${color} 70%, transparent 100%)`
 
-// 섹션 상단 accent 라인 — ::before로 주입 / 사용: ${sectionAccent(T.pink)}
-export const sectionAccent = (color) => `
-  &::before {
-    content: "";
-    position: absolute;
-    inset: 0 0 auto;
-    height: 2px;
-    background: ${accentLine(color)};
-    z-index: 11;
-  }
-`
 
 // ── 텍스트 그라디언트 프리셋 — 사용: ${GRADIENT.xxx}
 export const GRADIENT = {

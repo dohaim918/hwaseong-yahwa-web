@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 import styled from "@emotion/styled"
-import { T, alpha, GRADIENT, sectionAccent, revealUp } from "@/styles/theme"
+import { T, alpha, GRADIENT, revealUp, glass } from "@/styles/theme"
 import { UI_TEXT } from "@/data/uiText"
 import SectionHeader from "@/components/ui/SectionHeader"
 import FullSection from "@/components/layout/FullSection"
@@ -10,7 +10,7 @@ import { EdgeFade, GradSpan } from "@/components/ui/Deco"
 import { useCounter } from "@/hooks/useCounter"
 import { useMvpModal } from "@/components/ui/MvpModal"
 import { useSectionAccent } from "@/hooks/useSectionAccent"
-import aboutBg from "@/assets/images/about/about-bg.png"
+import aboutBg from "@/assets/images/about/about-bg.webp"
 
 const t = UI_TEXT.about
 
@@ -35,7 +35,7 @@ export default function AboutSection() {
   const { ref: secRef, animIn } = useSectionAccent(3)
 
   return (
-    <AbShell ref={secRef}>
+    <AbShell ref={secRef} accent={T.emerald}>
       <AnimatedBgImage src={aboutBg} opacity={0.5} animate={animIn} />
       <EdgeFade side="top" size="clamp(200px, 40vh, 372px)" opacity={1} z={3} />
 
@@ -77,7 +77,6 @@ export default function AboutSection() {
 
 // ── 섹션 셸 ───────────────────────────────────────────
 const AbShell = styled(FullSection)`
-  ${sectionAccent(T.emerald)}
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -110,8 +109,7 @@ const StatsBox = styled.dl`
   border-radius: ${T.radius.card};
   overflow: hidden;
   background: ${alpha(T.muted, 0.1)};
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  ${glass("6px")}
   ${({ $animIn }) => revealUp($animIn, 0.45)}
 
   @media (max-width: ${T.bp.mobile}) {
