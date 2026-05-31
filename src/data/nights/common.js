@@ -3,7 +3,7 @@
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 export const BANNER_COMMON = {
-  footerText: "네 개의 밤이 모여 하나의 이야기가 완성 됩니다.",
+  footerText: "네 개의 밤이 모여\n하나의 이야기가 완성됩니다.",
 }
 
 export const MODAL_COMMON = {

@@ -1,5 +1,5 @@
 import styled from "@emotion/styled"
-import { T, alpha } from "@/styles/theme"
+import { T, alpha, focusRing } from "@/styles/theme"
 
 export default function ProgTabs({ cards, activeIdx, onChange }) {
   return (
@@ -43,10 +43,7 @@ const TabBtn = styled.button`
   color: ${({ $active, $color }) => ($active ? $color : T.sub)};
   border-color: ${({ $active, $color }) => ($active ? alpha($color, 0.5) : alpha(T.sub, 0.3))};
 
-  &:focus-visible {
-    outline: 2px solid ${({ $color }) => alpha($color, 0.7)};
-    outline-offset: 4px;
-  }
+  ${({ $color }) => focusRing(alpha($color, 0.7))}
 
   @media (max-width: ${T.bp.mobile}) {
     font-size: ${T.fontSize.xs};

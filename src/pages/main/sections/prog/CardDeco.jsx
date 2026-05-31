@@ -54,9 +54,6 @@ const Sym = styled.div`
     height: clamp(120px, calc(12.5vw + 60px), 220px);
     object-fit: contain;
     mix-blend-mode: plus-lighter;
-    transition:
-      width ${T.transition.mid},
-      height ${T.transition.mid};
   }
 `
 

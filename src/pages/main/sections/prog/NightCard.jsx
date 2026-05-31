@@ -1,5 +1,5 @@
 import styled from "@emotion/styled"
-import { T, alpha, revealUp } from "@/styles/theme"
+import { T, alpha, revealUp, focusRing } from "@/styles/theme"
 import { PROGRAM_ASSETS } from "@/data/programAssets"
 import { StarIcon } from "@/components/ui/icons"
 import CardDeco from "./CardDeco"
@@ -108,11 +108,7 @@ const CardOuter = styled.div`
   mask-image: ${({ $maskSide }) => getMaskGrad($maskSide)};
   -webkit-mask-image: ${({ $maskSide }) => getMaskGrad($maskSide)};
 
-  &:focus-visible {
-    outline: 2px solid ${T.pink};
-    outline-offset: 4px;
-    border-radius: ${T.radius.card};
-  }
+  ${focusRing(T.pink, T.radius.card)}
 `
 
 const Glow = styled.div`

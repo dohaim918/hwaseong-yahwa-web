@@ -10,7 +10,7 @@
 
 import styled from "@emotion/styled"
 import { T, revealUp } from "@/styles/theme"
-import { GradLine } from "@/components/ui/Deco"
+import { LabelRow } from "@/components/ui/Deco"
 
 export default function SectionHeader({
   label,
@@ -34,10 +34,14 @@ export default function SectionHeader({
   return (
     <Wrap $center={center} $gap={gap} $pb={pb} $animIn={animIn} $animDelay={animDelay} {...props}>
       {label && (
-        <LabelRow $hideMini={hideLabelMini}>
-          <GradLine $color={labelColor} $dir="left" $width="32px" />
+        <LabelRow
+          color={labelColor}
+          lineWidth="32px"
+          gap={T.spacing[8]}
+          hideMini={hideLabelMini}
+          justify={center ? "center" : "flex-start"}
+        >
           <LabelText $color={labelColor}>{label}</LabelText>
-          <GradLine $color={labelColor} $dir="right" $width="32px" />
         </LabelRow>
       )}
 
@@ -75,16 +79,6 @@ const Wrap = styled.div`
   }
   @media (max-width: ${T.bp.mini}) {
     padding-bottom: ${({ $pb }) => $pb ?? T.spacing[24]};
-  }
-`
-
-const LabelRow = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${T.spacing[8]};
-
-  @media (max-width: ${T.bp.mini}) {
-    display: ${({ $hideMini }) => ($hideMini ? "none" : "flex")};
   }
 `
 

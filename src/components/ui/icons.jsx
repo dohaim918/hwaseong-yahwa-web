@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //  SVG 아이콘 모음
 //
@@ -51,10 +52,14 @@ export function StarIcon({ size = 14, color = "currentColor", opacity = 1, ...re
   )
 }
 
+// ── 꽃(야화 모티프) 공용 geometry — FlowerIcon · CustomCursor 단일 소스 ──
+//    좌표계 기준 viewBox: "-8 -8 16 16" (꽃잎 끝 ≈ 7.5). 커서는 동일 path를
+//    더 넉넉한 viewBox로 감싸 시각 크기만 조절한다.
+export const FLOWER_ANGLES = [0, 72, 144, 216, 288]
+export const FLOWER_PETAL_PATH = "M 0,0 C -2.5,-1.5 -2.8,-5.5 0,-7.5 C 2.8,-5.5 2.5,-1.5 0,0"
+
 export function FlowerIcon({ size = 14, color = "currentColor", ...rest }) {
   const id = useId()
-  const petalPath = "M 0,0 C -2.5,-1.5 -2.8,-5.5 0,-7.5 C 2.8,-5.5 2.5,-1.5 0,0"
-  const angles = [0, 72, 144, 216, 288]
   const filterId = `flower-${id.replace(/:/g, "")}`
 
   return (
@@ -68,10 +73,10 @@ export function FlowerIcon({ size = 14, color = "currentColor", ...rest }) {
           </feMerge>
         </filter>
       </defs>
-      {angles.map((a, i) => (
+      {FLOWER_ANGLES.map((a, i) => (
         <path
           key={a}
-          d={petalPath}
+          d={FLOWER_PETAL_PATH}
           fill={color}
           opacity={i % 2 === 0 ? 0.65 : 0.85}
           transform={`rotate(${a})`}
@@ -160,20 +165,20 @@ export function CarIcon({ size = 32, color = "currentColor", ...rest }) {
 //  3. 방향 · 인터랙션 아이콘
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-export function ArrowRightIcon({ size = 18, color = "currentColor", ...rest }) {
+export function ArrowRightIcon({ size = 18, color = "currentColor", strokeWidth = 1.6, ...rest }) {
   return (
     <Svg size={size} viewBox="0 0 18 18" {...rest}>
       <path
         d="M3.5 9H13.2"
         stroke={color}
-        strokeWidth="1.6"
+        strokeWidth={strokeWidth}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M9.7 5.2L13.5 9L9.7 12.8"
         stroke={color}
-        strokeWidth="1.6"
+        strokeWidth={strokeWidth}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -181,13 +186,19 @@ export function ArrowRightIcon({ size = 18, color = "currentColor", ...rest }) {
   )
 }
 
-export function ChevronIcon({ size = 24, color = "currentColor", dir = "right", ...rest }) {
+export function ChevronIcon({
+  size = 24,
+  color = "currentColor",
+  dir = "right",
+  strokeWidth = 1.8,
+  ...rest
+}) {
   return (
     <Svg size={size} viewBox="0 0 24 24" {...rest}>
       <path
         d={dir === "left" ? "M15 5l-7 7 7 7" : "M9 5l7 7-7 7"}
         stroke={color}
-        strokeWidth="1.8"
+        strokeWidth={strokeWidth}
         strokeLinecap="round"
         strokeLinejoin="round"
       />

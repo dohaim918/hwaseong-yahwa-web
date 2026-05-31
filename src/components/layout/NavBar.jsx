@@ -7,12 +7,12 @@ import { useState } from "react"
 import { Link, NavLink } from "react-router-dom"
 import styled from "@emotion/styled"
 import { css } from "@emotion/react"
-import { T, alpha } from "@/styles/theme"
+import { T, alpha, glass, accentLine } from "@/styles/theme"
 import { UI_TEXT } from "@/data/uiText"
 import MobileMenu from "@/components/layout/MobileMenu"
 import Button from "@/components/ui/Button"
 import { useMvpModal } from "@/components/ui/MvpModal"
-import logoImage from "@/assets/images/logo/hwaseong-yahwa-logo.png"
+import logoImage from "@/assets/images/logo/hwaseong-yahwa-logo.webp"
 
 export default function NavBar({ accent = T.pink }) {
   const [isOpen, setIsOpen] = useState(false)
@@ -88,8 +88,7 @@ const Nav = styled.nav`
   align-items: center;
   justify-content: space-between;
   background: ${alpha(T.bgBase, 0.45)};
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  ${glass("18px")}
 `
 
 const Logo = styled(Link)`
@@ -166,8 +165,7 @@ const NavItem = styled(NavLink, {
     color: ${({ $accent }) => $accent};
 
     &::after {
-      background: ${({ $accent }) =>
-        `linear-gradient(90deg, transparent, ${$accent}, transparent)`};
+      background: ${({ $accent }) => accentLine($accent, { peak: 1, edge: 0.1 })};
     }
   }
 `
@@ -180,8 +178,7 @@ const NavAction = styled.button`
     outline: none;
 
     &::after {
-      background: ${({ $accent }) =>
-        `linear-gradient(90deg, transparent, ${$accent}, transparent)`};
+      background: ${({ $accent }) => accentLine($accent, { peak: 1, edge: 0.1 })};
     }
   }
 `

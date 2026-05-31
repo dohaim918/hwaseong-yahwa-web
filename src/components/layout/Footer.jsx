@@ -1,5 +1,5 @@
 import styled from "@emotion/styled"
-import { T, alpha, accentLine } from "@/styles/theme"
+import { T, alpha, accentLine, focusRing } from "@/styles/theme"
 import { UI_TEXT } from "@/data/uiText"
 import {
   FacebookIcon,
@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/icons"
 import { useMvpModal } from "@/components/ui/MvpModal"
 import { useResponsive } from "@/hooks/useResponsive"
-import logoImg from "@/assets/images/logo/hwaseong-yahwa-logo.png"
+import logoImg from "@/assets/images/logo/hwaseong-yahwa-logo.webp"
 
 const tf = UI_TEXT.footer
 
@@ -316,10 +316,7 @@ const SnsBtn = styled.button`
     color: ${T.pink};
   }
 
-  &:focus-visible {
-    outline: 1px solid ${alpha(T.pink, 0.7)};
-    outline-offset: 2px;
-  }
+  ${focusRing(alpha(T.pink, 0.7), T.radius.sm)}
 
   svg {
     width: var(--sns-icon);
@@ -404,11 +401,7 @@ const FLink = styled.span`
     color: ${({ $disabled }) => ($disabled ? T.sub : T.main)};
   }
 
-  &:focus-visible {
-    outline: 1px solid ${alpha(T.pink, 0.7)};
-    outline-offset: 2px;
-    border-radius: 2px;
-  }
+  ${focusRing(alpha(T.pink, 0.7))}
 
   @media (max-width: ${T.bp.tablet}) {
     font-size: ${T.fontSize.xxs};

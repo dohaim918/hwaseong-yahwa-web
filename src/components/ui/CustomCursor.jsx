@@ -13,9 +13,11 @@
 import { useEffect, useRef } from "react"
 import { T } from "@/styles/theme"
 import { useFinePointer, useReducedMotion } from "@/hooks/useResponsive"
+import { FLOWER_PETAL_PATH, FLOWER_ANGLES } from "@/components/ui/icons"
 
-const PETAL = "M 0,0 C -4,-2.5 -4.5,-9 0,-13 C 4.5,-9 4,-2.5 0,0"
-const ANGLES = [0, 72, 144, 216, 288]
+// 꽃잎 모양은 FlowerIcon 과 동일 소스(FLOWER_PETAL_PATH)를 공유.
+// 커서는 더 넉넉한 viewBox(-10~10)로 감싸 시각 크기를 키우고,
+// glow·회전·스케일은 커서 전용으로 유지한다.
 const HOVER_SEL = "button, a, [role='button'], [data-cursor-hover]"
 const OUT = -200 // 화면 밖 sentinel — 첫 진입·재진입 시 cx<0 가드로 즉시 점프
 
@@ -99,7 +101,7 @@ export default function CustomCursor({ accent = T.pink }) {
       <svg
         width="36"
         height="36"
-        viewBox="-18 -18 36 36"
+        viewBox="-10 -10 20 20"
         aria-hidden="true"
         focusable="false"
         style={SVG_STYLE}
@@ -113,10 +115,10 @@ export default function CustomCursor({ accent = T.pink }) {
             </feMerge>
           </filter>
         </defs>
-        {ANGLES.map((a) => (
+        {FLOWER_ANGLES.map((a) => (
           <path
             key={a}
-            d={PETAL}
+            d={FLOWER_PETAL_PATH}
             fill={accent}
             opacity={0.75}
             filter="url(#cg)"
@@ -124,7 +126,7 @@ export default function CustomCursor({ accent = T.pink }) {
             style={FILL_TRANS}
           />
         ))}
-        <circle r="2.5" fill={accent} filter="url(#cg)" style={FILL_TRANS} />
+        <circle r="1.6" fill={accent} filter="url(#cg)" style={FILL_TRANS} />
       </svg>
     </div>
   )

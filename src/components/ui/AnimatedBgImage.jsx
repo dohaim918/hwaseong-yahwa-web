@@ -2,8 +2,24 @@ import styled from "@emotion/styled"
 import { T } from "@/styles/theme"
 
 // 스크롤 진입 시 서서히 드러나는 풀섹션 배경 이미지
-export default function AnimatedBgImage({ src, opacity = 1, animate = true, alt = "", ...props }) {
-  return <BgImg src={src} alt={alt} $opacity={opacity} $animate={animate} {...props} />
+export default function AnimatedBgImage({
+  src,
+  opacity = 1,
+  mobileOpacity,
+  animate = true,
+  alt = "",
+  ...props
+}) {
+  return (
+    <BgImg
+      src={src}
+      alt={alt}
+      $opacity={opacity}
+      $mobileOpacity={mobileOpacity}
+      $animate={animate}
+      {...props}
+    />
+  )
 }
 
 const BgImg = styled.img`
@@ -19,4 +35,9 @@ const BgImg = styled.img`
   transition:
     opacity ${T.transition.bgReveal},
     transform ${T.transition.bgReveal};
+
+  @media (max-width: ${T.bp.mobile}) {
+    opacity: ${({ $animate, $mobileOpacity, $opacity = 1 }) =>
+      $animate ? ($mobileOpacity ?? $opacity) : 0};
+  }
 `

@@ -9,20 +9,17 @@
 //  필요할 수 있으므로 OutletContext에 유지해 둔다.
 
 import { useState, useRef, Suspense } from "react"
-import { Outlet, useLocation } from "react-router-dom"
+import { Outlet } from "react-router-dom"
 import styled from "@emotion/styled"
 import NavBar from "@/components/layout/NavBar"
-import Footer from "@/components/layout/Footer"
 import CustomCursor from "@/components/ui/CustomCursor"
 import RouteLoader from "@/components/ui/RouteLoader"
 import { MvpModalProvider } from "@/components/ui/MvpModal"
-import { T } from "@/styles/theme"
+import { T, focusRing } from "@/styles/theme"
 
 export default function Layout() {
   const [accent, setAccent] = useState(T.pink)
   const mainRef = useRef(null)
-  const { pathname } = useLocation()
-  const isMainPage = pathname === "/"
 
   return (
     <MvpModalProvider>
@@ -34,7 +31,6 @@ export default function Layout() {
         <Suspense fallback={<RouteLoader />}>
           <Outlet context={{ setAccent, mainRef }} />
         </Suspense>
-        {!isMainPage && <Footer />}
       </Main>
     </MvpModalProvider>
   )
@@ -74,9 +70,8 @@ const SkipLink = styled.a`
 
   &:focus-visible {
     transform: translateY(0);
-    outline: 2px solid ${T.pink};
-    outline-offset: 2px;
   }
+  ${focusRing(T.pink)}
 `
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

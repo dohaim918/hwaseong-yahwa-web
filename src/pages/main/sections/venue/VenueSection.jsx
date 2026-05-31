@@ -1,15 +1,15 @@
 import styled from "@emotion/styled"
-import { T, alpha, GRADIENT, sectionAccent, revealUp } from "@/styles/theme"
+import { T, alpha, GRADIENT, revealUp, glass } from "@/styles/theme"
 import { UI_TEXT } from "@/data/uiText"
 import SectionHeader from "@/components/ui/SectionHeader"
 import FullSection from "@/components/layout/FullSection"
 import SectionBar from "@/components/ui/SectionBar"
 import AnimatedBgImage from "@/components/ui/AnimatedBgImage"
 import { VenueAccessItem, VenueInfoItem } from "@/pages/main/sections/venue/VenueItems"
-import { GradSpan } from "@/components/ui/Deco"
+import { GradSpan, GradLine } from "@/components/ui/Deco"
 import { useResponsive } from "@/hooks/useResponsive"
 import { useSectionAccent } from "@/hooks/useSectionAccent"
-import venueBg from "@/assets/images/venue/venue-bg.png"
+import venueBg from "@/assets/images/venue/venue-bg.webp"
 
 const t = UI_TEXT.venue
 
@@ -18,7 +18,7 @@ export default function VenueSection() {
   const { ref: secRef, animIn } = useSectionAccent(2)
 
   return (
-    <VenueShell ref={secRef}>
+    <VenueShell ref={secRef} accent={T.amber}>
       <AnimatedBgImage src={venueBg} opacity={0.8} animate={animIn} />
       <BgOverlay />
 
@@ -62,7 +62,7 @@ export default function VenueSection() {
           <AccessWrap $animIn={animIn}>
             <AccessHead>
               <AccessTitle>{t.access.title}</AccessTitle>
-              <AccessLine />
+              <GradLine $color={alpha(T.amber, 0.4)} $dir="right" />
             </AccessHead>
             <AccessList>
               {t.access.items.map((item) => (
@@ -78,7 +78,6 @@ export default function VenueSection() {
 
 // ── 섹션 셸 (FullSection 확장) ─────────────────────────
 const VenueShell = styled(FullSection)`
-  ${sectionAccent(T.amber)}
   flex-direction: column;
   justify-content: flex-start;
   align-items: stretch;
@@ -150,8 +149,7 @@ const InfoBox = styled.dl`
   border: 1px solid ${alpha(T.amber, 0.2)};
   border-radius: ${T.radius.sm};
   background: ${alpha(T.bgDark, 0.4)};
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  ${glass("8px")}
   ${({ $animIn }) => revealUp($animIn, 0.45)}
 
   @media (max-width: ${T.bp.mini}) {
@@ -197,18 +195,6 @@ const AccessTitle = styled.span`
     font-size: ${T.fontSize.xs};
     letter-spacing: 1.5px;
   }
-`
-
-const AccessLine = styled.span`
-  display: block;
-  flex: 1;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    ${alpha(T.amber, 0.4)} 0%,
-    ${alpha(T.amber, 0.21)} 50%,
-    transparent 100%
-  );
 `
 
 const AccessList = styled.ul`

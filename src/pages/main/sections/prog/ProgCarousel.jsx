@@ -1,5 +1,6 @@
 import { useLayoutEffect, useRef, useState } from "react"
 import styled from "@emotion/styled"
+import { focusRing } from "@/styles/theme"
 import NightCard from "./NightCard"
 import ProgTabs from "./ProgTabs"
 
@@ -120,8 +121,5 @@ const CarouselItem = styled.button`
   height: 100%;
   cursor: ${({ $isActive }) => ($isActive ? "default" : "pointer")};
 
-  &:focus-visible {
-    outline: 2px solid currentColor;
-    outline-offset: -4px;
-  }
+  ${focusRing("currentColor")}
 `
