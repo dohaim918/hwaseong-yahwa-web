@@ -1,6 +1,6 @@
 import styled from "@emotion/styled"
 import { T, alpha } from "@/styles/theme"
-import { Shimmer, Ring } from "@/components/ui/deco"
+import { Shimmer, Ring } from "@/components/ui/Deco"
 
 export default function CardDeco({ imgs, style, color, active, hasHover }) {
   return (

@@ -1,16 +1,41 @@
-# React + Vite
+# Hwaseong Yahwa Web
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+화성 야화 웹사이트 프론트엔드입니다.
 
-Currently, two official plugins are available:
+React, Vite, Emotion 기반으로 구성되어 있으며 메인 랜딩, 행사 프로그램, 관람 안내, 갤러리, 예약 흐름을 단계적으로 확장하는 구조입니다.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Scripts
 
-## React Compiler
+```bash
+npm run dev      # 개발 서버 실행
+npm run build    # 배포용 빌드 생성
+npm run lint     # 코드 검사
+npm run format   # 코드 포맷 적용
+npm run preview  # 빌드 결과 미리보기
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Stack
 
-## Expanding the ESLint configuration
+- React 19
+- Vite
+- React Router
+- Emotion
+- Fontsource variable Korean fonts
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Project Structure
+
+```text
+src/
+  assets/       이미지와 정적 에셋
+  components/   공통 UI와 레이아웃 컴포넌트
+  data/         화면 문구와 프로그램 데이터
+  hooks/        재사용 훅
+  pages/        라우트 단위 페이지
+  styles/       전역 스타일과 테마 토큰
+```
+
+## Development Notes
+
+- 전역 스타일은 `src/styles/GlobalStyles.jsx`와 `src/styles/theme.js`에서 관리합니다.
+- 아직 구현 전인 흐름은 MVP 모달로 안내할 수 있습니다.
+- `references/`, `troubleshooting/` 폴더는 개발 참고 자료로 사용합니다.

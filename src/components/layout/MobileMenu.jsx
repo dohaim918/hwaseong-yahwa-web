@@ -1,33 +1,26 @@
-import { useEffect, useRef } from "react"
+import { useRef } from "react"
 import { Link, useLocation } from "react-router-dom"
 import styled from "@emotion/styled"
-import { css, keyframes } from "@emotion/react"
+import { css } from "@emotion/react"
 import { T, alpha } from "@/styles/theme"
 import { UI_TEXT } from "@/data/uiText"
 import { CloseIcon, ArrowRightIcon } from "@/components/ui/icons"
 import Button from "@/components/ui/Button"
-import { useFocusTrap } from "@/hooks/useFocusTrap"
+import { useFocusLock } from "@/hooks/useFocusLock"
 
-const slideIn = keyframes`
-  from { transform: translateX(100%); opacity: 0; }
-  to   { transform: translateX(0);    opacity: 1; }
-`
+const MENU_CLOSE_DELAY = "0.42s"
 
 export default function MobileMenu({ isOpen, onClose, accent = T.pink, onMvpOpen }) {
   const { pathname } = useLocation()
   const closeBtnRef = useRef(null)
+  const innerRef = useRef(null)
   const isCtaLink = UI_TEXT.nav.ctaType === "link"
 
-  useFocusTrap(isOpen, { onClose, focusRef: closeBtnRef })
-
-  useEffect(() => {
-    if (!isOpen) return
-    const prev = document.body.style.overflow
-    document.body.style.overflow = "hidden"
-    return () => {
-      document.body.style.overflow = prev
-    }
-  }, [isOpen])
+  useFocusLock(isOpen, {
+    containerRef: innerRef,
+    focusRef: closeBtnRef,
+    onClose,
+  })
 
   const isActive = (to) => pathname === (to.split("#")[0] || "/")
   const handleMvpClick = () => {
@@ -42,54 +35,67 @@ export default function MobileMenu({ isOpen, onClose, accent = T.pink, onMvpOpen
       role="dialog"
       aria-modal="true"
       aria-label="모바일 메뉴"
+      aria-hidden={!isOpen}
     >
-      {isOpen && (
-        <Inner onClick={(e) => e.stopPropagation()}>
-          <CloseBtn ref={closeBtnRef} onClick={onClose} aria-label="닫기">
-            <CloseIcon size={28} />
-          </CloseBtn>
-          <Glow $accent={accent} />
+      <Inner ref={innerRef} $isOpen={isOpen} onClick={(e) => e.stopPropagation()}>
+        <CloseBtn ref={closeBtnRef} onClick={onClose} aria-label="닫기">
+          <CloseIcon size={28} />
+        </CloseBtn>
+        <Glow $accent={accent} />
 
-          <NavList>
-            {UI_TEXT.nav.items.map((item, i) =>
-              item.type === "link" ? (
-                <Item
-                  key={item.label}
-                  to={item.to}
-                  $accent={accent}
-                  $active={isActive(item.to)}
-                  $i={i}
-                  onClick={onClose}
-                >
-                  <Num>{String(i + 1).padStart(2, "0")}</Num>
-                  <Divider />
-                  <span>{item.label}</span>
-                </Item>
-              ) : (
-                <ActionItem key={item.label} type="button" $accent={accent} $i={i} onClick={handleMvpClick}>
-                  <Num>{String(i + 1).padStart(2, "0")}</Num>
-                  <Divider />
-                  <span>{item.label}</span>
-                </ActionItem>
-              )
-            )}
-          </NavList>
-
-          <BottomArea>
-            {isCtaLink ? (
-              <BookBtn as={Link} to={UI_TEXT.nav.ctaTo} accent={accent} onClick={onClose}>
-                {UI_TEXT.nav.ctaLabel}
-                <ArrowRightIcon size={14} />
-              </BookBtn>
+        <NavList>
+          {UI_TEXT.nav.items.map((item, i) =>
+            item.type === "link" ? (
+              <Item
+                key={item.label}
+                to={item.to}
+                $accent={accent}
+                $active={isActive(item.to)}
+                $i={i}
+                onClick={onClose}
+                tabIndex={isOpen ? 0 : -1}
+              >
+                <Num>{String(i + 1).padStart(2, "0")}</Num>
+                <Divider />
+                <span>{item.label}</span>
+              </Item>
             ) : (
-              <BookBtn accent={accent} onClick={handleMvpClick}>
-                {UI_TEXT.nav.ctaLabel}
-                <ArrowRightIcon size={14} />
-              </BookBtn>
-            )}
-          </BottomArea>
-        </Inner>
-      )}
+              <ActionItem
+                key={item.label}
+                type="button"
+                $accent={accent}
+                $i={i}
+                onClick={handleMvpClick}
+                tabIndex={isOpen ? 0 : -1}
+              >
+                <Num>{String(i + 1).padStart(2, "0")}</Num>
+                <Divider />
+                <span>{item.label}</span>
+              </ActionItem>
+            )
+          )}
+        </NavList>
+
+        <BottomArea>
+          {isCtaLink ? (
+            <BookBtn
+              as={Link}
+              to={UI_TEXT.nav.ctaTo}
+              accent={accent}
+              onClick={onClose}
+              tabIndex={isOpen ? 0 : -1}
+            >
+              {UI_TEXT.nav.ctaLabel}
+              <ArrowRightIcon size={14} />
+            </BookBtn>
+          ) : (
+            <BookBtn accent={accent} onClick={handleMvpClick} tabIndex={isOpen ? 0 : -1}>
+              {UI_TEXT.nav.ctaLabel}
+              <ArrowRightIcon size={14} />
+            </BookBtn>
+          )}
+        </BottomArea>
+      </Inner>
     </Overlay>
   )
 }
@@ -100,15 +106,15 @@ const Overlay = styled.div`
   z-index: 100;
   display: flex;
   justify-content: flex-end;
-  background: ${alpha(T.bgBase, 0.55)};
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  opacity: ${({ $isOpen }) => ($isOpen ? 1 : 0)};
+  background-color: ${({ $isOpen }) => alpha(T.bgBase, $isOpen ? 0.55 : 0)};
+  backdrop-filter: ${({ $isOpen }) => ($isOpen ? "blur(6px)" : "blur(0)")};
+  -webkit-backdrop-filter: ${({ $isOpen }) => ($isOpen ? "blur(6px)" : "blur(0)")};
   visibility: ${({ $isOpen }) => ($isOpen ? "visible" : "hidden")};
   pointer-events: ${({ $isOpen }) => ($isOpen ? "auto" : "none")};
   transition:
-    opacity ${T.transition.fast},
-    visibility ${T.transition.fast};
+    background-color ${T.transition.fast},
+    backdrop-filter ${T.transition.fast},
+    visibility 0s linear ${({ $isOpen }) => ($isOpen ? "0s" : MENU_CLOSE_DELAY)};
 `
 
 const Inner = styled.div`
@@ -141,7 +147,11 @@ const Inner = styled.div`
   box-shadow:
     -40px 0 80px ${alpha(T.bgBase, 0.7)},
     -1px 0 0 ${alpha(T.main, 0.05)};
-  animation: ${slideIn} ${T.transition.spring} both;
+  opacity: ${({ $isOpen }) => ($isOpen ? 1 : 0)};
+  transform: translateX(${({ $isOpen }) => ($isOpen ? 0 : "100%")});
+  transition:
+    transform ${T.transition.spring},
+    opacity ${T.transition.mid};
 
   @media (max-width: ${T.bp.mini}) {
     padding-top: ${T.navHeightMini};
@@ -207,29 +217,28 @@ const menuItemStyle = css`
     text-shadow ${T.transition.fast};
 `
 
+const menuItemDynamicStyle = ({ $i, $accent }) => css`
+  animation-delay: ${0.25 + $i * 0.07}s;
+
+  &:hover {
+    color: ${$accent};
+    text-shadow: 0 0 20px ${alpha($accent, 0.28)};
+  }
+`
+
 const Item = styled(Link, {
   shouldForwardProp: (prop) => !prop.startsWith("$"),
 })`
   ${menuItemStyle}
+  ${menuItemDynamicStyle}
   color: ${({ $active, $accent }) => ($active ? $accent : T.sub)};
   text-shadow: ${({ $active, $accent }) => ($active ? `0 0 20px ${alpha($accent, 0.28)}` : "none")};
-  animation-delay: ${({ $i }) => `${0.25 + $i * 0.07}s`};
-
-  &:hover {
-    color: ${({ $accent }) => $accent};
-    text-shadow: ${({ $accent }) => `0 0 20px ${alpha($accent, 0.28)}`};
-  }
 `
 
 const ActionItem = styled.button`
   ${menuItemStyle}
+  ${menuItemDynamicStyle}
   width: 100%;
-  animation-delay: ${({ $i }) => `${0.25 + $i * 0.07}s`};
-
-  &:hover {
-    color: ${({ $accent }) => $accent};
-    text-shadow: ${({ $accent }) => `0 0 20px ${alpha($accent, 0.28)}`};
-  }
 
   &:focus-visible {
     color: ${({ $accent }) => $accent};

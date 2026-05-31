@@ -1,25 +1,24 @@
-import { Link, useOutletContext } from "react-router-dom"
+import { Link } from "react-router-dom"
 import styled from "@emotion/styled"
-import { T, alpha, textGradStops, NIGHT_STYLE, fadeUp, SECTION_COLOR } from "@/styles/theme"
+import { T, alpha, GRADIENT, NIGHT_STYLE, fadeUp } from "@/styles/theme"
 import { UI_TEXT } from "@/data/uiText"
 import FullSection from "@/components/layout/FullSection"
 import { ArrowRightIcon, StarIcon } from "@/components/ui/icons"
-import { AccentLabelRow, GradLine } from "@/components/ui/deco"
+import { AccentLabelRow, GradLine } from "@/components/ui/Deco"
 import Button from "@/components/ui/Button"
+import AnimatedBgImage from "@/components/ui/AnimatedBgImage"
 import ParticleCanvas from "@/components/ui/ParticleCanvas"
-import { useSectionReveal } from "@/hooks/useSectionReveal"
+import { useSectionAccent } from "@/hooks/useSectionAccent"
 import heroBg from "@/assets/images/hero-bg.png"
 
 const t = UI_TEXT.hero
 
 export default function HeroSection({ mousePos }) {
-  const { setAccent } = useOutletContext()
-  const { ref: secRef } = useSectionReveal({
-    onActive: () => setAccent(SECTION_COLOR[0]),
-  })
+  const { ref: secRef } = useSectionAccent(0)
 
   return (
-    <FullSection ref={secRef} bgSrc={heroBg} bgOpacity={0.8}>
+    <FullSection ref={secRef}>
+      <AnimatedBgImage src={heroBg} opacity={0.8} />
       <ParticleCanvas mousePos={mousePos} />
       <Orb />
 
@@ -188,10 +187,7 @@ const Title = styled.h2`
   line-height: 1.2;
   letter-spacing: -2px;
   margin-top: ${T.spacing[8]};
-  ${textGradStops(
-    [`${T.main} 0%`, `${alpha(T.main, 0.8)} 40%`, `${alpha(T.pink, 0.8)} 70%`, `${T.amber} 100%`],
-    134
-  )}
+  ${GRADIENT.whitePinkAmber}
   filter: drop-shadow(0 0 20px ${alpha(T.pink, 0.27)});
   transition: margin-top ${T.transition.slow};
   ${fadeUp(0.28)}

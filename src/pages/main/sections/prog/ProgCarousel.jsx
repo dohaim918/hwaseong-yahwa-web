@@ -1,35 +1,73 @@
+import { useLayoutEffect, useRef, useState } from "react"
 import styled from "@emotion/styled"
-import { useCarousel, C_GAP } from "@/hooks/useCarousel"
 import NightCard from "./NightCard"
 import ProgTabs from "./ProgTabs"
 
-export default function ProgCarousel({ cards, activeIdx, onActiveIdxChange }) {
-  const { wrapRef, cardW, trackX, onTouchStart, onTouchEnd, onTouchCancel } = useCarousel(
-    cards.length,
-    true,
-    activeIdx,
-    onActiveIdxChange
-  )
+const GAP = 12
+const MIN_CARD_W = 220
+
+export default function ProgCarousel({ cards, activeIdx, onActiveChange }) {
+  const [wrapW, setWrapW] = useState(0)
+  const wrapRef = useRef(null)
+  const touchStartX = useRef(null)
+
+  useLayoutEffect(() => {
+    const wrapper = wrapRef.current
+    if (!wrapper) return
+
+    setWrapW(wrapper.offsetWidth)
+    let rafId = null
+    const observer = new ResizeObserver(([entry]) => {
+      if (rafId !== null) return
+      rafId = requestAnimationFrame(() => {
+        rafId = null
+        setWrapW(entry.contentRect.width)
+      })
+    })
+    observer.observe(wrapper)
+    return () => {
+      if (rafId !== null) cancelAnimationFrame(rafId)
+      observer.disconnect()
+    }
+  }, [])
+
+  const cardW = Math.max(MIN_CARD_W, wrapW > 0 ? Math.round((wrapW - GAP) / 1.8) : MIN_CARD_W)
+  const peek = wrapW > 0 ? Math.max(0, Math.round((wrapW - cardW) / 2)) : 60
+  const trackX = peek - activeIdx * (cardW + GAP)
+
+  const onTouchStart = (e) => {
+    touchStartX.current = e.touches[0].clientX
+  }
+  const onTouchEnd = (e) => {
+    if (touchStartX.current === null) return
+    const dx = e.changedTouches[0].clientX - touchStartX.current
+    touchStartX.current = null
+    if (Math.abs(dx) < 40) return
+    if (dx < 0 && activeIdx < cards.length - 1) onActiveChange(activeIdx + 1)
+    if (dx > 0 && activeIdx > 0) onActiveChange(activeIdx - 1)
+  }
 
   const activateItem = (idx) => {
-    if (idx !== activeIdx) onActiveIdxChange(idx)
+    if (idx !== activeIdx) onActiveChange(idx)
   }
 
   return (
     <CarouselArea>
-      <ProgTabs cards={cards} activeIdx={activeIdx} onChange={onActiveIdxChange} />
+      <ProgTabs cards={cards} activeIdx={activeIdx} onChange={onActiveChange} />
       <CarouselWrapper
         ref={wrapRef}
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
-        onTouchCancel={onTouchCancel}
+        onTouchCancel={() => {
+          touchStartX.current = null
+        }}
       >
         <CarouselTrack style={{ transform: `translateX(${trackX}px)` }}>
           {cards.map((card, i) => (
             <CarouselItem
               key={card.id}
               type="button"
-              style={{ width: `${cardW}px`, marginRight: `${C_GAP}px` }}
+              style={{ width: `${cardW}px`, marginRight: `${GAP}px` }}
               $isActive={i === activeIdx}
               aria-current={i === activeIdx ? "true" : undefined}
               onClick={() => activateItem(i)}

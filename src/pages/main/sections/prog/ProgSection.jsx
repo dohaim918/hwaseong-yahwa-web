@@ -1,15 +1,14 @@
 import { useState, useEffect } from "react"
-import { useOutletContext } from "react-router-dom"
 import styled from "@emotion/styled"
 import { T, alpha, textGrad, sectionAccent, revealUp } from "@/styles/theme"
 import { getCardData } from "@/data/nightData"
 import { UI_TEXT } from "@/data/uiText"
 import { PROGRAM_ASSETS } from "@/data/programAssets"
-import { GradSpan } from "@/components/ui/GradSpan"
-import SectionHeader from "@/components/ui/Sectiontext"
+import SectionHeader from "@/components/ui/SectionHeader"
 import SectionTicker from "@/components/ui/SectionTicker"
+import { GradSpan } from "@/components/ui/Deco"
 import { useResponsive } from "@/hooks/useResponsive"
-import { useSectionReveal } from "@/hooks/useSectionReveal"
+import { useSectionAccent } from "@/hooks/useSectionAccent"
 import NightCard from "./NightCard"
 import ProgCarousel from "./ProgCarousel"
 
@@ -25,9 +24,9 @@ export default function ProgSection() {
   const [activeId, setActiveId] = useState(null)
   const [carouselIdx, setCarouselIdx] = useState(0)
   const hasHover = activeId !== null
-  const { setAccent } = useOutletContext()
   const { isMobileOrTablet } = useResponsive()
-  const { ref: secRef, inView, animIn } = useSectionReveal()
+  // accent 가 카드 hover/캐러셀에 따라 동적이라 color:null 로 자동 적용을 끄고 직접 제어
+  const { ref: secRef, inView, animIn, setAccent } = useSectionAccent(1, { color: null })
 
   useEffect(() => {
     if (!inView) return
@@ -55,7 +54,7 @@ export default function ProgSection() {
             title={
               <>
                 {t.h2.gradStart}
-                <GradSpan g={titleGrad}>{t.h2.gradEnd}</GradSpan>
+                <GradSpan $g={titleGrad}>{t.h2.gradEnd}</GradSpan>
               </>
             }
             desc={t.desc}
@@ -65,14 +64,10 @@ export default function ProgSection() {
 
         {isMobileOrTablet ? (
           <CarouselAnim $in={animIn}>
-            <ProgCarousel
-              cards={cards}
-              activeIdx={carouselIdx}
-              onActiveIdxChange={setCarouselIdx}
-            />
+            <ProgCarousel cards={cards} activeIdx={carouselIdx} onActiveChange={setCarouselIdx} />
           </CarouselAnim>
         ) : (
-          <CardsRow onMouseLeave={() => setActiveId(null)}>
+          <CardsRow onPointerLeave={() => setActiveId(null)}>
             {cards.map((card, idx) => (
               <NightCard
                 key={card.id}
@@ -100,7 +95,6 @@ const Sec = styled.section`
   scroll-snap-align: start;
   display: flex;
   flex-direction: column;
-  margin-inline: calc(-1 * ${T.pagePad});
   ${sectionAccent(T.pink)}
 
   &::after {
@@ -209,4 +203,3 @@ const CarouselAnim = styled.div`
   height: 100%;
   ${({ $in }) => revealUp($in, 0.25)}
 `
-

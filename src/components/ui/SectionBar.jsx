@@ -1,8 +1,7 @@
-import { useState } from "react"
 import styled from "@emotion/styled"
 import { T, alpha } from "@/styles/theme"
 import { FlowerIcon } from "@/components/ui/icons"
-import MvpModal from "@/components/ui/MvpModal"
+import { useMvpModal } from "@/components/ui/MvpModal"
 
 // ─────────────────────────────────────────────
 //  SectionBar
@@ -30,41 +29,31 @@ export default function SectionBar({
   modalTitle,
   modalDesc,
 }) {
-  const [modalOpen, setModalOpen] = useState(false)
+  const mvpModal = useMvpModal()
 
   const handleLinkClick = () => {
     if (onLinkClick) {
       onLinkClick()
       return
     }
-    setModalOpen(true)
+    mvpModal.open({ accent: color, title: modalTitle, desc: modalDesc })
   }
 
   return (
-    <>
-      <Bar $color={color} $visible={visible}>
-        <Left>
-          <FlowerIcon color={color} style={{ flexShrink: 0, overflow: "visible" }} />
-          <Label $color={color}>{label}</Label>
-          {sub && <Sub>{sub}</Sub>}
-        </Left>
+    <Bar $color={color} $visible={visible}>
+      <Left>
+        <FlowerIcon color={color} style={{ flexShrink: 0, overflow: "visible" }} />
+        <Label $color={color}>{label}</Label>
+        {sub && <Sub>{sub}</Sub>}
+      </Left>
 
-        {link && (
-          <LinkButton type="button" $color={color} aria-haspopup="dialog" onClick={handleLinkClick}>
-            <span>{link}</span>
-            <Arrow $color={color}>→</Arrow>
-          </LinkButton>
-        )}
-      </Bar>
-
-      <MvpModal
-        open={modalOpen}
-        onClose={() => setModalOpen(false)}
-        accent={color}
-        title={modalTitle}
-        desc={modalDesc}
-      />
-    </>
+      {link && (
+        <LinkButton type="button" $color={color} aria-haspopup="dialog" onClick={handleLinkClick}>
+          <span>{link}</span>
+          <Arrow $color={color}>→</Arrow>
+        </LinkButton>
+      )}
+    </Bar>
   )
 }
 

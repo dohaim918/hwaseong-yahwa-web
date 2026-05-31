@@ -1,7 +1,7 @@
 import styled from "@emotion/styled"
 import { T, alpha, revealUp } from "@/styles/theme"
 import { StarIcon } from "@/components/ui/icons"
-import { GradLine } from "@/components/ui/deco"
+import { GradLine } from "@/components/ui/Deco"
 
 export default function SectionTicker({ text, color = T.violet, animIn }) {
   return (
@@ -22,8 +22,7 @@ const Row = styled.div`
   align-items: center;
   justify-content: center;
   gap: ${T.spacing[12]};
-  padding-top: ${T.spacing[24]};
-  padding-bottom: clamp(40px, 7.4vh, 160px);
+  padding-block: ${T.spacing[24]} clamp(40px, 7.4vh, 160px);
   ${({ $animIn }) => revealUp($animIn, 0.55)}
 `
 

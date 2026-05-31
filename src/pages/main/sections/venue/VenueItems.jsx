@@ -63,7 +63,6 @@ const InfoItem = styled.div`
   }
 
   @media (max-width: ${T.bp.tablet}) {
-    /* padding: ${T.spacing[8]}; */
     gap: ${T.spacing[8]};
   }
 
@@ -114,8 +113,6 @@ const AccessItem = styled.li`
   justify-content: center;
   gap: ${T.spacing[12]};
   flex: 1;
-  /* min-width: 0; */
-  /* cursor: default; */
 
   &:not(:last-of-type)::after {
     content: "";
@@ -159,13 +156,11 @@ const AccessTxt = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${T.spacing[4]};
-  /* min-width: 0; */
 `
 
 const AccessMain = styled.span`
   font-size: ${T.fontSize.xs};
   font-weight: 500;
-  /* line-height: 1.7; */
   color: ${alpha(T.main, 0.72)};
   transition: color ${T.transition.mid};
   white-space: nowrap;
@@ -178,7 +173,6 @@ const AccessMain = styled.span`
 const AccessSub = styled.span`
   font-size: ${T.fontSize.xs};
   font-weight: 600;
-  /* line-height: 1.7; */
   color: ${alpha(T.main, 0.4)};
   white-space: nowrap;
 

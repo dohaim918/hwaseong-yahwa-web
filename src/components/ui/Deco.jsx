@@ -1,31 +1,15 @@
 /* eslint-disable react-refresh/only-export-components */
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-//  재사용 장식 컴포넌트 모음
-//
-//  GradLine  — 그라디언트 페이드 가로선
-//    $color     색상값 (필수)
-//    $dir       'left' | 'right'  — left: 왼쪽 투명→색, right: 색→오른쪽 투명
-//    $width     너비 문자열 (생략 시 flex:1 — 부모 너비에 맞게 늘어남)
-//    $hideMini  true — mini 브레이크포인트에서 숨김
-//
-//  AccentLabelRow — 텍스트 양옆에 GradLine을 붙이는 라벨 행
-//
-//  Shimmer   — 카드·패널 상하단 shimmer 라인
-//    $bg        background 그라디언트 문자열 (필수)
-//    $top       true — 상단 / 생략 — 하단
-//    $active    false — 숨김 / 생략 시 항상 표시
-//
-//  Ring      — 원형 테두리 (active 상태 표시용)
-//    $color     테두리 색상 기준값 (필수)
-//    $active    표시 여부 (필수)
-//    $outer     true — 큰 링 / 생략 — 작은 링
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// 재사용 데코 컴포넌트 모음: 선, 그라디언트 텍스트, 페이드 레이어, 카드 장식.
 
 import styled from "@emotion/styled"
 import { T, alpha } from "@/styles/theme"
 
-// section-deco.png 공용 베이스 — 각 섹션에서 styled(SectionDecoImg)로 extend
-// $animIn: opacity 0 → 0.6 트랜지션
+// 텍스트 일부에 그라디언트 스타일을 입힐 때 사용.
+export const GradSpan = styled.span`
+  ${({ $g }) => $g}
+`
+
+// section-deco.png 공용 베이스.
 export const SectionDecoImg = styled.img`
   position: absolute;
   left: 50%;
@@ -38,6 +22,7 @@ export const SectionDecoImg = styled.img`
   transition: opacity ${T.transition.bgReveal};
 `
 
+// 텍스트 양옆이나 구분선에 쓰는 그라디언트 라인.
 export const GradLine = styled.div`
   height: 1px;
   flex-shrink: 0;
@@ -52,6 +37,7 @@ export const GradLine = styled.div`
   }
 `
 
+// 라벨 텍스트 양옆에 짧은 GradLine을 붙이는 행.
 export function AccentLabelRow({
   children,
   color,
@@ -77,6 +63,7 @@ const LabelRow = styled.div`
   width: 100%;
 `
 
+// 카드나 모달 위아래에 얇게 흐르는 빛 라인.
 export const Shimmer = styled.div`
   position: absolute;
   left: 12%;
@@ -92,6 +79,7 @@ export const Shimmer = styled.div`
   ${({ $top }) => ($top ? "top: 0;" : "bottom: 0;")}
 `
 
+// 카드 active/hover 상태를 보여주는 원형 테두리.
 export const Ring = styled.div`
   position: absolute;
   border-radius: 50%;
@@ -122,3 +110,63 @@ export const Ring = styled.div`
     opacity: ${({ $active }) => ($active ? 0.6 : 0)};
   }
 `
+
+const EDGE_FADE_SIZE = {
+  top: "clamp(120px, 18vh, 200px)",
+  bottom: "100px",
+  left: "clamp(60px, 16vw, 300px)",
+  right: "clamp(60px, 16vw, 300px)",
+}
+
+const edgeFadeBg = (side, color, opacity) => {
+  const c = alpha(color, opacity)
+  switch (side) {
+    case "top":
+      return `linear-gradient(to bottom, ${c} 0%, transparent 100%)`
+    case "bottom":
+      return `linear-gradient(to top, ${c} 0%, transparent 100%)`
+    case "left":
+      return `linear-gradient(to right, ${c} 0%, transparent 100%)`
+    case "right":
+      return `linear-gradient(to left, ${c} 0%, transparent 100%)`
+    default:
+      return "none"
+  }
+}
+
+const EdgeFadeLayer = styled.div`
+  position: absolute;
+  pointer-events: none;
+  z-index: ${({ $z = 4 }) => $z};
+  ${({ $side, $size, $color = T.bgBase, $opacity = 0.85 }) => {
+    const size = $size ?? EDGE_FADE_SIZE[$side]
+    const bg = edgeFadeBg($side, $color, $opacity)
+    switch ($side) {
+      case "top":
+        return `top: 0; left: 0; right: 0; height: ${size}; background: ${bg};`
+      case "bottom":
+        return `bottom: 0; left: 0; right: 0; height: ${size}; background: ${bg};`
+      case "left":
+        return `top: 0; bottom: 0; left: 0; width: ${size}; background: ${bg};`
+      case "right":
+        return `top: 0; bottom: 0; right: 0; width: ${size}; background: ${bg};`
+      default:
+        return ""
+    }
+  }}
+`
+
+// 섹션 모서리를 자연스럽게 어둡게 잇는 페이드 레이어.
+export function EdgeFade({ side, size, color, opacity, z, ...props }) {
+  return (
+    <EdgeFadeLayer
+      $side={side}
+      $size={size}
+      $color={color}
+      $opacity={opacity}
+      $z={z}
+      aria-hidden="true"
+      {...props}
+    />
+  )
+}

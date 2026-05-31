@@ -100,16 +100,17 @@ const StyledBtn = styled("button", {
   font-weight: 700;
   border: none;
   outline: none;
+  /* fast: filter/opacity/transform · mid: box-shadow/사이즈군 · slow: background */
   transition:
     filter ${T.transition.fast},
+    opacity ${T.transition.fast},
+    transform ${T.transition.fast},
     box-shadow ${T.transition.mid},
-    background ${T.transition.slow},
     border-radius ${T.transition.mid},
     height ${T.transition.mid},
     padding ${T.transition.mid},
     font-size ${T.transition.mid},
-    opacity ${T.transition.fast},
-    transform ${T.transition.fast};
+    background ${T.transition.slow};
 
   svg {
     display: block;

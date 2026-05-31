@@ -20,15 +20,30 @@ export default function NightCard({
   const { id, nightCode, num, color, style, subtitle, keyword, hoverDesc, hoverCta } = card
   const imgs = PROGRAM_ASSETS.cards[id]
 
+  // 키보드 접근성 — Tab 으로 카드 포커스, Enter/Space 로 active 토글
+  const onKey = (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault()
+      onEnter()
+    }
+  }
+
   return (
     <CardOuter
+      role={isCarousel ? undefined : "button"}
+      tabIndex={isCarousel ? undefined : 0}
+      aria-label={`${nightCode} ${subtitle}`}
+      aria-pressed={active || undefined}
       $active={active}
       $hasHover={hasHover}
       $isCarousel={isCarousel}
       $maskSide={maskSide}
       $animIn={animIn}
       $animIdx={animIdx}
-      onMouseEnter={onEnter}
+      onPointerEnter={onEnter}
+      onClick={onEnter}
+      onFocus={onEnter}
+      onKeyDown={onKey}
       data-cursor-hover
     >
       <Glow $g={style.glow} $active={active} />
@@ -68,7 +83,6 @@ const CardOuter = styled.div`
   position: relative;
   flex: 1;
   height: 100%;
-  /* max-width: clamp(385px, 20vw, 540px); */
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -93,6 +107,12 @@ const CardOuter = styled.div`
 
   mask-image: ${({ $maskSide }) => getMaskGrad($maskSide)};
   -webkit-mask-image: ${({ $maskSide }) => getMaskGrad($maskSide)};
+
+  &:focus-visible {
+    outline: 2px solid ${T.pink};
+    outline-offset: 4px;
+    border-radius: ${T.radius.card};
+  }
 `
 
 const Glow = styled.div`
@@ -128,6 +148,20 @@ const Card = styled.div`
     $active && `box-shadow: 0 0 40px ${alpha($color, 0.3)}, 0 32px 80px rgba(0,0,0,.75);`}
 `
 
+// ── Content 패딩 분기 — active 여부 × 뷰포트 브레이크포인트 조합
+const padBase = ($active) =>
+  $active ? `${T.spacing[42]} ${T.spacing[24]}` : `${T.spacing[32]} ${T.spacing[24]}`
+
+const padBig = ($active) =>
+  $active
+    ? "clamp(42px, calc(42px + (100vw - 1920px) * 0.0297), 80px)"
+    : "clamp(32px, calc(32px + (100vw - 1920px) * 0.025), 64px)"
+
+const padTablet = ($active) =>
+  $active
+    ? `clamp(${T.spacing[24]}, calc(2.2vw + 13px), ${T.spacing[36]}) clamp(${T.spacing[16]}, calc(0.7vw + 12.5px), ${T.spacing[20]})`
+    : `clamp(18px, calc(1.8vw + 9.5px), 28px) clamp(${T.spacing[16]}, calc(0.7vw + 12.5px), ${T.spacing[20]})`
+
 const Content = styled.div`
   position: relative;
   z-index: 3;
@@ -135,23 +169,16 @@ const Content = styled.div`
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
-  padding: ${({ $active }) =>
-    $active ? `${T.spacing[42]} ${T.spacing[24]}` : `${T.spacing[32]} ${T.spacing[24]}`};
+  padding: ${({ $active }) => padBase($active)};
   transition: padding ${T.transition.mid};
 
   @media (min-width: 1921px) {
-    padding-block: ${({ $active }) =>
-      $active
-        ? "clamp(42px, calc(42px + (100vw - 1920px) * 0.0297), 80px)"
-        : "clamp(32px, calc(32px + (100vw - 1920px) * 0.025), 64px)"};
+    padding-block: ${({ $active }) => padBig($active)};
     padding-inline: ${T.spacing[24]};
   }
 
   @media (max-width: ${T.bp.tablet}) {
-    padding: ${({ $active }) =>
-      $active
-        ? `clamp(${T.spacing[24]}, calc(2.2vw + 13px), ${T.spacing[36]}) clamp(${T.spacing[16]}, calc(0.7vw + 12.5px), ${T.spacing[20]})`
-        : `clamp(18px, calc(1.8vw + 9.5px), 28px) clamp(${T.spacing[16]}, calc(0.7vw + 12.5px), ${T.spacing[20]})`};
+    padding: ${({ $active }) => padTablet($active)};
   }
 `
 
