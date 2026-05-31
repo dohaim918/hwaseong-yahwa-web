@@ -10,7 +10,6 @@ export const T = {
   bgBase: "#050410", // 전체 배경
   bgCard: "#0a071a", // 카드 · 패널 배경
   bgDark: "#060412", // 어두운 영역 (히어로, 카드 그림자)
-  bgGold: "#d4a574", // 배경 글로우
 
   // ── 핑크 (메인 1야)
   pink: "#d4527c",
@@ -97,6 +96,7 @@ export const T = {
   cardGap: "clamp(10px, 1.5vw, 20px)", // 카드 사이 간격
   cardPadY: "clamp(20px, 3vw, 42px)", // 카드 상하 패딩
   secPadBottom: "80px",
+  contentW: "550px", // 섹션 내부 콘텐츠 컬럼 max-width (VenueSection 등)
 
   // ── 트랜지션
   transition: {
@@ -161,12 +161,16 @@ export const revealUp = (inView, delay = 0) =>
 export const accentLine = (color) =>
   `linear-gradient(90deg, transparent, ${alpha(color, 0.53)}, transparent)`
 
+// 카드·모달 보더 상단/하단 포인트 라인 (중앙 white 피크 shimmer)
+export const shimmerLine = (color) =>
+  `linear-gradient(90deg, transparent 0%, ${color} 30%, ${T.white} 50%, ${color} 70%, transparent 100%)`
+
 // 섹션 상단 accent 라인 — ::before로 주입 / 사용: ${sectionAccent(T.pink)}
 export const sectionAccent = (color) => `
   &::before {
     content: "";
     position: absolute;
-    top: 0; left: 0; right: 0;
+    inset: 0 0 auto;
     height: 2px;
     background: ${accentLine(color)};
     z-index: 11;
@@ -180,7 +184,7 @@ export const GRADIENT = {
   violetPink: textGrad(T.violet, T.pink, 160), // Gallery 섹션
   whitePinkAmber: textGradStops(
     [`${T.main} 0%`, `${alpha(T.main, 0.8)} 40%`, `${alpha(T.pink, 0.8)} 70%`, `${T.amber} 100%`],
-    160
+    134
   ),
   whitePink: textGradStops([`${T.main} 0%`, `${alpha(T.pink, 0.8)} 100%`], 145),
 }
@@ -216,8 +220,7 @@ const makeNight = (color, dim, dark, gradTo, heroGrad, glow) => ({
   line: accentLine(color),
   lineLeft: `linear-gradient(90deg, ${color}, transparent)`,
   lineRight: `linear-gradient(90deg, transparent, ${color})`,
-  // 카드·모달 보더 상단/하단 포인트 라인 (중앙 white 피크 shimmer)
-  shimmer: `linear-gradient(90deg, transparent 0%, ${color} 30%, ${T.white} 50%, ${color} 70%, transparent 100%)`,
+  shimmer: shimmerLine(color),
   grad: `linear-gradient(135deg, ${color}, ${dim})`,
   textGrad: textGrad(color, gradTo),
   heroGrad,

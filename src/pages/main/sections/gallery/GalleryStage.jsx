@@ -1,11 +1,28 @@
-import { useState, useCallback, useEffect } from "react"
+import { useState } from "react"
 import styled from "@emotion/styled"
 import { T, alpha, revealUp } from "@/styles/theme"
 import { ChevronIcon, ExpandIcon } from "@/components/ui/icons"
 
 const RATIO = 1.78
-const W_MAX = 787, W_MIN = 500
-const HD = 1920, QHD = 2560
+const W_MAX = 787,
+  W_MIN = 500
+const HD = 1920,
+  QHD = 2560
+const DOT_ACTIVE_W = "22px"
+const SIDE_OPACITY = [0.59, 0.32, 0.14]
+const SIDE_OPACITY_HOVER = [0.78, 0.5, 0.28]
+
+// 글래스 버튼 공통 표면/호버 (화살표·VIEW SCENE 공유)
+const glass = (bAlpha, blur) => `
+  background:${alpha(T.bgDark, 0.36)};
+  border:1px solid ${alpha(T.violet, bAlpha)};
+  backdrop-filter:blur(${blur});
+  -webkit-backdrop-filter:blur(${blur});`
+const glassHover = (bg, glow) => `
+  background:${alpha(T.violet, bg)};
+  border-color:${T.violet};
+  box-shadow:0 0 16px ${alpha(T.violet, glow)};
+  `
 
 const getLoopIndexes = (active, total, dir) =>
   [1, 2, 3].map((offset) => (active + dir * offset + total) % total)
@@ -22,29 +39,35 @@ function SideStack({ images, side, indexes, animIn, onSelect }) {
           aria-label={images[idx].alt}
         >
           <SideImg src={images[idx].src} alt="" />
-          <SideHue />
         </SideThumb>
       ))}
     </SideStackWrap>
   )
 }
 
-function CenterViewer({ images, active, prevSrc, animIn, viewSceneLabel, onPrev, onNext, onSelect, onViewScene }) {
+function CenterViewer({
+  images,
+  active,
+  prevSrc,
+  animIn,
+  viewSceneLabel,
+  onPrev,
+  onNext,
+  onSelect,
+  onViewScene,
+}) {
   const activeItem = images[active]
-
   return (
     <CenterViewerWrap $animIn={animIn}>
       <CenterFrame role="region" aria-label="갤러리 캐러셀" $prevSrc={prevSrc}>
         <CenterImg key={active} src={activeItem.src} alt={activeItem.alt} />
         <CenterBorder />
-
         <ArrowBtn type="button" $side="left" onClick={onPrev} aria-label="이전 이미지">
           <ChevronIcon dir="left" />
         </ArrowBtn>
         <ArrowBtn type="button" $side="right" onClick={onNext} aria-label="다음 이미지">
           <ChevronIcon dir="right" />
         </ArrowBtn>
-
         <ViewSceneBtn type="button" onClick={onViewScene}>
           <span>{viewSceneLabel}</span>
           <ExpandIcon />
@@ -72,27 +95,29 @@ export default function GalleryStage({ images, animIn, inView, viewSceneLabel, o
   const [active, setActive] = useState(0)
   const [prevActive, setPrevActive] = useState(null)
 
-  const goTo = useCallback((idx) => {
+  const goTo = (idx) => {
     setPrevActive(active)
     setActive(idx)
-  }, [active])
+  }
 
-  useEffect(() => {
-    if (!inView) return
-    const onKey = (e) => {
-      if (e.key === "ArrowLeft") goTo((active - 1 + total) % total)
-      if (e.key === "ArrowRight") goTo((active + 1) % total)
+  const onKeyDown = (e) => {
+    if (!inView || e.target?.matches?.("input, textarea, select, [contenteditable='true']")) return
+    if (e.key === "ArrowLeft") {
+      e.preventDefault()
+      goTo((active - 1 + total) % total)
     }
-    window.addEventListener("keydown", onKey)
-    return () => window.removeEventListener("keydown", onKey)
-  }, [inView, goTo, active, total])
+    if (e.key === "ArrowRight") {
+      e.preventDefault()
+      goTo((active + 1) % total)
+    }
+  }
 
-  // near -> far 순 (렌더 순서가 곧 opacity 순서)
+  // near → far 순 (렌더 순서 = opacity 순서)
   const leftIdx = getLoopIndexes(active, total, -1)
   const rightIdx = getLoopIndexes(active, total, 1)
 
   return (
-    <Stage>
+    <Stage role="group" aria-label="갤러리 이미지 탐색" tabIndex={0} onKeyDown={onKeyDown}>
       <SideStack images={images} side="left" indexes={leftIdx} animIn={animIn} onSelect={goTo} />
       <CenterViewer
         images={images}
@@ -110,13 +135,16 @@ export default function GalleryStage({ images, animIn, inView, viewSceneLabel, o
   )
 }
 
-// 중앙 카드·사이드 썸네일 크기/겹침을 CSS 변수로 통합 제어
+// 중앙/사이드 크기·겹침을 CSS 변수로 통합 제어
 const Stage = styled.div`
   position: relative;
   display: grid;
   place-items: center;
   width: 100%;
-  --center-w: clamp(${W_MIN}px, min(calc(${W_MAX}px - ((${HD}px - 100vw) * 0.75)), calc((100vh - 420px) * ${RATIO})), ${W_MAX}px);
+  /* 카드 폭 = 가로기준·세로기준 중 작은 값을 W_MIN~W_MAX 로 제한 */
+  --cw-by-width: calc(${W_MAX}px - ((${HD}px - 100vw) * 0.75));
+  --cw-by-height: calc((100vh - 420px) * ${RATIO});
+  --center-w: clamp(${W_MIN}px, min(var(--cw-by-width), var(--cw-by-height)), ${W_MAX}px);
   --center-h: calc(var(--center-w) / ${RATIO});
   --side-w: clamp(140px, calc(var(--center-w) * 0.33), 260px);
   --side-h: clamp(180px, calc(var(--center-h) * 0.84), 366px);
@@ -126,7 +154,6 @@ const Stage = styled.div`
   @media (max-height: 820px) and (min-width: ${T.bp.mini}) {
     --side-overlap: clamp(0px, calc((${QHD}px - 100vw) * 0.1), 110px);
   }
-
   @media (max-width: ${T.bp.mobile}) {
     --center-w: clamp(420px, 76vw, 520px);
     --side-w: clamp(92px, calc(var(--center-w) * 0.28), 140px);
@@ -134,7 +161,6 @@ const Stage = styled.div`
     --side-gap: ${T.spacing[8]};
     --side-overlap: clamp(48px, 14vw, 88px);
   }
-
   @media (max-width: ${T.bp.mini}) {
     --center-w: calc(100vw - 48px);
     --center-h: clamp(180px, 60vw, 260px);
@@ -160,9 +186,6 @@ const SideStackWrap = styled.div`
       : `opacity: 0;`}
 `
 
-const SIDE_OPACITY = [0.59, 0.32, 0.14]
-const SIDE_OPACITY_HOVER = [0.78, 0.5, 0.28]
-
 const SideThumb = styled.button`
   position: relative;
   width: var(--side-w);
@@ -172,12 +195,15 @@ const SideThumb = styled.button`
   cursor: pointer;
   flex-shrink: 0;
   opacity: ${({ $order }) => SIDE_OPACITY[$order] ?? 0.14};
+  filter: grayscale(1) brightness(0.6); /* mix-blend hue 대신 filter 모노톤 */
   transition:
     opacity ${T.transition.mid},
+    filter ${T.transition.mid},
     transform ${T.transition.mid};
 
   &:hover {
     opacity: ${({ $order }) => SIDE_OPACITY_HOVER[$order] ?? 0.28};
+    filter: grayscale(0.6) brightness(0.75);
     transform: scale(1.02);
   }
 `
@@ -186,13 +212,6 @@ const SideImg = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
-`
-
-const SideHue = styled.div`
-  position: absolute;
-  inset: 0;
-  background: #000;
-  mix-blend-mode: hue;
 `
 
 const CenterViewerWrap = styled.div`
@@ -211,10 +230,8 @@ const CenterFrame = styled.div`
   height: var(--center-h);
   border-radius: ${T.radius.sm};
   overflow: hidden;
-  ${({ $prevSrc }) =>
-    $prevSrc
-      ? `background-image: url(${$prevSrc}); background-size: cover; background-position: center;`
-      : ""}
+  /* 이전 이미지를 배경으로 깔아 전환 깜빡임 방지 */
+  ${({ $prevSrc }) => ($prevSrc ? `background: url(${$prevSrc}) center / cover;` : "")}
 `
 
 const CenterImg = styled.img`
@@ -250,15 +267,9 @@ const ArrowBtn = styled.button`
   justify-content: center;
   cursor: pointer;
   color: ${alpha(T.white, 0.85)};
-  background: ${alpha(T.bgDark, 0.36)};
-  border: 1px solid ${alpha(T.violet, 0.3)};
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  transition:
-    background ${T.transition.mid},
-    border-color ${T.transition.mid},
-    box-shadow ${T.transition.mid},
-    transform ${T.transition.spring};
+  ${glass(0.3, "4px")}
+  transition: background ${T.transition.mid}, border-color ${T.transition.mid}, box-shadow ${T
+    .transition.mid}, transform ${T.transition.spring};
 
   svg {
     width: 20px;
@@ -266,13 +277,10 @@ const ArrowBtn = styled.button`
   }
 
   &:hover {
-    background: ${alpha(T.violet, 0.15)};
-    border-color: ${T.violet};
-    box-shadow: 0 0 16px ${alpha(T.violet, 0.4)};
+    ${glassHover(0.15, 0.4)}
     color: ${T.main};
     transform: translateY(-50%) scale(1.08);
   }
-
   &:active {
     transform: translateY(-50%) scale(0.92);
   }
@@ -300,10 +308,7 @@ const ViewSceneBtn = styled.button`
   padding: 0 18px;
   height: ${T.spacing[32]};
   border-radius: ${T.radius.pill};
-  border: 1px solid ${alpha(T.violet, 0.7)};
-  background: ${alpha(T.bgDark, 0.36)};
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
+  ${glass(0.7, "2px")}
   cursor: pointer;
   white-space: nowrap;
   transition:
@@ -318,7 +323,6 @@ const ViewSceneBtn = styled.button`
     letter-spacing: 0.3px;
     transition: color ${T.transition.fast};
   }
-
   svg {
     width: 12px;
     height: 12px;
@@ -330,9 +334,7 @@ const ViewSceneBtn = styled.button`
   }
 
   &:hover {
-    background: ${alpha(T.violet, 0.18)};
-    border-color: ${T.violet};
-    box-shadow: 0 0 16px ${alpha(T.violet, 0.3)};
+    ${glassHover(0.18, 0.3)}
     span {
       color: ${T.main};
     }
@@ -364,7 +366,7 @@ const Dots = styled.div`
 `
 
 const Dot = styled.button`
-  width: ${({ $active }) => ($active ? "22px" : T.spacing[8])};
+  width: ${({ $active }) => ($active ? DOT_ACTIVE_W : T.spacing[8])};
   height: ${T.spacing[8]};
   border-radius: ${T.spacing[4]};
   cursor: pointer;

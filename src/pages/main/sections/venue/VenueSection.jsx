@@ -1,34 +1,26 @@
-import { useOutletContext } from "react-router-dom"
 import styled from "@emotion/styled"
-import { T, alpha, GRADIENT, sectionAccent, revealUp, SECTION_COLOR } from "@/styles/theme"
+import { T, alpha, GRADIENT, sectionAccent, revealUp } from "@/styles/theme"
 import { UI_TEXT } from "@/data/uiText"
-import SectionHeader from "@/components/ui/Sectiontext"
-import { GradSpan } from "@/components/ui/GradSpan"
+import SectionHeader from "@/components/ui/SectionHeader"
 import FullSection from "@/components/layout/FullSection"
 import SectionBar from "@/components/ui/SectionBar"
 import AnimatedBgImage from "@/components/ui/AnimatedBgImage"
 import { VenueAccessItem, VenueInfoItem } from "@/pages/main/sections/venue/VenueItems"
+import { GradSpan } from "@/components/ui/Deco"
 import { useResponsive } from "@/hooks/useResponsive"
-import { useSectionReveal } from "@/hooks/useSectionReveal"
+import { useSectionAccent } from "@/hooks/useSectionAccent"
 import venueBg from "@/assets/images/venue/venue-bg.png"
 
 const t = UI_TEXT.venue
 
-const CONTENT_W = "550px"
-
 export default function VenueSection() {
-  const { setAccent } = useOutletContext()
   const { isMini } = useResponsive()
-  const { ref: secRef, animIn } = useSectionReveal({
-    onActive: () => setAccent(SECTION_COLOR[2]),
-  })
+  const { ref: secRef, animIn } = useSectionAccent(2)
 
   return (
     <VenueShell ref={secRef}>
-      {/* <BgFallback /> */}
       <AnimatedBgImage src={venueBg} opacity={0.8} animate={animIn} />
       <BgOverlay />
-      {/* <TopFade /> */}
 
       {/* 상단 바 */}
       <SectionBar
@@ -52,7 +44,7 @@ export default function VenueSection() {
               <>
                 {t.h2.line1}
                 <br />
-                <GradSpan g={GRADIENT.amberPink}>{t.h2.line2Grad}</GradSpan>
+                <GradSpan $g={GRADIENT.amberPink}>{t.h2.line2Grad}</GradSpan>
               </>
             }
             desc={t.desc}
@@ -93,17 +85,6 @@ const VenueShell = styled(FullSection)`
 `
 
 // ── 추가 배경 레이어 ──────────────────────────────────
-// const BgFallback = styled.div`
-//   position: absolute;
-//   inset: 0;
-//   z-index: 0;
-//   pointer-events: none;
-//   background:
-//     radial-gradient(ellipse 60% 50% at 30% 40%, #1a1228 0%, transparent 60%),
-//     radial-gradient(ellipse 50% 40% at 70% 70%, #2a1a0a 0%, transparent 55%),
-//     linear-gradient(180deg, #0a0815 0%, ${T.bgBase} 100%);
-// `
-
 const BgOverlay = styled.div`
   position: absolute;
   inset: 0;
@@ -123,30 +104,6 @@ const BgOverlay = styled.div`
   }
 `
 
-// const TopFade = styled.div`
-//   position: absolute;
-//   top: 0;
-//   left: 0;
-//   right: 0;
-//   height: 80px;
-//   z-index: 3;
-//   pointer-events: none;
-//   background: linear-gradient(180deg, ${alpha(T.bgBase, 0.85)} 0%, ${alpha(T.bgBase, 0)} 100%);
-// `
-// const BgOverlay = styled.div`
-//   position: absolute;
-//   inset: 0;
-//   pointer-events: none;
-//   z-index: 2;
-//   opacity: 0.6;
-//   background: radial-gradient(
-//     172.8% 86.4% at 65% 55%,
-//     rgba(32, 14, 0, 1) 0%,
-//     rgba(16, 8, 0, 1) 45%,
-//     ${T.bgBase} 100%
-//   );
-// `
-
 // ── 콘텐츠 영역 래퍼 ─────────────────────────────────
 const ContentArea = styled.div`
   flex: 1;
@@ -156,6 +113,7 @@ const ContentArea = styled.div`
   position: relative;
   z-index: 10;
   min-height: 0;
+  padding: 0 ${T.pagePad};
 
   @media (max-width: ${T.bp.mobile}) {
     grid-template-columns: 1fr;
@@ -170,17 +128,14 @@ const ContentRight = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 0 ${T.pagePad};
 
   @media (max-width: ${T.bp.mobile}) {
     grid-column: 1;
-    padding-top: ${T.spacing[32]};
-    padding-bottom: ${T.spacing[48]};
+    padding-block: ${T.spacing[32]} ${T.spacing[48]};
   }
 
   @media (max-width: ${T.bp.mini}) {
-    padding-top: ${T.spacing[20]};
-    padding-bottom: ${T.spacing[32]};
+    padding-block: ${T.spacing[20]} ${T.spacing[32]};
   }
 `
 
@@ -189,7 +144,7 @@ const InfoBox = styled.dl`
   display: flex;
   align-items: center;
   width: 100%;
-  max-width: ${CONTENT_W};
+  max-width: ${T.contentW};
   margin: 0;
   padding: ${T.spacing[24]} ${T.spacing[20]};
   border: 1px solid ${alpha(T.amber, 0.2)};
@@ -208,17 +163,11 @@ const InfoBox = styled.dl`
 const AccessWrap = styled.div`
   display: flex;
   flex-direction: column;
-  /* align-items: flex-end; */
   gap: ${T.spacing[24]};
   width: 100%;
-  max-width: ${CONTENT_W};
-  padding-top: ${T.spacing[48]};
-  padding-bottom: ${T.spacing[32]};
+  max-width: ${T.contentW};
+  padding-block: ${T.spacing[48]} ${T.spacing[32]};
   ${({ $animIn }) => revealUp($animIn, 0.6)}
-
-  /* @media (max-width: ${T.bp.tablet}) {
-    align-items: center;
-  } */
 
   @media (max-width: ${T.bp.mobile}) {
     padding-top: ${T.spacing[32]};
@@ -264,12 +213,8 @@ const AccessLine = styled.span`
 
 const AccessList = styled.ul`
   display: flex;
-  /* align-items: center; */
   gap: ${T.spacing[8]};
   width: 100%;
-  margin: 0;
-  padding: 0;
-  list-style: none;
 
   @media (max-width: ${T.bp.mini}) {
     flex-direction: column;

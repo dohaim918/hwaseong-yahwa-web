@@ -3,15 +3,14 @@
 //    label / labelAccent / title / titleGradient
 //    gradTitle / desc / descColor / center
 //
-//  A  <SectionHeader title={<>밤을 <GradSpan g={...}>걷고 싶나요</GradSpan></>} />
+//  A  <SectionHeader title={<>밤을 <GradSpan $g={...}>걷고 싶나요</GradSpan></>} />
 //  B  <SectionHeader label="..." title="..." titleGradient={...} center />
 //  C  <SectionHeader label="..." title="..." gradTitle="..." titleGradient={...} center />
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 import styled from "@emotion/styled"
 import { T, revealUp } from "@/styles/theme"
-import { GradLine } from "@/components/ui/deco"
-export { GradSpan } from "@/components/ui/GradSpan"
+import { GradLine } from "@/components/ui/Deco"
 
 export default function SectionHeader({
   label,

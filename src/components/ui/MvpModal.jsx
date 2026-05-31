@@ -1,10 +1,21 @@
-import { useRef } from "react"
+import { createContext, useCallback, useContext, useId, useMemo, useRef, useState } from "react"
 import { createPortal } from "react-dom"
 import styled from "@emotion/styled"
-import { T, alpha } from "@/styles/theme"
-import { Shimmer } from "@/components/ui/deco"
+import { T, alpha, shimmerLine } from "@/styles/theme"
+import { Shimmer } from "@/components/ui/Deco"
 import { CloseIcon, FlowerIcon } from "@/components/ui/icons"
-import { useFocusTrap } from "@/hooks/useFocusTrap"
+import { useFocusLock } from "@/hooks/useFocusLock"
+
+// ── Layout 에서 Provider 를 한 번만 마운트하고,
+//    하위 컴포넌트는 이 훅으로 준비 중 모달을 열고 닫는다.
+const MvpModalContext = createContext(null)
+
+// eslint-disable-next-line react-refresh/only-export-components
+export function useMvpModal() {
+  const context = useContext(MvpModalContext)
+  if (!context) throw new Error("useMvpModal must be used inside <MvpModalProvider>")
+  return context
+}
 
 export default function MvpModal({
   open,
@@ -14,25 +25,50 @@ export default function MvpModal({
   label = "COMING SOON",
   accent = T.pink,
 }) {
+  // ── 매 인스턴스마다 고유 id (모달 여러 개 동시 마운트 시 aria 충돌 방지)
+  const uid = useId()
+  const titleId = `mvp-title-${uid}`
+  const descId = `mvp-desc-${uid}`
+
+  const panelRef = useRef(null)
   const closeRef = useRef(null)
-  useFocusTrap(open, { onClose, focusRef: closeRef, trapTab: true })
+  // ── pointerdown 이 오버레이에서 시작되었는지 추적
+  //    (오버레이 → 패널 안 드래그 후 pointerup 케이스에서 잘못 닫히는 것 방지)
+  const downOnOverlay = useRef(false)
+
+  useFocusLock(open, {
+    containerRef: panelRef,
+    focusRef: closeRef,
+    onClose,
+  })
 
   if (!open) return null
 
+  // 패널 바깥(오버레이)에서 시작 → 같은 곳에서 끝났을 때만 close
+  const onOverlayPointerDown = (e) => {
+    downOnOverlay.current = e.target === e.currentTarget
+  }
+  const onOverlayPointerUp = (e) => {
+    if (downOnOverlay.current && e.target === e.currentTarget) onClose?.()
+    downOnOverlay.current = false
+  }
+
   return createPortal(
-    <Overlay role="presentation" onMouseDown={onClose}>
+    <Overlay
+      role="presentation"
+      onPointerDown={onOverlayPointerDown}
+      onPointerUp={onOverlayPointerUp}
+    >
       <Panel
+        ref={panelRef}
         role="dialog"
         aria-modal="true"
-        aria-labelledby="mvp-modal-title"
-        aria-describedby="mvp-modal-desc"
+        aria-labelledby={titleId}
+        aria-describedby={descId}
         $accent={accent}
-        onMouseDown={(e) => e.stopPropagation()}
+        onPointerDown={(e) => e.stopPropagation()}
       >
-        <Shimmer
-          $top
-          $bg={`linear-gradient(90deg, transparent 0%, ${accent} 30%, ${T.white} 50%, ${accent} 70%, transparent 100%)`}
-        />
+        <Shimmer $top $bg={shimmerLine(accent)} />
         <CloseBtn ref={closeRef} type="button" aria-label="닫기" onClick={onClose}>
           <CloseIcon size={18} />
         </CloseBtn>
@@ -41,11 +77,42 @@ export default function MvpModal({
           <FlowerIcon size={28} color={accent} />
         </Mark>
         <Label $accent={accent}>{label}</Label>
-        <Title id="mvp-modal-title">{title}</Title>
-        <Desc id="mvp-modal-desc">{desc}</Desc>
+        <Title id={titleId}>{title}</Title>
+        <Desc id={descId}>{desc}</Desc>
       </Panel>
     </Overlay>,
     document.body
+  )
+}
+
+// ── 전역 MVP 모달 상태와 단일 모달 인스턴스를 관리
+//    open(T.pink) 또는 open({ accent, title, desc }) 형태로 호출 가능
+export function MvpModalProvider({ children }) {
+  const [state, setState] = useState({ open: false })
+
+  const open = useCallback((arg) => {
+    const next = typeof arg === "string" ? { accent: arg } : (arg ?? {})
+    setState({ open: true, ...next })
+  }, [])
+
+  const close = useCallback(() => {
+    setState((s) => ({ ...s, open: false }))
+  }, [])
+
+  const api = useMemo(() => ({ open, close, isOpen: state.open }), [open, close, state.open])
+
+  return (
+    <MvpModalContext.Provider value={api}>
+      {children}
+      <MvpModal
+        open={state.open}
+        onClose={close}
+        title={state.title}
+        desc={state.desc}
+        label={state.label}
+        accent={state.accent}
+      />
+    </MvpModalContext.Provider>
   )
 }
 
@@ -104,7 +171,6 @@ const CloseBtn = styled.button`
 
   &:hover {
     color: ${T.main};
-    /* background: ${alpha(T.white, 0.08)}; */
   }
 
   &:focus-visible {

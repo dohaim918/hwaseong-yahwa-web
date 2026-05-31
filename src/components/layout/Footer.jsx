@@ -1,21 +1,40 @@
 import styled from "@emotion/styled"
 import { T, alpha, accentLine } from "@/styles/theme"
 import { UI_TEXT } from "@/data/uiText"
-import { FacebookIcon, YoutubeIcon, InstagramIcon, KakaoIcon } from "@/components/ui/icons"
+import {
+  FacebookIcon,
+  YoutubeIcon,
+  InstagramIcon,
+  KakaoIcon,
+  ChevronIcon,
+} from "@/components/ui/icons"
+import { useMvpModal } from "@/components/ui/MvpModal"
 import { useResponsive } from "@/hooks/useResponsive"
 import logoImg from "@/assets/images/logo/hwaseong-yahwa-logo.png"
 
 const tf = UI_TEXT.footer
 
+// 로고 텍스트 골드
+// const LOGO_GOLD = "#d4a574"
+
 const SNS_ICON_MAP = {
   facebook: FacebookIcon,
   youtube: YoutubeIcon,
-  google: InstagramIcon,
+  instagram: InstagramIcon,
   kakao: KakaoIcon,
 }
 
 export default function Footer() {
   const { isMini } = useResponsive()
+  const mvpModal = useMvpModal()
+  const openPending = (label) => {
+    mvpModal.open({
+      accent: T.violet,
+      title: tf.pending.title,
+      desc: `${label} ${tf.pending.descSuffix}`,
+      label: tf.pending.label,
+    })
+  }
 
   return (
     <FooterEl>
@@ -26,10 +45,10 @@ export default function Footer() {
             <BrandLeft>
               <LogoRow>
                 <LogoImg src={logoImg} alt={tf.brand} />
-                <LogoTxt>
+                {/* <LogoTxt>
                   <LogoKr>{tf.brand}</LogoKr>
                   <LogoEn>{tf.brandEn}</LogoEn>
-                </LogoTxt>
+                </LogoTxt> */}
               </LogoRow>
               <Addr>
                 {tf.address}
@@ -39,11 +58,18 @@ export default function Footer() {
             </BrandLeft>
 
             <SnsRow>
-              {tf.social.map((name) => {
-                const Icon = SNS_ICON_MAP[name]
+              {tf.social.map(({ id, label }) => {
+                const Icon = SNS_ICON_MAP[id]
+                if (!Icon) return null
                 return (
-                  <SnsBtn key={name} type="button" aria-label={name}>
-                    {Icon && <Icon size={15} color="currentColor" />}
+                  <SnsBtn
+                    key={id}
+                    type="button"
+                    aria-label={label}
+                    aria-haspopup="dialog"
+                    onClick={() => openPending(label)}
+                  >
+                    <Icon color="currentColor" />
                   </SnsBtn>
                 )
               })}
@@ -52,17 +78,26 @@ export default function Footer() {
 
           {/* ── col2~4: 링크 컬럼 ── */}
           {Object.entries(tf.columns).map(([heading, links]) => (
-            <FCol key={heading}>
-              <FColHead>{heading}</FColHead>
+            <FCol key={heading} open={isMini ? undefined : true}>
+              <FColHead tabIndex={isMini ? undefined : -1}>
+                {heading}
+                {isMini && <ChevronIcon className="foldIcon" size={16} aria-hidden="true" />}
+              </FColHead>
               <FLinks>
-                {links.map((link) =>
-                  typeof link === "string" ? (
-                    <FLink key={link} as="button" type="button">{link}</FLink>
-                  ) : (
+                {links.map((link) => {
+                  // 비활성 (href 없거나 disabled) → 비클릭 span
+                  if (!link.href || link.disabled) {
+                    return (
+                      <FLink key={link.label} as="span" $disabled aria-disabled="true">
+                        {link.label}
+                      </FLink>
+                    )
+                  }
+                  return (
                     <FLink
                       key={link.label}
                       as="a"
-                      href={link.href ?? "#"}
+                      href={link.href}
                       target={link.external ? "_blank" : undefined}
                       rel={link.external ? "noopener noreferrer" : undefined}
                     >
@@ -70,7 +105,7 @@ export default function Footer() {
                       {link.external && <Ext aria-hidden="true">↗</Ext>}
                     </FLink>
                   )
-                )}
+                })}
               </FLinks>
             </FCol>
           ))}
@@ -82,7 +117,14 @@ export default function Footer() {
         <CopyText>{isMini ? tf.copyrightMini : tf.copyright}</CopyText>
         <CopyLegal>
           {tf.legal.map((item) => (
-            <CopyBtn key={item} type="button">{item}</CopyBtn>
+            <CopyBtn
+              key={item}
+              type="button"
+              aria-haspopup="dialog"
+              onClick={() => openPending(item)}
+            >
+              {item}
+            </CopyBtn>
           ))}
         </CopyLegal>
       </CopyBar>
@@ -90,22 +132,19 @@ export default function Footer() {
   )
 }
 
-// ─────────────────────────────────────────────────────
-//  레이아웃
-// ─────────────────────────────────────────────────────
-
 const FooterEl = styled.footer`
   position: relative;
   z-index: 5;
   flex-shrink: 0;
   background:
-    linear-gradient(180deg, ${alpha(T.muted, 0.15)} 0%, ${alpha(T.bgBase, 0.15)} 100%),
-    ${T.bgBase};
+    linear-gradient(180deg, ${alpha(T.muted, 0.15)} 0%, ${alpha(T.bgBase, 0.15)} 100%), ${T.bgBase};
 
   &::before {
     content: "";
     position: absolute;
-    top: 0; left: 0; right: 0;
+    top: 0;
+    left: 0;
+    right: 0;
     height: 2px;
     background: ${accentLine(T.violet)};
   }
@@ -134,7 +173,8 @@ const FooterGrid = styled.div`
   }
 
   @media (max-width: ${T.bp.mini}) {
-    gap: ${T.spacing[16]};
+    grid-template-columns: 1fr;
+    gap: 0;
   }
 `
 
@@ -161,15 +201,13 @@ const BrandCol = styled.div`
     flex-direction: column;
     align-items: center;
     text-align: center;
-    gap: ${T.spacing[12]};
+    gap: ${T.spacing[16]};
     padding-bottom: ${T.spacing[12]};
-    border-bottom: 1px solid ${alpha(T.white, 0.06)};
   }
 
-  @media (max-width: ${T.bp.mini}) {
+  /* @media (max-width: ${T.bp.mini}) {
     gap: ${T.spacing[8]};
-    padding-bottom: ${T.spacing[8]};
-  }
+  } */
 `
 
 const BrandLeft = styled.div`
@@ -190,45 +228,44 @@ const LogoRow = styled.div`
 `
 
 const LogoImg = styled.img`
-  width: 46px;
-  height: 46px;
-  object-fit: contain;
-  flex-shrink: 0;
+  width: 124px;
+  /* object-fit: contain;
+  flex-shrink: 0; */
 
-  @media (max-width: ${T.bp.mini}) {
+  /* @media (max-width: ${T.bp.mini}) {
     width: 38px;
     height: 38px;
-  }
+  } */
 `
 
-const LogoTxt = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${T.spacing[4]};
-`
+// const LogoTxt = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   gap: ${T.spacing[4]};
+// `
 
-const LogoKr = styled.span`
-  font-family: ${T.fontSerif};
-  font-size: 19px;
-  font-weight: 500;
-  letter-spacing: 1.5px;
-  color: ${T.bgGold};
-  line-height: 1;
-`
+// const LogoKr = styled.span`
+//   font-family: ${T.fontSerif};
+//   font-size: 19px;
+//   font-weight: 500;
+//   letter-spacing: 1.5px;
+//   color: ${LOGO_GOLD};
+//   line-height: 1;
+// `
 
-const LogoEn = styled.span`
-  font-size: ${T.fontSize.xxs};
-  font-weight: 400;
-  letter-spacing: 0.5px;
-  color: ${alpha(T.bgGold, 0.6)};
-  line-height: 1;
-`
+// const LogoEn = styled.span`
+//   font-size: 9px;
+//   font-weight: 400;
+//   letter-spacing: 0.5px;
+//   color: ${alpha(LOGO_GOLD, 0.6)};
+//   line-height: 1;
+// `
 
 const Addr = styled.address`
   font-style: normal;
   font-size: ${T.fontSize.xs};
   line-height: 1.7;
-  color: ${T.muted};
+  color: ${alpha(T.sub, 0.7)};
 
   @media (max-width: ${T.bp.tablet}) {
     font-size: ${T.fontSize.xxs};
@@ -255,8 +292,11 @@ const SnsRow = styled.div`
 `
 
 const SnsBtn = styled.button`
-  width: ${T.spacing[32]};
-  height: ${T.spacing[32]};
+  --sns-size: clamp(28px, 5vw, ${T.spacing[32]});
+  --sns-icon: clamp(13px, 2.4vw, 15px);
+
+  width: var(--sns-size);
+  height: var(--sns-size);
   border-radius: ${T.radius.sm};
   display: flex;
   align-items: center;
@@ -280,28 +320,36 @@ const SnsBtn = styled.button`
     outline: 1px solid ${alpha(T.pink, 0.7)};
     outline-offset: 2px;
   }
+
+  svg {
+    width: var(--sns-icon);
+    height: var(--sns-icon);
+  }
 `
 
-// ─────────────────────────────────────────────────────
-//  col2~4 — 링크 컬럼
-// ─────────────────────────────────────────────────────
-
-const FCol = styled.div`
+const FCol = styled.details`
   display: flex;
   flex-direction: column;
   gap: ${T.spacing[16]};
 
   @media (max-width: ${T.bp.mini}) {
-    gap: ${T.spacing[12]};
+    gap: 0;
+    border-bottom: 1px solid ${alpha(T.white, 0.06)};
   }
 `
 
-const FColHead = styled.h3`
+const FColHead = styled.summary`
+  list-style: none;
   font-size: ${T.fontSize.sm};
   font-weight: 700;
-  color: ${T.main};
+  color: ${alpha(T.main, 0.6)};
   padding-bottom: ${T.spacing[16]};
   border-bottom: 1px solid ${alpha(T.white, 0.06)};
+  pointer-events: none;
+
+  &::-webkit-details-marker {
+    display: none;
+  }
 
   @media (max-width: ${T.bp.tablet}) {
     font-size: ${T.fontSize.xs};
@@ -309,9 +357,24 @@ const FColHead = styled.h3`
   }
 
   @media (max-width: ${T.bp.mini}) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: ${T.spacing[12]} 0;
+    border-bottom: 0;
     font-size: ${T.fontSize.xxs};
     letter-spacing: 0.5px;
-    padding-bottom: ${T.spacing[8]};
+    pointer-events: auto;
+    cursor: pointer;
+
+    .foldIcon {
+      color: ${alpha(T.sub, 0.8)};
+      transition: transform ${T.transition.fast};
+    }
+
+    details[open] & .foldIcon {
+      transform: rotate(90deg);
+    }
   }
 `
 
@@ -322,6 +385,7 @@ const FLinks = styled.div`
 
   @media (max-width: ${T.bp.mini}) {
     gap: ${T.spacing[6]};
+    padding: 0 0 ${T.spacing[16]};
   }
 `
 
@@ -331,11 +395,14 @@ const FLink = styled.span`
   gap: ${T.spacing[4]};
   font-size: ${T.fontSize.xs};
   color: ${T.sub};
-  cursor: pointer;
+  cursor: ${({ $disabled }) => ($disabled ? "default" : "pointer")};
+  opacity: ${({ $disabled }) => ($disabled ? 0.5 : 1)};
   text-decoration: none;
   transition: color ${T.transition.fast};
 
-  &:hover { color: ${T.main}; }
+  &:hover {
+    color: ${({ $disabled }) => ($disabled ? T.sub : T.main)};
+  }
 
   &:focus-visible {
     outline: 1px solid ${alpha(T.pink, 0.7)};
@@ -386,7 +453,7 @@ const CopyBar = styled.div`
 
 const CopyText = styled.span`
   font-size: ${T.fontSize.xxs};
-  color: ${T.muted};
+  color: ${alpha(T.sub, 0.7)};
 
   @media (max-width: ${T.bp.mobile}) {
     word-break: keep-all;
@@ -405,10 +472,12 @@ const CopyLegal = styled.div`
 
 const CopyBtn = styled.button`
   font-size: ${T.fontSize.xxs};
-  color: ${T.muted};
+  color: ${alpha(T.sub, 0.7)};
   cursor: pointer;
   white-space: nowrap;
   transition: color ${T.transition.fast};
 
-  &:hover { color: ${T.sub}; }
+  &:hover {
+    color: ${T.main};
+  }
 `

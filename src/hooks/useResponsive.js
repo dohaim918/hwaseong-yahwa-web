@@ -1,40 +1,67 @@
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-//  현재 뷰포트가 어느 브레이크포인트인지 반환
-//  T.bp 기준 (max-width / 데스크탑 우선)
-//
-//  useMediaQuery 같은 라이브러리도 있지만, 간단한 로직은 직접 구현해도 충분할 듯
-//  (특히 SSR 환경에서 초기값 처리 때문에 라이브러리 사용이 오히려 번거로울 수 있음)
-//  ✦ 언제 @media 쿼리를 쓰고 언제 이 훅을 쓰나?
-//
-//  @media 쿼리 → CSS(스타일)만 바뀌는 경우
-//  스타일만 바뀜 → @media 쿼리
-// ─────────────────────────────────────
-//  useResponsive → JS 로직이 바뀌는 경우
-//  컴포넌트 자체 교체 → useResponsive
-//  데이터/로직 교체  → useResponsive
-//  조건부 렌더링    → useResponsive
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-import { useEffect, useState } from "react"
+import { useSyncExternalStore } from "react"
 import { T } from "@/styles/theme"
 
-const KEYS = ["mini", "mobile", "tablet"]
-const BPS = [T.bp.mini, T.bp.mobile, T.bp.tablet]
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+//  useMediaQuery — matchMedia 공유 구독
+//  ────────────────────────────────────
+//  같은 query 는 브라우저 리스너 하나만 만들고
+//  여러 컴포넌트가 결과를 함께 구독한다.
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-const getCurrent = () => {
-  if (typeof window === "undefined") return "desktop"
-  return KEYS.find((_, i) => window.matchMedia(`(max-width: ${BPS[i]})`).matches) ?? "desktop"
+const stores = new Map()
+
+const createStore = (query) => {
+  let mq = null
+  const listeners = new Set()
+  const getMq = () => {
+    if (typeof window === "undefined") return null
+    mq ??= window.matchMedia(query)
+    return mq
+  }
+  const notify = () => listeners.forEach((listener) => listener())
+
+  return {
+    subscribe(listener) {
+      const media = getMq()
+      listeners.add(listener)
+      if (listeners.size === 1) media?.addEventListener("change", notify)
+      return () => {
+        listeners.delete(listener)
+        if (listeners.size === 0) media?.removeEventListener("change", notify)
+      }
+    },
+    getSnapshot: () => getMq()?.matches ?? false,
+    getServerSnapshot: () => false,
+  }
 }
 
-export function useResponsive() {
-  const [current, setCurrent] = useState(getCurrent)
+const getStore = (query) => {
+  if (!stores.has(query)) stores.set(query, createStore(query))
+  return stores.get(query)
+}
 
-  useEffect(() => {
-    const mqs = BPS.map((bp) => window.matchMedia(`(max-width: ${bp})`))
-    const update = () => setCurrent(getCurrent())
-    mqs.forEach((mq) => mq.addEventListener("change", update))
-    return () => mqs.forEach((mq) => mq.removeEventListener("change", update))
-  }, [])
+export function useMediaQuery(query) {
+  const store = getStore(query)
+  return useSyncExternalStore(store.subscribe, store.getSnapshot, store.getServerSnapshot)
+}
+
+// ── 자주 쓰는 쿼리 단축
+export const useReducedMotion = () => useMediaQuery("(prefers-reduced-motion: reduce)")
+
+export const useFinePointer = () => useMediaQuery("(pointer: fine)")
+
+// ── JS 분기가 필요한 반응형 정보
+const BPS = [
+  { key: "mini", query: `(max-width: ${T.bp.mini})` },
+  { key: "mobile", query: `(max-width: ${T.bp.mobile})` },
+  { key: "tablet", query: `(max-width: ${T.bp.tablet})` },
+]
+
+export function useResponsive() {
+  const isMiniMax = useMediaQuery(BPS[0].query)
+  const isMobileMax = useMediaQuery(BPS[1].query)
+  const isTabletMax = useMediaQuery(BPS[2].query)
+  const current = isMiniMax ? "mini" : isMobileMax ? "mobile" : isTabletMax ? "tablet" : "desktop"
 
   return {
     current,
@@ -43,6 +70,6 @@ export function useResponsive() {
     isTablet: current === "tablet",
     isDesktop: current === "desktop",
     isMobileOrTablet: current !== "desktop",
-    isMobileOrSmaller: current === "mobile" || current === "mini",
+    isSmall: current === "mini" || current === "mobile",
   }
 }

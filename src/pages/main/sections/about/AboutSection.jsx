@@ -1,25 +1,23 @@
-import { useState } from "react"
-import { Link, useOutletContext } from "react-router-dom"
+import { Link } from "react-router-dom"
 import styled from "@emotion/styled"
-import { T, alpha, GRADIENT, sectionAccent, revealUp, SECTION_COLOR } from "@/styles/theme"
+import { T, alpha, GRADIENT, sectionAccent, revealUp } from "@/styles/theme"
 import { UI_TEXT } from "@/data/uiText"
-import SectionHeader from "@/components/ui/Sectiontext"
-import { GradSpan } from "@/components/ui/GradSpan"
+import SectionHeader from "@/components/ui/SectionHeader"
 import FullSection from "@/components/layout/FullSection"
 import Button from "@/components/ui/Button"
 import AnimatedBgImage from "@/components/ui/AnimatedBgImage"
-import MvpModal from "@/components/ui/MvpModal"
+import { EdgeFade, GradSpan } from "@/components/ui/Deco"
 import { useCounter } from "@/hooks/useCounter"
-import { useSectionReveal } from "@/hooks/useSectionReveal"
+import { useMvpModal } from "@/components/ui/MvpModal"
+import { useSectionAccent } from "@/hooks/useSectionAccent"
 import aboutBg from "@/assets/images/about/about-bg.png"
 
 const t = UI_TEXT.about
 
-const STAT_COLORS = [T.pink, T.emerald, T.amber, T.violet]
-const STAT_LOCK_DELAYS = [1400, 1600, 1900, 2200]
-
-function AboutStatCard({ stat, color, lockDelay, active }) {
-  const count = useCounter(stat.value, lockDelay, active)
+function AboutStatCard({ stat, active }) {
+  // colorKey 가 theme 토큰에 없으면 emerald 로 fallback
+  const color = T[stat.colorKey] ?? T.emerald
+  const count = useCounter(stat.value, stat.lockDelay ?? 1800, active)
 
   return (
     <StatCell $color={color}>
@@ -33,17 +31,13 @@ function AboutStatCard({ stat, color, lockDelay, active }) {
 }
 
 export default function AboutSection() {
-  const [modalOpen, setModalOpen] = useState(false)
-  const { setAccent } = useOutletContext()
-  const { ref: secRef, animIn } = useSectionReveal({
-    onActive: () => setAccent(SECTION_COLOR[3]),
-  })
+  const mvpModal = useMvpModal()
+  const { ref: secRef, animIn } = useSectionAccent(3)
 
   return (
     <AbShell ref={secRef}>
       <AnimatedBgImage src={aboutBg} opacity={0.5} animate={animIn} />
-      {/* <BgOrb /> */}
-      <TopFade />
+      <EdgeFade side="top" size="clamp(200px, 40vh, 372px)" opacity={1} z={3} />
 
       <ContentArea>
         <SectionHeader
@@ -55,7 +49,7 @@ export default function AboutSection() {
             <>
               {t.h2.line1}
               <br />
-              <GradSpan g={GRADIENT.emeraldAmber}>{t.h2.line2Grad}</GradSpan>
+              <GradSpan $g={GRADIENT.emeraldAmber}>{t.h2.line2Grad}</GradSpan>
             </>
           }
           desc={t.desc}
@@ -63,14 +57,8 @@ export default function AboutSection() {
         />
 
         <StatsBox $animIn={animIn}>
-          {t.stats.map((s, i) => (
-            <AboutStatCard
-              key={s.label}
-              stat={s}
-              color={STAT_COLORS[i] ?? T.emerald}
-              lockDelay={STAT_LOCK_DELAYS[i] ?? 1800}
-              active={animIn}
-            />
+          {t.stats.map((s) => (
+            <AboutStatCard key={s.label} stat={s} active={animIn} />
           ))}
         </StatsBox>
 
@@ -78,13 +66,11 @@ export default function AboutSection() {
           <Button as={Link} to="/programs" variant="gradient" accent={T.emerald}>
             {t.ctaPrimary}
           </Button>
-          <Button variant="outline" accent={T.emerald} onClick={() => setModalOpen(true)}>
+          <Button variant="outline" accent={T.emerald} onClick={() => mvpModal.open(T.emerald)}>
             {t.ctaSecondary}
           </Button>
         </BtnsRow>
       </ContentArea>
-
-      <MvpModal open={modalOpen} onClose={() => setModalOpen(false)} accent={T.emerald} />
     </AbShell>
   )
 }
@@ -95,31 +81,6 @@ const AbShell = styled(FullSection)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-`
-
-// ── 배경 레이어 ───────────────────────────────────────
-// const BgOrb = styled.div`
-//   position: absolute;
-//   top: 50%;
-//   left: 50%;
-//   transform: translate(-50%, -50%);
-//   width: 600px;
-//   height: 600px;
-//   border-radius: 50%;
-//   background: radial-gradient(circle, ${alpha(T.emerald, 0.04)} 0%, transparent 65%);
-//   pointer-events: none;
-//   z-index: 2;
-// `
-
-const TopFade = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: clamp(200px, 40vh, 372px);
-  pointer-events: none;
-  z-index: 3;
-  background: linear-gradient(180deg, ${T.bgBase} 0%, ${alpha(T.bgBase, 0)} 100%);
 `
 
 // ── 콘텐츠 영역 ───────────────────────────────────────

@@ -1,13 +1,12 @@
-import { Link, useOutletContext } from "react-router-dom"
+import { Link } from "react-router-dom"
 import styled from "@emotion/styled"
-import { T, alpha, GRADIENT, sectionAccent, revealUp, SECTION_COLOR } from "@/styles/theme"
+import { T, alpha, GRADIENT, sectionAccent, revealUp } from "@/styles/theme"
 import { UI_TEXT } from "@/data/uiText"
-import { GradSpan } from "@/components/ui/GradSpan"
-import SectionHeader from "@/components/ui/Sectiontext"
+import { GradSpan, SectionDecoImg, EdgeFade } from "@/components/ui/Deco"
+import SectionHeader from "@/components/ui/SectionHeader"
 import Button from "@/components/ui/Button"
 import AnimatedBgImage from "@/components/ui/AnimatedBgImage"
-import { SectionDecoImg } from "@/components/ui/deco"
-import { useSectionReveal } from "@/hooks/useSectionReveal"
+import { useSectionAccent } from "@/hooks/useSectionAccent"
 import { useResponsive } from "@/hooks/useResponsive"
 import Footer from "@/components/layout/Footer"
 import ctaBg from "@/assets/images/main-cta-bg.png"
@@ -16,11 +15,8 @@ import sectionDeco from "@/assets/images/section-deco.png"
 const t = UI_TEXT.mainCta
 
 export default function MainCtaSection() {
-  const { setAccent } = useOutletContext()
   const { isMini } = useResponsive()
-  const { ref: secRef, animIn } = useSectionReveal({
-    onActive: () => setAccent(SECTION_COLOR[5]),
-  })
+  const { ref: secRef, animIn } = useSectionAccent(5)
 
   return (
     <Sec ref={secRef}>
@@ -28,7 +24,7 @@ export default function MainCtaSection() {
       <CtaWrapper>
         <AnimatedBgImage src={ctaBg} opacity={0.75} animate={animIn} />
         <BgOverlay />
-        <BgFade />
+        <EdgeFade side="bottom" size="12%" opacity={0.6} z={4} />
 
         <GlowRose $animIn={animIn} aria-hidden="true" />
         <GlowAmber $animIn={animIn} aria-hidden="true" />
@@ -47,7 +43,7 @@ export default function MainCtaSection() {
               title={
                 <>
                   {isMini ? t.h2Mini.gradStart : t.h2.gradStart}
-                  <GradSpan g={GRADIENT.amberPink}>
+                  <GradSpan $g={GRADIENT.amberPink}>
                     {isMini ? t.h2Mini.gradEnd : t.h2.gradEnd}
                   </GradSpan>
                 </>
@@ -67,8 +63,6 @@ export default function MainCtaSection() {
           </Inner>
         </CtaArea>
       </CtaWrapper>
-
-      {/* ── 푸터 ── */}
       <Footer />
     </Sec>
   )
@@ -77,12 +71,11 @@ export default function MainCtaSection() {
 const Sec = styled.section`
   position: relative;
   overflow: clip;
-  min-height: 100dvh;
+  height: 100dvh;
   scroll-snap-align: start;
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
-  margin-inline: calc(-1 * ${T.pagePad});
   ${sectionAccent(T.pink)}
 `
 
@@ -105,15 +98,6 @@ const BgOverlay = styled.div`
   background:
     radial-gradient(ellipse 70% 50% at 50% 30%, ${alpha(T.violetDark, 0.5)} 0%, transparent 60%),
     radial-gradient(ellipse 50% 40% at 20% 70%, ${alpha(T.pinkDark, 0.3)} 0%, transparent 55%);
-`
-
-// 하단 엣지 페이드
-const BgFade = styled.div`
-  position: absolute;
-  inset: 0;
-  z-index: 4;
-  pointer-events: none;
-  background: linear-gradient(180deg, transparent 88%, ${alpha(T.bgBase, 0.6)} 100%);
 `
 
 // 글로우 공통 베이스 — 위치·색상만 하위에서 오버라이드
@@ -167,18 +151,15 @@ const CtaArea = styled.div`
   border-top: 1px solid ${alpha(T.pink, 0.15)};
 
   @media (max-width: ${T.bp.tablet}) {
-    padding-top: calc(${T.navHeight} + ${T.spacing[20]});
-    padding-bottom: ${T.spacing[36]};
+    padding-block: calc(${T.navHeight} + ${T.spacing[20]}) ${T.spacing[36]};
   }
 
   @media (max-width: ${T.bp.mobile}) {
-    padding-top: calc(${T.navHeight} + ${T.spacing[16]});
-    padding-bottom: ${T.spacing[32]};
+    padding-block: calc(${T.navHeight} + ${T.spacing[16]}) ${T.spacing[32]};
   }
 
   @media (max-width: ${T.bp.mini}) {
-    padding-top: calc(${T.navHeightMini} + ${T.spacing[12]});
-    padding-bottom: ${T.spacing[24]};
+    padding-block: calc(${T.navHeightMini} + ${T.spacing[12]}) ${T.spacing[24]};
   }
 `
 

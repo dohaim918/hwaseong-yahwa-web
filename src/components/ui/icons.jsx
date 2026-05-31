@@ -2,9 +2,12 @@
 //  SVG 아이콘 모음
 //
 //  공통 props:
-//    size  — width & height (px, 기본값: 24)
+//    size  — width & height (px, 아이콘별 기본값)
 //    color — stroke / fill 색상 (기본값: "currentColor")
 //    ...rest — SVG 속성 전달 (className, style, onClick 등)
+//
+//  모든 아이콘은 기본 데코용 — aria-hidden="true" + focusable="false" 자동 부착.
+//  의미 전달이 필요하면 호출 측에서 aria-label + role="img" 로 오버라이드.
 //
 //  그룹 구분:
 //    1. 기본 UI 아이콘   — Star, Flower, Close, MapPin, Clock, Ticket
@@ -15,19 +18,36 @@
 
 import { useId } from "react"
 
+// 공통 SVG 래퍼 — a11y 디폴트 보장
+function Svg({ size, viewBox, children, ...rest }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox={viewBox}
+      fill="none"
+      aria-hidden="true"
+      focusable="false"
+      {...rest}
+    >
+      {children}
+    </svg>
+  )
+}
+
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //  1. 기본 UI 아이콘
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 export function StarIcon({ size = 14, color = "currentColor", opacity = 1, ...rest }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 14 14" fill="none" {...rest}>
+    <Svg size={size} viewBox="0 0 14 14" {...rest}>
       <path
         d="M7 0L8.16 5.84L14 7L8.16 8.16L7 14L5.84 8.16L0 7L5.84 5.84L7 0Z"
         fill={color}
         opacity={opacity}
       />
-    </svg>
+    </Svg>
   )
 }
 
@@ -38,14 +58,7 @@ export function FlowerIcon({ size = 14, color = "currentColor", ...rest }) {
   const filterId = `flower-${id.replace(/:/g, "")}`
 
   return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="-8 -8 16 16"
-      aria-hidden="true"
-      focusable="false"
-      {...rest}
-    >
+    <Svg size={size} viewBox="-8 -8 16 16" {...rest}>
       <defs>
         <filter id={filterId}>
           <feGaussianBlur stdDeviation="0.8" result="b" />
@@ -66,43 +79,43 @@ export function FlowerIcon({ size = 14, color = "currentColor", ...rest }) {
         />
       ))}
       <circle cx="0" cy="0" r="1.8" fill={color} />
-    </svg>
+    </Svg>
   )
 }
 
 export function CloseIcon({ size = 24, color = "currentColor", ...rest }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" {...rest}>
+    <Svg size={size} viewBox="0 0 24 24" {...rest}>
       <line x1="4" y1="4" x2="20" y2="20" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
       <line x1="20" y1="4" x2="4" y2="20" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
-    </svg>
+    </Svg>
   )
 }
 
 export function MapPinIcon({ size = 24, color = "currentColor", ...rest }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" {...rest}>
+    <Svg size={size} viewBox="0 0 24 24" {...rest}>
       <path d="M20 10C20 14.993 14.461 20.193 12.601 21.799C12.4277 21.9293 12.2168 21.9998 12 21.9998C11.7832 21.9998 11.5723 21.9293 11.399 21.799C9.539 20.193 4 14.993 4 10C4 7.87827 4.84285 5.84344 6.34315 4.34315C7.84344 2.84285 9.87827 2 12 2C14.1217 2 16.1566 2.84285 17.6569 4.34315C19.1571 5.84344 20 7.87827 20 10Z" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
       <path d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-    </svg>
+    </Svg>
   )
 }
 
 export function ClockIcon({ size = 24, color = "currentColor", ...rest }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" {...rest}>
+    <Svg size={size} viewBox="0 0 24 24" {...rest}>
       <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
       <path d="M12 6V12L16 14" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-    </svg>
+    </Svg>
   )
 }
 
 export function TicketIcon({ size = 24, color = "currentColor", ...rest }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" {...rest}>
+    <Svg size={size} viewBox="0 0 24 24" {...rest}>
       <path d="M12 8L13.459 10.5L15.959 11.125L14.292 13L14.709 15.916L12 14.666L9.29199 15.916L9.70899 13L8.04199 11.125L10.542 10.5L12 8Z" stroke={color} strokeWidth="1.5"/>
       <path d="M22.75 20.75H1.25V14.2988L1.75 14.123C2.1892 13.9681 2.56985 13.68 2.83887 13.2998C3.10779 12.9197 3.25293 12.4657 3.25293 12C3.25293 11.5343 3.10779 11.0803 2.83887 10.7002C2.56985 10.32 2.1892 10.0319 1.75 9.87695L1.25 9.70117V3.25H22.75V9.70117L22.25 9.87695C21.8108 10.0319 21.4301 10.32 21.1611 10.7002C20.8922 11.0803 20.7471 11.5343 20.7471 12C20.7471 12.4657 20.8922 12.9197 21.1611 13.2998C21.4301 13.68 21.8108 13.9681 22.25 14.123L22.75 14.2988V20.75Z" stroke={color} strokeWidth="1.5"/>
-    </svg>
+    </Svg>
   )
 }
 
@@ -112,34 +125,34 @@ export function TicketIcon({ size = 24, color = "currentColor", ...rest }) {
 
 export function SubwayIcon({ size = 32, color = "currentColor", ...rest }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 32 32" fill="none" {...rest}>
+    <Svg size={size} viewBox="0 0 32 32" {...rest}>
       <path d="M6.3999 9.60078H25.5999M25.5999 16.0008H6.3999M8.1035 22.8832C7.56999 22.4356 7.14099 21.8766 6.84667 21.2455C6.55235 20.6143 6.39985 19.9264 6.3999 19.23V9.56998C6.3999 8.30511 6.90237 7.09205 7.79677 6.19765C8.69117 5.30325 9.90423 4.80078 11.1691 4.80078H20.8311C22.0958 4.80089 23.3087 5.30335 24.203 6.19765C25.0973 7.09195 25.5998 8.30485 25.5999 9.56958V19.2296C25.5999 20.4944 25.0975 21.7074 24.2032 22.6018C23.3089 23.4962 22.0959 23.9987 20.8311 23.9988H11.1687C10.0475 23.9988 8.9623 23.6044 8.1035 22.8832Z" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
       <path d="M9.82324 20.1768L10 20L10.1768 20.1768M10 20L9.82324 20.1768M10 20L10.1768 20.1768M9.82324 20.1768C9.77636 20.1299 9.75 20.0663 9.75 20C9.75 19.9337 9.77636 19.8701 9.82324 19.8232L9.86133 19.792C9.90209 19.7648 9.95028 19.75 10 19.75C10.0663 19.75 10.1299 19.7764 10.1768 19.8232L10.208 19.8613C10.2352 19.9021 10.25 19.9503 10.25 20C10.25 20.0663 10.2236 20.1299 10.1768 20.1768C10.1299 20.2236 10.0663 20.25 10 20.25C9.93369 20.25 9.87013 20.2236 9.82324 20.1768Z" fill={color} stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
       <path d="M21.8232 20.1768L22 20L22.1768 20.1768M22 20L21.8232 20.1768M22 20L22.1768 20.1768M21.8232 20.1768C21.7764 20.1299 21.75 20.0663 21.75 20C21.75 19.9337 21.7764 19.8701 21.8232 19.8232L21.8613 19.792C21.9021 19.7648 21.9503 19.75 22 19.75C22.0663 19.75 22.1299 19.7764 22.1768 19.8232L22.208 19.8613C22.2352 19.9021 22.25 19.9503 22.25 20C22.25 20.0663 22.2236 20.1299 22.1768 20.1768C22.1299 20.2236 22.0663 20.25 22 20.25C21.9337 20.25 21.8701 20.2236 21.8232 20.1768Z" fill={color} stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
       <path d="M13 20.0781H19" stroke={color} strokeLinecap="round"/>
       <path d="M8.3999 27.2L11.5999 24M23.5999 27.2L20.3999 24" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
       <path d="M8.5 27.0781H23.5" stroke={color}/>
-    </svg>
+    </Svg>
   )
 }
 
 export function BusIcon({ size = 32, color = "currentColor", ...rest }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 32 32" fill="none" {...rest}>
+    <Svg size={size} viewBox="0 0 32 32" {...rest}>
       <path d="M20.6668 5.33398H11.3335C11.1567 5.33398 10.9871 5.40422 10.8621 5.52925C10.7371 5.65427 10.6668 5.82384 10.6668 6.00065C10.6668 6.17746 10.7371 6.34703 10.8621 6.47206C10.9871 6.59708 11.1567 6.66732 11.3335 6.66732H20.6668C20.8436 6.66732 21.0132 6.59708 21.1382 6.47206C21.2633 6.34703 21.3335 6.17746 21.3335 6.00065C21.3335 5.82384 21.2633 5.65427 21.1382 5.52925C21.0132 5.40422 20.8436 5.33398 20.6668 5.33398ZM10.0002 21.334C10.132 21.334 10.2609 21.3731 10.3705 21.4463C10.4802 21.5196 10.5656 21.6237 10.6161 21.7455C10.6665 21.8673 10.6797 22.0014 10.654 22.1307C10.6283 22.26 10.5648 22.3788 10.4716 22.4721C10.3783 22.5653 10.2595 22.6288 10.1302 22.6545C10.0009 22.6802 9.86686 22.667 9.74504 22.6166C9.62322 22.5661 9.5191 22.4807 9.44585 22.371C9.3726 22.2614 9.3335 22.1325 9.3335 22.0007C9.3335 21.8238 9.40373 21.6543 9.52876 21.5292C9.65378 21.4042 9.82335 21.334 10.0002 21.334ZM22.0002 21.334C22.132 21.334 22.2609 21.3731 22.3705 21.4463C22.4802 21.5196 22.5656 21.6237 22.6161 21.7455C22.6665 21.8673 22.6797 22.0014 22.654 22.1307C22.6283 22.26 22.5648 22.3788 22.4716 22.4721C22.3783 22.5653 22.2595 22.6288 22.1302 22.6545C22.0009 22.6802 21.8669 22.667 21.745 22.6166C21.6232 22.5661 21.5191 22.4807 21.4458 22.371C21.3726 22.2614 21.3335 22.1325 21.3335 22.0007C21.3335 21.8238 21.4037 21.6543 21.5288 21.5292C21.6538 21.4042 21.8234 21.334 22.0002 21.334ZM14.0002 22.6673H18.0002C18.177 22.6673 18.3465 22.5971 18.4716 22.4721C18.5966 22.347 18.6668 22.1775 18.6668 22.0007C18.6668 21.8238 18.5966 21.6543 18.4716 21.5292C18.3465 21.4042 18.177 21.334 18.0002 21.334H14.0002C13.8234 21.334 13.6538 21.4042 13.5288 21.5292C13.4037 21.6543 13.3335 21.8238 13.3335 22.0007C13.3335 22.1775 13.4037 22.347 13.5288 22.4721C13.6538 22.5971 13.8234 22.6673 14.0002 22.6673Z" fill={color}/>
       <path d="M28.0002 7.33398H26.6668V5.33398C26.6668 4.80355 26.4561 4.29484 26.081 3.91977C25.706 3.5447 25.1973 3.33398 24.6668 3.33398H7.3335C6.80306 3.33398 6.29436 3.5447 5.91928 3.91977C5.54421 4.29484 5.3335 4.80355 5.3335 5.33398V7.33398H4.00016C3.82335 7.33398 3.65378 7.40422 3.52876 7.52925C3.40373 7.65427 3.3335 7.82384 3.3335 8.00065V14.6673C3.3335 14.8441 3.40373 15.0137 3.52876 15.1387C3.65378 15.2637 3.82335 15.334 4.00016 15.334H5.3335V24.0007C5.33466 24.4133 5.46342 24.8155 5.70212 25.152C5.94083 25.4886 6.2778 25.7431 6.66683 25.8807V26.6673C6.66683 27.1978 6.87754 27.7065 7.25262 28.0815C7.62769 28.4566 8.1364 28.6673 8.66683 28.6673H10.0002C10.5306 28.6673 11.0393 28.4566 11.4144 28.0815C11.7894 27.7065 12.0002 27.1978 12.0002 26.6673V26.0007H20.0002V26.6673C20.0002 27.1978 20.2109 27.7065 20.5859 28.0815C20.961 28.4566 21.4697 28.6673 22.0002 28.6673H23.3335C23.8639 28.6673 24.3726 28.4566 24.7477 28.0815C25.1228 27.7065 25.3335 27.1978 25.3335 26.6673V25.8807C25.7225 25.7431 26.0595 25.4886 26.2982 25.152C26.5369 24.8155 26.6657 24.4133 26.6668 24.0007V15.334H28.0002C28.177 15.334 28.3465 15.2637 28.4716 15.1387C28.5966 15.0137 28.6668 14.8441 28.6668 14.6673V8.00065C28.6668 7.82384 28.5966 7.65427 28.4716 7.52925C28.3465 7.40422 28.177 7.33398 28.0002 7.33398ZM5.3335 14.0007H4.66683V8.66732H5.3335V14.0007ZM10.6668 26.6673C10.6668 26.8441 10.5966 27.0137 10.4716 27.1387C10.3465 27.2637 10.177 27.334 10.0002 27.334H8.66683C8.49002 27.334 8.32045 27.2637 8.19543 27.1387C8.0704 27.0137 8.00016 26.8441 8.00016 26.6673V26.0007H10.6668V26.6673ZM24.0002 26.6673C24.0002 26.8441 23.9299 27.0137 23.8049 27.1387C23.6799 27.2637 23.5103 27.334 23.3335 27.334H22.0002C21.8234 27.334 21.6538 27.2637 21.5288 27.1387C21.4037 27.0137 21.3335 26.8441 21.3335 26.6673V26.0007H24.0002V26.6673ZM25.3335 24.0007C25.3335 24.1775 25.2633 24.347 25.1382 24.4721C25.0132 24.5971 24.8436 24.6673 24.6668 24.6673H7.3335C7.15669 24.6673 6.98712 24.5971 6.86209 24.4721C6.73707 24.347 6.66683 24.1775 6.66683 24.0007V19.334H25.3335V24.0007ZM25.3335 18.0007H6.66683V8.66732H25.3335V18.0007ZM25.3335 7.33398H6.66683V5.33398C6.66683 5.15717 6.73707 4.9876 6.86209 4.86258C6.98712 4.73756 7.15669 4.66732 7.3335 4.66732H24.6668C24.8436 4.66732 25.0132 4.73756 25.1382 4.86258C25.2633 4.9876 25.3335 5.15717 25.3335 5.33398V7.33398ZM27.3335 14.0007H26.6668V8.66732H27.3335V14.0007Z" fill={color}/>
-    </svg>
+    </Svg>
   )
 }
 
 export function CarIcon({ size = 32, color = "currentColor", ...rest }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 32 32" fill="none" {...rest}>
+    <Svg size={size} viewBox="0 0 32 32" {...rest}>
       <path d="M3.3335 16.4333C3.3335 15.3771 3.73871 14.3643 4.46001 13.6175C5.1813 12.8707 6.15959 12.4512 7.17965 12.4512H24.4873C25.5074 12.4512 26.4857 12.8707 27.207 13.6175C27.9283 14.3643 28.3335 15.3771 28.3335 16.4333V21.4198C28.3335 21.9479 28.1309 22.4543 27.7702 22.8277C27.4096 23.2011 26.9204 23.4109 26.4104 23.4109H5.25657C4.74654 23.4109 4.2574 23.2011 3.89675 22.8277C3.53611 22.4543 3.3335 21.9479 3.3335 21.4198V16.4333Z" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
       <path d="M4.77588 23.3464V26.0826C4.77588 26.3466 4.87718 26.5998 5.05751 26.7865C5.23783 26.9732 5.4824 27.0781 5.73742 27.0781H8.62203C8.87705 27.0781 9.12162 26.9732 9.30194 26.7865C9.48227 26.5998 9.58357 26.3466 9.58357 26.0826V23.4091M22.0836 23.4091V26.0826C22.0836 26.3466 22.1849 26.5998 22.3652 26.7865C22.5455 26.9732 22.7901 27.0781 23.0451 27.0781H25.9297C26.1847 27.0781 26.4293 26.9732 26.6096 26.7865C26.79 26.5998 26.8913 26.3466 26.8913 26.0826V23.3464M25.3913 12.4495L23.5706 7.61371C23.2893 6.86665 22.7967 6.22492 22.1572 5.77251C21.5178 5.3201 20.7614 5.07808 19.9869 5.07813H11.6797C10.9053 5.07818 10.149 5.32025 9.50969 5.77265C8.87037 6.22506 8.37785 6.86673 8.09655 7.61371L6.2754 12.4495" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
       <path d="M7.12117 17.0585C6.85069 17.3385 6.69873 17.7183 6.69873 18.1144C6.69873 18.5104 6.85069 18.8902 7.12117 19.1703C7.39166 19.4503 7.75851 19.6077 8.14104 19.6077C8.52356 19.6077 8.89042 19.4503 9.1609 19.1703C9.43139 18.8902 9.58335 18.5104 9.58335 18.1144C9.58335 17.7183 9.43139 17.3385 9.1609 17.0585C8.89042 16.7784 8.52356 16.6211 8.14104 16.6211C7.75851 16.6211 7.39166 16.7784 7.12117 17.0585Z" fill={color}/>
       <path d="M24.5455 17.0585C24.816 17.3385 24.968 17.7183 24.968 18.1144C24.968 18.5104 24.816 18.8902 24.5455 19.1703C24.275 19.4503 23.9082 19.6077 23.5257 19.6077C23.1431 19.6077 22.7763 19.4503 22.5058 19.1703C22.2353 18.8902 22.0833 18.5104 22.0833 18.1144C22.0833 17.7183 22.2353 17.3385 22.5058 17.0585C22.7763 16.7784 23.1431 16.6211 23.5257 16.6211C23.9082 16.6211 24.275 16.7784 24.5455 17.0585Z" fill={color}/>
-    </svg>
+    </Svg>
   )
 }
 
@@ -149,7 +162,7 @@ export function CarIcon({ size = 32, color = "currentColor", ...rest }) {
 
 export function ArrowRightIcon({ size = 18, color = "currentColor", ...rest }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 18 18" fill="none" aria-hidden="true" {...rest}>
+    <Svg size={size} viewBox="0 0 18 18" {...rest}>
       <path
         d="M3.5 9H13.2"
         stroke={color}
@@ -164,13 +177,13 @@ export function ArrowRightIcon({ size = 18, color = "currentColor", ...rest }) {
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-    </svg>
+    </Svg>
   )
 }
 
 export function ChevronIcon({ size = 24, color = "currentColor", dir = "right", ...rest }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true" {...rest}>
+    <Svg size={size} viewBox="0 0 24 24" {...rest}>
       <path
         d={dir === "left" ? "M15 5l-7 7 7 7" : "M9 5l7 7-7 7"}
         stroke={color}
@@ -178,13 +191,13 @@ export function ChevronIcon({ size = 24, color = "currentColor", dir = "right", 
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-    </svg>
+    </Svg>
   )
 }
 
 export function ExpandIcon({ size = 24, color = "currentColor", ...rest }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true" {...rest}>
+    <Svg size={size} viewBox="0 0 24 24" {...rest}>
       <path
         d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"
         stroke={color}
@@ -192,7 +205,7 @@ export function ExpandIcon({ size = 24, color = "currentColor", ...rest }) {
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-    </svg>
+    </Svg>
   )
 }
 
@@ -202,7 +215,7 @@ export function ExpandIcon({ size = 24, color = "currentColor", ...rest }) {
 
 export function FacebookIcon({ size = 24, color = "currentColor", ...rest }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true" {...rest}>
+    <Svg size={size} viewBox="0 0 24 24" {...rest}>
       <path
         d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"
         stroke={color}
@@ -210,13 +223,13 @@ export function FacebookIcon({ size = 24, color = "currentColor", ...rest }) {
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-    </svg>
+    </Svg>
   )
 }
 
 export function YoutubeIcon({ size = 24, color = "currentColor", ...rest }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true" {...rest}>
+    <Svg size={size} viewBox="0 0 24 24" {...rest}>
       <path
         d="M2.5 17A2.5 2.5 0 0 0 5 19h14a2.5 2.5 0 0 0 2.5-2.5v-9A2.5 2.5 0 0 0 19 5H5A2.5 2.5 0 0 0 2.5 7.5v9z"
         stroke={color}
@@ -231,13 +244,13 @@ export function YoutubeIcon({ size = 24, color = "currentColor", ...rest }) {
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-    </svg>
+    </Svg>
   )
 }
 
 export function InstagramIcon({ size = 24, color = "currentColor", ...rest }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true" {...rest}>
+    <Svg size={size} viewBox="0 0 24 24" {...rest}>
       <rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke={color} strokeWidth="1.5" />
       <path
         d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"
@@ -247,13 +260,13 @@ export function InstagramIcon({ size = 24, color = "currentColor", ...rest }) {
         strokeLinejoin="round"
       />
       <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke={color} strokeWidth="2" strokeLinecap="round" />
-    </svg>
+    </Svg>
   )
 }
 
 export function KakaoIcon({ size = 24, color = "currentColor", ...rest }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true" {...rest}>
+    <Svg size={size} viewBox="0 0 24 24" {...rest}>
       <path
         d="M12 3C6.48 3 2 6.71 2 11.29c0 2.84 1.73 5.34 4.35 6.83l-1.1 4.1a.4.4 0 0 0 .58.45l4.47-2.68c.54.07 1.1.1 1.7.1 5.52 0 10-3.71 10-8.29C22 6.71 17.52 3 12 3z"
         stroke={color}
@@ -261,6 +274,6 @@ export function KakaoIcon({ size = 24, color = "currentColor", ...rest }) {
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-    </svg>
+    </Svg>
   )
 }

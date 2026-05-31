@@ -14,11 +14,13 @@ const styles = css`
     box-sizing: border-box;
   }
 
-  /* 마우스 기기에서만 커서 숨김 — 터치 기기는 기본 동작 유지 */
+  /* 마우스 기기 + CustomCursor 가 실제 마운트된 동안에만 OS 커서 숨김
+     → 컴포넌트가 마운트 실패하거나 마우스가 해제되면 OS 커서가 다시 보임 */
   @media (pointer: fine) {
-    *,
-    *::before,
-    *::after {
+    body.has-custom-cursor,
+    body.has-custom-cursor *,
+    body.has-custom-cursor *::before,
+    body.has-custom-cursor *::after {
       cursor: none !important;
     }
   }
@@ -98,12 +100,12 @@ const styles = css`
       radial-gradient(ellipse 60% 40% at 80% 20%, ${alpha(T.amber, 0.05)} 0%, transparent 55%);
   }
 
-  /* 전체 grain 텍스처 */
+  /* 전체 grain 텍스처 — fixed overlay로 배경과 화면 위에 은은한 질감을 덮음 */
   body::after {
     content: "";
     position: fixed;
     inset: 0;
-    z-index: 3;
+    z-index: 1;
     pointer-events: none;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n1'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.88' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n1)' opacity='.03'/%3E%3C/svg%3E");
     background-size: 200px;
@@ -167,6 +169,20 @@ const styles = css`
   * {
     scrollbar-width: thin;
     scrollbar-color: ${T.muted} transparent;
+  }
+
+  /* ── 모션 감소 (WCAG 2.3.3) ────────────────
+   OS의 "동작 줄이기" 설정을 켠 사용자(전정장애·멀미·발작 민감군)에게
+   자동 애니메이션·트랜지션을 거의 제거해 안전하게 보여준다. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 `
 

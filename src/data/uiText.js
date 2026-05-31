@@ -2,6 +2,8 @@
 //  uiText.js  —  페이지·섹션 단위 UI 문자열
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+import { BANNER_COMMON, BOOKING_COMMON, MODAL_COMMON } from "@/data/nights/common"
+
 export const UI_TEXT = {
   // ─────────────────────────────────────
   //  공통 네비게이션
@@ -46,7 +48,6 @@ export const UI_TEXT = {
   progSection: {
     sectionLabel: "LIGHTS OF THE NIGHT",
     h2: {
-      plain: "당신은 어떤 밤을 걷고 싶나요",
       gradStart: "당신은 어떤 밤을 ",
       gradEnd: "걷고 싶나요",
     },
@@ -63,7 +64,6 @@ export const UI_TEXT = {
     guideLink: "관람 안내 보기",
     subLabel: "THE NIGHT PATH",
     h2: {
-      plain: "천 년의 시간,\n빛으로 깨어난 성곽의 밤",
       line1: "천 년의 시간,",
       line2Grad: "빛으로 깨어난 성곽의 밤", // amber gradient
     },
@@ -95,12 +95,14 @@ export const UI_TEXT = {
       line2Grad: "빛의 예술이 흐른다", // emerald gradient
     },
     desc: "유네스코 세계유산 화성에서 펼쳐지는 4야간의 여정,\n성벽과 빛이 하나가 되는 미디어아트 축제",
-    // 통계 카드 4개
+    // 통계 카드 4개 — 색·잠금 딜레이는 데이터 안에서 직접 지정
+    //   colorKey: theme.T 의 키 (pink/emerald/amber/violet)
+    //   lockDelay: ms — useCounter 가 스크램블 종료 후 target 으로 잠그는 시각
     stats: [
-      { value: 4, unit: "일", label: "행사 기간" },
-      { value: 4, unit: "야", label: "프로그램 구분" },
-      { value: 23, unit: "팀", label: "참여 아티스트" },
-      { value: 12, unit: "만+", label: "누적 관람 인원" },
+      { value: 4, unit: "일", label: "행사 기간", colorKey: "pink", lockDelay: 1400 },
+      { value: 4, unit: "야", label: "프로그램 구분", colorKey: "emerald", lockDelay: 1600 },
+      { value: 23, unit: "팀", label: "참여 아티스트", colorKey: "amber", lockDelay: 1900 },
+      { value: 12, unit: "만+", label: "누적 관람 인원", colorKey: "violet", lockDelay: 2200 },
     ],
     ctaPrimary: "프로그램 보기",
     ctaSecondary: "영상으로 보기",
@@ -116,7 +118,6 @@ export const UI_TEXT = {
     allLink: "전체 갤러리",
     subLabel: "MEMORIES OF THE NIGHT", // 화성야화 갤러리 브랜드 레이블 (고정)
     h2: {
-      plain: "화성야화가 남긴 빛의 흔적",
       gradStart: "화성야화가 남긴 ",
       gradEnd: "빛의 흔적", // purple gradient
     },
@@ -134,7 +135,6 @@ export const UI_TEXT = {
   mainCta: {
     sectionLabel: "RESERVATION OPEN",
     h2: {
-      plain: "2026 화성야화, 지금 예약하세요",
       gradStart: "2026 화성야화, ",
       gradEnd: "지금 예약하세요", // pink gradient
     },
@@ -153,7 +153,7 @@ export const UI_TEXT = {
   // ─────────────────────────────────────
   progressBanner: {
     detailBtn: "자세히 보기 →",
-    footerText: "네 개의 밤이 모여 하나의 이야기가 완성 됩니다.",
+    footerText: BANNER_COMMON.footerText,
   },
 
   // ─────────────────────────────────────
@@ -209,7 +209,7 @@ export const UI_TEXT = {
   //  예약 플로우
   // ─────────────────────────────────────
   booking: {
-    steps: ["프로그램", "날짜·시간", "인원·티켓", "결제", "예약완료"],
+    steps: BOOKING_COMMON.steps,
     step1: {
       title: "어떤 밤을 경험하시겠어요?",
       desc: "화성야화 4개의 밤 중 원하는 야를 선택하세요. 각 야마다 다른 특별한 경험이 기다립니다.",
@@ -218,15 +218,18 @@ export const UI_TEXT = {
       title: "날짜와 시간을 선택해주세요",
       desc: "선택하신 야의 운영일이 캘린더에 표시됩니다.",
     },
-    step3: { title: "인원과 티켓을 선택해주세요", desc: "최대 6명까지 예매하실 수 있습니다." },
+    step3: {
+      title: "인원과 티켓을 선택해주세요",
+      desc: `최대 ${BOOKING_COMMON.maxParty}명까지 예매하실 수 있습니다.`,
+    },
     step4: { title: "결제 정보를 입력해주세요" },
     step5: {
       title: "예약이 완료되었습니다",
-      ticketNote: "결제 완료 즉시 모바일 티켓이 발급됩니다",
+      ticketNote: BOOKING_COMMON.ticketIssueNote,
     },
-    groupDiscount: "단체 10인 이상 시 15% 할인 · 단체예약 문의 →",
+    groupDiscount: `${BOOKING_COMMON.groupDiscount.label} · 단체예약 문의 →`,
     slotStatus: { available: "여유 있음", closing: "마감 임박", sold_out: "매진" },
-    closingNotice: "입장 마감은 21:00입니다.",
+    closingNotice: `입장 마감은 ${BOOKING_COMMON.closingTime}입니다.`,
     summaryLabel: "예약 요약",
     totalPriceLabel: "총 결제 금액",
     prevBtn: "← 이전",
@@ -284,8 +287,8 @@ export const UI_TEXT = {
       location: "핀", // 📍 아이콘
       category: "태그", // 🏷 아이콘
     },
-    closeLabel: "닫기",
-    bookingLabel: "예약하기",
+    closeLabel: MODAL_COMMON.closeLabel,
+    bookingLabel: MODAL_COMMON.bookingLabel,
   },
 
   // ─────────────────────────────────────
@@ -297,11 +300,35 @@ export const UI_TEXT = {
     address: "(16261) 경기도 수원시 팔달구 행궁로 11",
     tel: "031-5191-3647, 3068, 3920",
     fax: "031-369-2126",
-    social: ["facebook", "youtube", "google", "kakao"],
+    social: [
+      { id: "facebook", label: "Facebook" },
+      { id: "youtube", label: "YouTube" },
+      { id: "instagram", label: "Instagram" },
+      { id: "kakao", label: "Kakao" },
+    ],
+    pending: {
+      title: "준비 중인 기능입니다",
+      descSuffix: "기능은 준비 중입니다.",
+      label: "COMING SOON",
+    },
 
+    // ── 링크 스키마
+    //    { label, href?, external?, disabled? }
+    //    href 없거나 disabled:true → 비활성 (커서·hover 없음, 클릭 무동작)
+    //    external:true → 새 탭 + rel=noopener
     columns: {
-      행사안내: ["행사소개", "프로그램 일정", "참여 아티스트", "미디어자료"],
-      "예약·문의": ["온라인 예약", "단체 예약", "자주 묻는 질문", "문의하기"],
+      행사안내: [
+        { label: "행사소개", disabled: true },
+        { label: "프로그램 일정", disabled: true },
+        { label: "참여 아티스트", disabled: true },
+        { label: "미디어자료", disabled: true },
+      ],
+      "예약·문의": [
+        { label: "온라인 예약", disabled: true },
+        { label: "단체 예약", disabled: true },
+        { label: "자주 묻는 질문", disabled: true },
+        { label: "문의하기", disabled: true },
+      ],
       "관련 사이트": [
         { label: "수원시 문화재단", href: "https://www.swcf.or.kr/", external: true },
         { label: "수원화성 공식", href: "https://www.swcf.or.kr/hwaseong", external: true },

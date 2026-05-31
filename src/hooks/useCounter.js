@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import { useReducedMotion } from "@/hooks/useResponsive"
 
 /* ──────────────────────────────────────
    useCounter — 슬롯머신 스크램블 → 잠금 효과
@@ -6,15 +7,19 @@ import { useState, useEffect } from "react"
      1. 랜덤 숫자를 50ms 간격으로 교체 (스크램블)
      2. lockDelay ms 후 target 값으로 고정 (잠금)
 
+   ✦ prefers-reduced-motion 사용자에게는 스크램블을 생략하고
+     active 가 되는 즉시 target 으로 점프.
+
    사용:
      const c = useCounter(23, 1800, animIn)
      <span>{c}</span>
 ────────────────────────────────────── */
 export function useCounter(target, lockDelay = 1800, active = false) {
   const [val, setVal] = useState(0)
+  const reducedMotion = useReducedMotion()
 
   useEffect(() => {
-    if (!active) return
+    if (!active || reducedMotion) return
 
     const digits = target.toString().length
     const min = digits === 1 ? 0 : Math.pow(10, digits - 1)
@@ -33,7 +38,7 @@ export function useCounter(target, lockDelay = 1800, active = false) {
       clearInterval(scrambleId)
       clearTimeout(lockId)
     }
-  }, [active, target, lockDelay])
+  }, [active, target, lockDelay, reducedMotion])
 
-  return val
+  return active && reducedMotion ? target : val
 }

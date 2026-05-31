@@ -11,13 +11,13 @@ import { T, alpha } from "@/styles/theme"
 import { UI_TEXT } from "@/data/uiText"
 import MobileMenu from "@/components/layout/MobileMenu"
 import Button from "@/components/ui/Button"
-import MvpModal from "@/components/ui/MvpModal"
+import { useMvpModal } from "@/components/ui/MvpModal"
 import logoImage from "@/assets/images/logo/hwaseong-yahwa-logo.png"
 
 export default function NavBar({ accent = T.pink }) {
   const [isOpen, setIsOpen] = useState(false)
-  const [modalOpen, setModalOpen] = useState(false)
-  const openMvpModal = () => setModalOpen(true)
+  const mvpModal = useMvpModal()
+  const openMvpModal = () => mvpModal.open(accent)
   const isCtaLink = UI_TEXT.nav.ctaType === "link"
 
   return (
@@ -68,7 +68,6 @@ export default function NavBar({ accent = T.pink }) {
         accent={accent}
         onMvpOpen={openMvpModal}
       />
-      <MvpModal open={modalOpen} onClose={() => setModalOpen(false)} accent={accent} />
     </>
   )
 }
@@ -96,15 +95,11 @@ const Nav = styled.nav`
 const Logo = styled(Link)`
   display: flex;
   align-items: center;
-  width: 112px;
+  width: 124px;
   transition: opacity ${T.transition.fast};
 
   &:hover {
     opacity: 0.82;
-  }
-
-  @media (max-width: ${T.bp.mini}) {
-    width: 96px;
   }
 `
 
