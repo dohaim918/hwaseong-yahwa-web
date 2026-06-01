@@ -65,15 +65,24 @@ const LabelRowWrap = styled.div`
 `
 
 // 카드나 모달 위아래에 얇게 흐르는 빛 라인.
+//   $bg    — 라인 그라디언트 (필수)
+//   $top   — true면 top:0, 아니면 bottom:0
+//   $active— false면 opacity 0 (기본 노출)
+//   $full  — true면 좌우 풀폭(left/right:0), 아니면 12% 인셋
+//   $blur  — 기본 true(blur 0.75px). false면 blur 제거
+//   $blend — mix-blend-mode 지정 (예: "plus-lighter")
+//   $glow  — 박스섀도우 글로우 색 (예: alpha(color, 0.55))
+//   $z     — z-index (기본 11)
 export const Shimmer = styled.div`
   position: absolute;
-  left: 12%;
-  right: 12%;
+  ${({ $full }) => ($full ? "left: 0; right: 0;" : "left: 12%; right: 12%;")}
   height: 2px;
   border-radius: 2px;
-  filter: blur(0.75px);
+  ${({ $blur = true }) => ($blur ? "filter: blur(0.75px);" : "")}
+  ${({ $blend }) => ($blend ? `mix-blend-mode: ${$blend};` : "")}
+  ${({ $glow }) => ($glow ? `box-shadow: 0 0 120px 16px ${$glow};` : "")}
   pointer-events: none;
-  z-index: 11;
+  z-index: ${({ $z = 11 }) => $z};
   transition: opacity ${T.transition.mid};
   opacity: ${({ $active }) => ($active === false ? 0 : 1)};
   background: ${({ $bg }) => $bg};
@@ -166,3 +175,15 @@ export function EdgeFade({ side, size, color, opacity, z, ...props }) {
     />
   )
 }
+
+// 시각적으로 숨기되 스크린리더에는 읽히는 텍스트 (visually-hidden).
+// 예: odometer/릴처럼 시각 요소만 보이고 실제 값은 SR에게 따로 전달할 때.
+// 사용: <SrOnly>{실제값}</SrOnly>
+export const SrOnly = styled.span`
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+`

@@ -473,4 +473,6 @@ const CopyBtn = styled.button`
   &:hover {
     color: ${T.main};
   }
+
+  ${focusRing(alpha(T.pink, 0.7))}
 `

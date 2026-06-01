@@ -15,7 +15,7 @@ import ProgCarousel from "./ProgCarousel"
 
 const cards = getCardData()
 const t = UI_TEXT.progSection
-const DEFAULT_TITLE_GRAD = textGrad(T.amber, T.pink)
+const DEFAULT_TITLE_GRAD = textGrad(T.pink, T.amber)
 const PROGRAM_CARD_H = "clamp(460px, calc(72dvh - 180px), 1400px)"
 
 // ─────────────────────────────────────────────────────
@@ -64,7 +64,7 @@ export default function ProgSection() {
         </Hd>
 
         {isMobileOrTablet ? (
-          <CarouselAnim $in={animIn}>
+          <CarouselAnim $animIn={animIn}>
             <ProgCarousel cards={cards} activeIdx={carouselIdx} onActiveChange={setCarouselIdx} />
           </CarouselAnim>
         ) : (
@@ -193,5 +193,5 @@ const CarouselAnim = styled.div`
   min-width: 0;
   min-height: 0;
   height: 100%;
-  ${({ $in }) => revealUp($in, 0.25)}
+  ${({ $animIn }) => revealUp($animIn, 0.25)}
 `

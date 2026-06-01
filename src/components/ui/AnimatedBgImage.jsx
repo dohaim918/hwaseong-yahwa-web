@@ -6,6 +6,7 @@ export default function AnimatedBgImage({
   src,
   opacity = 1,
   mobileOpacity,
+  blendMode = "normal",
   animate = true,
   alt = "",
   ...props
@@ -16,6 +17,7 @@ export default function AnimatedBgImage({
       alt={alt}
       $opacity={opacity}
       $mobileOpacity={mobileOpacity}
+      $blendMode={blendMode}
       $animate={animate}
       {...props}
     />
@@ -30,6 +32,7 @@ const BgImg = styled.img`
   object-fit: cover;
   z-index: 1;
   pointer-events: none;
+  mix-blend-mode: ${({ $blendMode }) => $blendMode};
   opacity: ${({ $animate, $opacity = 1 }) => ($animate ? $opacity : 0)};
   transform: ${({ $animate }) => ($animate ? "scale(1)" : "scale(1.08)")};
   transition:

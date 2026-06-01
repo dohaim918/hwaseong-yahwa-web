@@ -2,9 +2,9 @@ import { useRef } from "react"
 import HeroSection from "@/pages/main/sections/HeroSection"
 import ProgSection from "@/pages/main/sections/prog/ProgSection"
 import VenueSection from "@/pages/main/sections/venue/VenueSection"
-import AboutSection from "@/pages/main/sections/about/AboutSection"
+import AboutSection from "@/pages/main/sections/AboutSection"
 import GallerySection from "@/pages/main/sections/gallery/GallerySection"
-import MainCtaSection from "@/pages/main/sections/cta/MainCtaSection"
+import MainCtaSection from "@/pages/main/sections/MainCtaSection"
 
 export default function MainPage() {
   const mousePos = useRef({ x: 0, y: 0 })

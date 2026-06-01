@@ -2,7 +2,7 @@ import { useRef } from "react"
 import { Link, useLocation } from "react-router-dom"
 import styled from "@emotion/styled"
 import { css } from "@emotion/react"
-import { T, alpha, pad2, focusRing, glass } from "@/styles/theme"
+import { T, alpha, pad2, focusRing, glass, glow } from "@/styles/theme"
 import { UI_TEXT } from "@/data/uiText"
 import { CloseIcon, ArrowRightIcon } from "@/components/ui/icons"
 import Button from "@/components/ui/Button"
@@ -22,7 +22,12 @@ export default function MobileMenu({ isOpen, onClose, accent = T.pink, onMvpOpen
     onClose,
   })
 
-  const isActive = (to) => pathname === (to.split("#")[0] || "/")
+  const isActive = (to) => {
+    const path = to.split("#")[0]
+    // 앵커-only 링크(#foo)는 페이지 경로가 없으므로 활성 처리하지 않음
+    if (!path.startsWith("/")) return false
+    return pathname === path
+  }
   const handleMvpClick = () => {
     onClose()
     onMvpOpen?.()
@@ -186,8 +191,7 @@ const Glow = styled.div`
   width: 340px;
   height: 300px;
   border-radius: ${T.radius.full};
-  background: ${({ $accent }) =>
-    `radial-gradient(ellipse, ${alpha($accent, 0.055)} 0%, transparent 65%)`};
+  background: ${({ $accent }) => glow($accent, { opacity: 0.055, shape: "ellipse", stop: 65 })};
   pointer-events: none;
 `
 

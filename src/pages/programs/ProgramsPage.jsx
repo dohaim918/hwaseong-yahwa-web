@@ -14,9 +14,11 @@ import { useEffect, useRef, useState, useCallback } from "react"
 import { useSearchParams, useOutletContext } from "react-router-dom"
 import styled from "@emotion/styled"
 import { T, NIGHT_STYLE } from "@/styles/theme"
+import { ColumnSection } from "@/components/layout/FullSection"
 import { NIGHTS } from "@/data/nightData"
 import NightTabBar from "@/pages/programs/NightTabBar"
-import BannerSection from "@/pages/programs/sections/BannerSection"
+import BannerSection from "@/pages/programs/sections/banner/BannerSection"
+import ExperienceSection from "@/pages/programs/sections/ExperienceSection"
 
 const VALID_IDS = [1, 2, 3, 4]
 const DEFAULT_ID = 1
@@ -82,13 +84,10 @@ export default function ProgramsPage() {
         onSelect={handleSelectNight}
       />
 
-      {/* ── 2~4. 나머지 섹션 (이후 단계에서 실제 컴포넌트로 교체) ── */}
-      <PHSection aria-label="EXPERIENCE (작업 중)">
-        <PHInner>
-          <PHTag>2 · EXPERIENCE</PHTag>
-          <PHDesc>이 밤에서 만나는 특별한 경험</PHDesc>
-        </PHInner>
-      </PHSection>
+      {/* ── 2. EXPERIENCE 섹션 ── */}
+      <ExperienceSection night={NIGHTS[currentId - 1]} />
+
+      {/* ── 3~4. 나머지 섹션 (이후 단계에서 실제 컴포넌트로 교체) ── */}
 
       <PHSection aria-label="FLOW OF NIGHT (작업 중)">
         <PHInner>
@@ -109,23 +108,16 @@ export default function ProgramsPage() {
 
 // ─────────────────────────────────────────────────────────────
 //  Placeholder Section — 이후 단계에서 실제 섹션 컴포넌트로 교체
-//  FullSection과 동일한 100vh + scroll-snap 동작을 흉내.
-//  (Main에 좌우 padding이 없으므로 margin-inline 트릭 불필요 — 자연 풀너비)
+//  풀스크린·scroll-snap·overflow:clip 골격은 ColumnSection 베이스에서 상속.
 // ─────────────────────────────────────────────────────────────
 
-const PHSection = styled.section`
-  position: relative;
-  height: 100vh;
-  min-height: 700px;
-  display: flex;
+const PHSection = styled(ColumnSection)`
   align-items: center;
   justify-content: center;
-  scroll-snap-align: start;
-  flex-shrink: 0;
+  min-height: 700px;
   background: linear-gradient(180deg, ${T.bgBase} 0%, ${T.bgCard} 50%, ${T.bgBase} 100%);
 
   @media (max-width: ${T.bp.mobile}) {
-    height: 100dvh;
     min-height: 600px;
   }
 `

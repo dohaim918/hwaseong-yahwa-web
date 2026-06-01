@@ -29,11 +29,8 @@ export const UI_TEXT = {
   hero: {
     hanjaLabel: "華城夜火",
     festivalLabel: "2026 MEDIA ART FESTIVAL",
-    // h2: '화성' white + '야화' gradient
     h2: {
       plain: "화성야화",
-      gradStart: "화성",
-      gradEnd: "야화",
     },
     sub: "유네스코 세계유산이 미디어아트를 만나다",
     date: "09.20 — 09.29",
@@ -163,8 +160,8 @@ export const UI_TEXT = {
     sectionLabel: "EXPERIENCE",
     h2: "이 밤에서 만나는 특별한 경험",
     // Image 1 정확한 텍스트
-    desc: "성과를 따라 펼쳐지는 공연과 빛, 전통 문화를 만나보세요.\n화성의 밤은 순간마다 새로운 이야기로 이어집니다.",
-    allBtn: "전체 보기 ↗",
+    desc: "성곽에 펼쳐진 공연과 빛, 전통 문화를 만나보세요.\n화성의 밤은 순간마다 새로운 이야기로 이어집니다.",
+    allBtn: "전체 보기",
   },
 
   // ─────────────────────────────────────

@@ -139,7 +139,7 @@ const Panel = styled.div`
     linear-gradient(180deg, ${alpha(T.bgCard, 0.96)}, ${alpha(T.bgBase, 0.98)});
   box-shadow:
     0 0 40px ${({ $accent }) => alpha($accent, 0.22)},
-    0 24px 80px ${alpha("#000000", 0.45)};
+    0 24px 80px ${alpha(T.bgDark, 0.45)};
   text-align: center;
   animation: modalIn ${T.transition.spring} both;
   transition:
