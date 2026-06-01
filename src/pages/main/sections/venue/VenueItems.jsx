@@ -105,7 +105,7 @@ const AccessItem = styled.li`
   gap: ${T.spacing[12]};
   flex: 1;
 
-  ${vDivider(T.amber, { height: "52px", opacity: 0.2, right: `calc(-1 * ${T.spacing[4]})` })}
+  ${vDivider(T.amber, { height: "52px", opacity: 0.2, right: `-${T.spacing[4]}` })}
 
   svg {
     opacity: 0.9;

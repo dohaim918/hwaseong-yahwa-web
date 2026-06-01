@@ -48,7 +48,8 @@ export const T = {
   // ── 레이아웃
   navHeight: "100px", // 상단 고정 네비
   navHeightMini: "80px", // mini 브레이크포인트 네비
-  // tabNavHeight: "66px",   // 프로그램 페이지 탭 네비
+  tabNavHeight: "64px", // 프로그램 페이지 탭 네비
+  tabNavHeightMini: "52px", // mini 브레이크포인트 탭 네비
   // panelWidth:   "320px",  // 예약 사이드 패널
 
   // 1920 풀width 이머시브 섹션 기준
@@ -157,7 +158,6 @@ export const accentLine = (color, { peak = 0.53, deg = 90, edge = 0 } = {}) =>
 export const shimmerLine = (color) =>
   `linear-gradient(90deg, transparent 0%, ${color} 30%, ${T.white} 50%, ${color} 70%, transparent 100%)`
 
-
 // ── 텍스트 그라디언트 프리셋 — 사용: ${GRADIENT.xxx}
 export const GRADIENT = {
   emeraldAmber: textGrad(T.emerald, T.amber), // About 섹션
@@ -204,6 +204,7 @@ const makeNight = (color, dim, dark, gradTo, heroGrad, glow) => ({
   shimmer: shimmerLine(color),
   grad: `linear-gradient(135deg, ${color}, ${dim})`,
   textGrad: textGrad(color, gradTo),
+  whiteTextGrad: textGradStops([`${T.main} 20%`, `${color} 60%`, `${gradTo} 100%`], 134),
   heroGrad,
   bgGrad:
     `linear-gradient(175deg,${alpha(dark, 0.6)} 0%,${alpha(T.bgDark, 0.58)} 100%),` +

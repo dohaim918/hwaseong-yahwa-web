@@ -23,13 +23,10 @@ import FullSection from "@/components/layout/FullSection"
 import AnimatedBgImage from "@/components/ui/AnimatedBgImage"
 import { EdgeFade } from "@/components/ui/Deco"
 import { FlowerIcon, StarIcon } from "@/components/ui/icons"
-import NightIndexRail from "@/pages/programs/banner/NightIndexRail"
-import NightCounter from "@/pages/programs/banner/NightCounter"
+import NightIndexRail from "@/pages/programs/sections/banner/NightIndexRail"
+import NightCounter from "@/pages/programs/sections/banner/NightCounter"
 
-const BannerSection = forwardRef(function BannerSection(
-  { night, nights, onSelect },
-  ref
-) {
+const BannerSection = forwardRef(function BannerSection({ night, nights, onSelect }, ref) {
   const { id, color, style, nightName, num, banner } = night
   // 배너 전용 배경 (programAssets.banners 로 통합 — bannerAssets.js 폐기)
   const bg = PROGRAM_ASSETS.banners[id]
@@ -42,6 +39,9 @@ const BannerSection = forwardRef(function BannerSection(
         </BgReveal>
       )}
       <EdgeFade side="top" size={T.navHeightMini} opacity={0.9} z={2} />
+
+      {/* ── 좌측 텍스트 가독성용 딤 (EdgeFade 재사용 · 모바일 이하 숨김) ── */}
+      <LeftDim side="left" color={T.bgBase} opacity={0.85} size="40%" z={2} />
 
       <Content>
         {/* ── 좌측 인덱스 레일 (고정) ── */}
@@ -102,6 +102,19 @@ export default BannerSection
 // ─────────────────────────────────────────────────────────────
 //  레이아웃
 // ─────────────────────────────────────────────────────────────
+
+// ── 좌측 텍스트 가독성용 딤 (EdgeFade 재사용 · 배경 위·콘텐츠 아래) ──
+//    데스크탑 40% / 그 이하 55% 폭, 모바일 이하 숨김
+const LeftDim = styled(EdgeFade)`
+  transition: width ${T.transition.mid};
+
+  @media (max-width: ${T.bp.desktop}) {
+    width: 55%;
+  }
+  @media (max-width: ${T.bp.mobile}) {
+    display: none;
+  }
+`
 
 // ── 야 전환 배경 reveal (key={id}로 매 전환 재생) ──
 const BgReveal = styled.div`
@@ -211,7 +224,7 @@ const BigYa = styled.span`
 const NightStar = styled.span`
   position: absolute;
   top: 40%;
-  right: calc(-1 * ${T.spacing[16]});
+  right: -${T.spacing[16]};
   line-height: 0;
   transition: top ${T.transition.mid};
 

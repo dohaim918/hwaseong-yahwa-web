@@ -15,6 +15,7 @@ import NIGHT_01 from "@/data/nights/01"
 import NIGHT_02 from "@/data/nights/02"
 import NIGHT_03 from "@/data/nights/03"
 import NIGHT_04 from "@/data/nights/04"
+import { PROGRAM_ASSETS } from "@/data/programAssets"
 
 export { BOOKING_COMMON } from "@/data/nights/common"
 import { BOOKING_COMMON } from "@/data/nights/common"
@@ -61,10 +62,11 @@ export const getWaypoints = (id) =>
 export const getExperienceCards = (id) =>
   getNight(id)
     ?.programs.filter((p) => p.cardTitle)
-    .map(({ category, cardTitle, cardDesc }) => ({
+    .map(({ category, cardTitle, cardDesc }, index) => ({
       category,
       title: cardTitle,
       desc: cardDesc,
+      image: PROGRAM_ASSETS.experience[id]?.[index] ?? null,
     })) ?? []
 
 /** flowOfNight 핵심 포인트 패널 데이터 */

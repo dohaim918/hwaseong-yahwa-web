@@ -1,13 +1,13 @@
 import styled from "@emotion/styled"
 import { T, alpha, focusRing, revealUp } from "@/styles/theme"
-import { FlowerIcon } from "@/components/ui/icons"
+import { ArrowRightIcon, FlowerIcon } from "@/components/ui/icons"
 import { useMvpModal } from "@/components/ui/MvpModal"
 
 // ─────────────────────────────────────────────
 //  SectionBar
 //  사용처:
-//    VenueSection   → label="VENUE"   sub="화성에서 만나요"  link="관람 안내 보기 →"
-//    GallerySection → label="GALLERY" sub="지난 밤의 기억들" link="전체 갤러리 →"
+//    VenueSection   → label="VENUE"   sub="화성에서 만나요"  link="관람 안내 보기"
+//    GallerySection → label="GALLERY" sub="지난 밤의 기억들" link="전체 갤러리"
 //
 //  사용 예시:
 //    <SectionBar
@@ -50,7 +50,7 @@ export default function SectionBar({
       {link && (
         <LinkButton type="button" $color={color} aria-haspopup="dialog" onClick={handleLinkClick}>
           <span>{link}</span>
-          <Arrow $color={color}>→</Arrow>
+          <ArrowRightIcon size={14} color={color} strokeWidth={1.5} />
         </LinkButton>
       )}
     </Bar>
@@ -128,12 +128,6 @@ const Sub = styled.span`
   }
 `
 
-const Arrow = styled.span`
-  color: ${({ $color }) => $color};
-  display: inline-block;
-  transition: transform ${T.transition.fast};
-`
-
 const LinkButton = styled.button`
   display: flex;
   align-items: center;
@@ -153,7 +147,11 @@ const LinkButton = styled.button`
     color: ${T.white};
   }
 
-  &:hover span:last-child {
+  svg {
+    transition: transform ${T.transition.fast};
+  }
+
+  &:hover svg {
     transform: translateX(3px);
   }
 

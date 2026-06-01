@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 import styled from "@emotion/styled"
-import { T, alpha, GRADIENT, revealUp, glass } from "@/styles/theme"
+import { T, alpha, GRADIENT, revealUp, glass, glow } from "@/styles/theme"
 import { UI_TEXT } from "@/data/uiText"
 import SectionHeader from "@/components/ui/SectionHeader"
 import FullSection from "@/components/layout/FullSection"
@@ -125,8 +125,7 @@ const StatCell = styled.div`
   padding: ${T.spacing[36]} ${T.spacing[24]};
   overflow: hidden;
   background-color: ${alpha(T.white, 0.02)};
-  background-image: ${({ $color }) =>
-    `radial-gradient(ellipse at 50% 100%, ${alpha($color, 0.05)} 0%, transparent 70%)`};
+  background-image: ${({ $color }) => glow($color, { opacity: 0.05, shape: "ellipse at 50% 100%" })};
 
   &:nth-of-type(even) {
     background-color: ${alpha(T.white, 0.01)};

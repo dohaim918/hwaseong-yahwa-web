@@ -106,14 +106,28 @@ const DecoImg = styled(SectionDecoImg)`
   transform: translateX(-50%);
 `
 
+// 갤러리 섹션 전용 딥 바이올렛 배경값 — 1회성 특수 그라디언트라 전역 토큰화하지 않고
+// (시스템 컬러만 토큰화 원칙) 의도된 값임을 드러내려 로컬 상수로 묶어둠.
+const GALLERY_BG = {
+  coreFrom: "#160c2e", // radial 중심
+  coreMid: "#0c0818", // radial 중간
+  topGrad: "#0d0820", // linear 상단
+  bottomGrad: "#080d1a", // linear 하단
+}
+
 // ── 배경 레이어
 const BgGrad = styled.div`
   position: absolute;
   inset: 0;
   z-index: 0;
   background:
-    radial-gradient(108% 108% at 50% 50%, #160c2e 0%, #0c0818 40%, ${T.bgBase} 100%),
-    linear-gradient(180deg, #0d0820 0%, #080d1a 100%);
+    radial-gradient(
+      108% 108% at 50% 50%,
+      ${GALLERY_BG.coreFrom} 0%,
+      ${GALLERY_BG.coreMid} 40%,
+      ${T.bgBase} 100%
+    ),
+    linear-gradient(180deg, ${GALLERY_BG.topGrad} 0%, ${GALLERY_BG.bottomGrad} 100%);
 `
 
 // ── 콘텐츠 Inner (z-index 없음 — stacking context 만들지 않아야 edge fade가 SideThumb 위에 올라옴)

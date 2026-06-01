@@ -165,6 +165,7 @@ export function CarIcon({ size = 32, color = "currentColor", ...rest }) {
 //  3. 방향 · 인터랙션 아이콘
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+// → 가로선이 포함된 이동 화살표: CTA처럼 이동 의미를 강조할 때 사용
 export function ArrowRightIcon({ size = 18, color = "currentColor", strokeWidth = 1.6, ...rest }) {
   return (
     <Svg size={size} viewBox="0 0 18 18" {...rest}>
@@ -186,6 +187,7 @@ export function ArrowRightIcon({ size = 18, color = "currentColor", strokeWidth 
   )
 }
 
+// > 꺾쇠만 있는 화살표: 목록 이동, 펼침, 가벼운 보조 링크에 사용
 export function ChevronIcon({
   size = 24,
   color = "currentColor",

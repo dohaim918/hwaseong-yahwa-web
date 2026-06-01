@@ -55,10 +55,10 @@ const TabBar = styled.nav`
   left: 0;
   right: 0;
   z-index: 99;
-  height: 64px;
+  height: ${T.tabNavHeight};
 
   background: ${alpha(T.bgBase, 0.55)};
-  ${glass("18px")}
+  ${glass(T.spacing[20])}
   border-top: 1px solid ${alpha(T.white, 0.06)};
   border-bottom: 1px solid ${alpha(T.white, 0.06)};
 
@@ -79,7 +79,7 @@ const TabBar = styled.nav`
 
   @media (max-width: ${T.bp.mini}) {
     top: ${T.navHeightMini};
-    height: 52px;
+    height: ${T.tabNavHeightMini};
   }
 `
 
@@ -105,14 +105,11 @@ const TabBtn = styled.button`
   color: ${({ $active, $accent }) => ($active ? $accent : T.sub)};
   letter-spacing: 0.5px;
   white-space: nowrap;
-  transition:
-    color ${T.transition.fast},
-    font-weight ${T.transition.fast},
-    font-size ${T.transition.mid},
-    letter-spacing ${T.transition.mid};
+  transition: color ${T.transition.fast};
 
   &:hover {
-    color: ${({ $accent }) => $accent};
+    color: ${({ $active, $accent }) => ($active ? $accent : alpha(T.main, 0.8))};
+    font-weight: ${({ $active }) => ($active ? "700" : "500")};
   }
 
   ${({ $accent }) => focusRing(alpha($accent, 0.7))}
@@ -135,8 +132,8 @@ const TabSuffix = styled.span`
 const ActiveLine = styled.span`
   position: absolute;
   bottom: 0;
-  left: -28px;
-  right: -28px;
+  left: -${T.spacing[24]};
+  right: -${T.spacing[24]};
   height: 1px;
   background: ${({ $accent }) => accentLine($accent, { peak: 1, edge: 0.1 })};
   pointer-events: none;
@@ -145,7 +142,7 @@ const ActiveLine = styled.span`
     right ${T.transition.mid};
 
   @media (max-width: ${T.bp.mobile}) {
-    left: -16px;
-    right: -16px;
+    left: -${T.spacing[16]};
+    right: -${T.spacing[16]};
   }
 `

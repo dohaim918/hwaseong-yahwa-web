@@ -14,6 +14,7 @@
 import styled from "@emotion/styled"
 import { T, alpha, pad2, focusRing } from "@/styles/theme"
 import { ChevronIcon } from "@/components/ui/icons"
+import { SrOnly } from "@/components/ui/Deco"
 
 export default function NightCounter({
   currentId,
@@ -184,6 +185,7 @@ const Reel = styled.span`
 const ReelTrack = styled.span`
   display: flex;
   flex-direction: column;
+  will-change: transform;
   transition: transform ${T.transition.spring};
 `
 
@@ -193,14 +195,6 @@ const ReelCell = styled.span`
   line-height: 1;
 `
 
-const SrOnly = styled.span`
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  white-space: nowrap;
-`
 
 const Slash = styled.span`
   font-family: ${T.fontSerif};
