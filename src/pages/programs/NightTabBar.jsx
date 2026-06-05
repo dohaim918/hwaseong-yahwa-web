@@ -58,7 +58,7 @@ const TabBar = styled.nav`
   height: ${T.tabNavHeight};
 
   background: ${alpha(T.bgBase, 0.55)};
-  ${glass(T.spacing[20])}
+  ${glass("20px")}
   border-top: 1px solid ${alpha(T.white, 0.06)};
   border-bottom: 1px solid ${alpha(T.white, 0.06)};
 

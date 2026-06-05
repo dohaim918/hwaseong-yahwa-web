@@ -3,7 +3,7 @@
 //  (단일 값 헬퍼·토큰은 theme.js / 그려지는 컴포넌트는 Deco.jsx)
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-import { alpha, accentLine } from "@/styles/theme"
+import { T, alpha, accentLine } from "@/styles/theme"
 
 // ── 글래스(블러) 배경 — webkit prefix 동반 / 사용: ${glass("8px")}
 export const glass = (blur = "8px") => `
@@ -80,3 +80,30 @@ export const revealUp = (inView, delay = 0) =>
   inView
     ? `animation: fadeUp 0.75s cubic-bezier(.22,.68,0,1.2) ${delay}s both;`
     : `opacity: 0; transform: translateY(26px);`
+
+// ── serif 폰트 + 굵기 (라벨·제목·값 공통) — 사용: ${serif()} / ${serif(700)}
+export const serif = (weight = 600) => `
+  font-family: ${T.fontSerif};
+  font-weight: ${weight};
+`
+
+// ── 그라디언트 테두리 — 배경은 건드리지 않고 테두리(링)만 그라디언트 (mask 기법 · radius 유지)
+//    호스트의 background/backdrop-filter 그대로 두고 ::before 로 1px 링만 그림
+//    사용: ${gradientBorder(`linear-gradient(175deg, ...)`)}  (width·radius 옵션)
+export const gradientBorder = (gradient, { width = "1px", radius = "inherit" } = {}) => `
+  position: relative;
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: ${radius};
+    padding: ${width};
+    background: ${gradient};
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+`

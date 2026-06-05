@@ -38,6 +38,62 @@ import exp0402 from "@/assets/images/programs/experience/04-02.webp"
 import exp0403 from "@/assets/images/programs/experience/04-03.webp"
 import exp0404 from "@/assets/images/programs/experience/04-04.webp"
 
+// ── 프로그레스 FLOW OF NIGHT 섹션 데코 SVG ────────
+import flowDeco1 from "@/assets/images/programs/flow/deco/01-deco.svg"
+import flowDeco2 from "@/assets/images/programs/flow/deco/02-deco.svg"
+import flowDeco3 from "@/assets/images/programs/flow/deco/03-deco.svg"
+import flowDeco4 from "@/assets/images/programs/flow/deco/04-deco.svg"
+
+// ── 프로그레스 FLOW OF NIGHT 섹션 배경 ────────
+import flowBg1 from "@/assets/images/programs/flow/bg/01-bg.webp"
+import flowBg2 from "@/assets/images/programs/flow/bg/02-bg.webp"
+import flowBg3 from "@/assets/images/programs/flow/bg/03-bg.webp"
+import flowBg4 from "@/assets/images/programs/flow/bg/04-bg.webp"
+
+// ── 프로그레스 FLOW OF NIGHT 우측 패널 이미지 ────────
+import flowFeat0101 from "@/assets/images/programs/flow/featured/01-01.webp"
+import flowFeat0102 from "@/assets/images/programs/flow/featured/01-02.webp"
+import flowFeat0103 from "@/assets/images/programs/flow/featured/01-03.webp"
+import flowFeat0104 from "@/assets/images/programs/flow/featured/01-04.webp"
+import flowFeat0105 from "@/assets/images/programs/flow/featured/01-05.webp"
+import flowFeat0201 from "@/assets/images/programs/flow/featured/02-01.webp"
+import flowFeat0202 from "@/assets/images/programs/flow/featured/02-02.webp"
+import flowFeat0203 from "@/assets/images/programs/flow/featured/02-03.webp"
+import flowFeat0204 from "@/assets/images/programs/flow/featured/02-04.webp"
+import flowFeat0205 from "@/assets/images/programs/flow/featured/02-05.webp"
+import flowFeat0301 from "@/assets/images/programs/flow/featured/03-01.webp"
+import flowFeat0302 from "@/assets/images/programs/flow/featured/03-02.webp"
+import flowFeat0303 from "@/assets/images/programs/flow/featured/03-03.webp"
+import flowFeat0304 from "@/assets/images/programs/flow/featured/03-04.webp"
+import flowFeat0305 from "@/assets/images/programs/flow/featured/03-05.webp"
+import flowFeat0401 from "@/assets/images/programs/flow/featured/04-01.webp"
+import flowFeat0402 from "@/assets/images/programs/flow/featured/04-02.webp"
+import flowFeat0403 from "@/assets/images/programs/flow/featured/04-03.webp"
+import flowFeat0404 from "@/assets/images/programs/flow/featured/04-04.webp"
+import flowFeat0405 from "@/assets/images/programs/flow/featured/04-05.webp"
+
+// ── 프로그레스 FLOW OF NIGHT 섹션 아이콘 ────────
+import flowTime1 from "@/assets/images/programs/flow/icons/01-time.webp"
+import flowWalk1 from "@/assets/images/programs/flow/icons/01-walk.webp"
+import flowAge1 from "@/assets/images/programs/flow/icons/01-age.webp"
+import flowDifficulty1 from "@/assets/images/programs/flow/icons/01-difficulty.webp"
+import flowTip1 from "@/assets/images/programs/flow/icons/01-tip.webp"
+import flowTime2 from "@/assets/images/programs/flow/icons/02-time.webp"
+import flowWalk2 from "@/assets/images/programs/flow/icons/02-walk.webp"
+import flowAge2 from "@/assets/images/programs/flow/icons/02-age.webp"
+import flowDifficulty2 from "@/assets/images/programs/flow/icons/02-difficulty.webp"
+import flowTip2 from "@/assets/images/programs/flow/icons/02-tip.webp"
+import flowTime3 from "@/assets/images/programs/flow/icons/03-time.webp"
+import flowWalk3 from "@/assets/images/programs/flow/icons/03-walk.webp"
+import flowAge3 from "@/assets/images/programs/flow/icons/03-age.webp"
+import flowDifficulty3 from "@/assets/images/programs/flow/icons/03-difficulty.webp"
+import flowTip3 from "@/assets/images/programs/flow/icons/03-tip.webp"
+import flowTime4 from "@/assets/images/programs/flow/icons/04-time.webp"
+import flowWalk4 from "@/assets/images/programs/flow/icons/04-walk.webp"
+import flowAge4 from "@/assets/images/programs/flow/icons/04-age.webp"
+import flowDifficulty4 from "@/assets/images/programs/flow/icons/04-difficulty.webp"
+import flowTip4 from "@/assets/images/programs/flow/icons/04-tip.webp"
+
 export const PROGRAM_ASSETS = {
   // 메인 ProgSection에서 사용되는 이미지
   sparkle,
@@ -67,5 +123,57 @@ export const PROGRAM_ASSETS = {
     2: [exp0201, exp0202, exp0203, exp0204],
     3: [exp0301, exp0302, exp0303, exp0304],
     4: [exp0401, exp0402, exp0403, exp0404],
+  },
+  // 야 id(1~4) → FLOW OF NIGHT 데코 SVG
+  flowDecos: {
+    1: flowDeco1,
+    2: flowDeco2,
+    3: flowDeco3,
+    4: flowDeco4,
+  },
+  // 야 id(1~4) → FLOW OF NIGHT 섹션 배경
+  flowBgs: {
+    1: flowBg1,
+    2: flowBg2,
+    3: flowBg3,
+    4: flowBg4,
+  },
+  // 야 id(1~4) → FLOW OF NIGHT 우측 패널 step 이미지
+  flowFeatured: {
+    1: {
+      "01": flowFeat0101,
+      "02": flowFeat0102,
+      "03": flowFeat0103,
+      "04": flowFeat0104,
+      "05": flowFeat0105,
+    },
+    2: {
+      "01": flowFeat0201,
+      "02": flowFeat0202,
+      "03": flowFeat0203,
+      "04": flowFeat0204,
+      "05": flowFeat0205,
+    },
+    3: {
+      "01": flowFeat0301,
+      "02": flowFeat0302,
+      "03": flowFeat0303,
+      "04": flowFeat0304,
+      "05": flowFeat0305,
+    },
+    4: {
+      "01": flowFeat0401,
+      "02": flowFeat0402,
+      "03": flowFeat0403,
+      "04": flowFeat0404,
+      "05": flowFeat0405,
+    },
+  },
+  // 야 id(1~4) → FLOW OF NIGHT 통계·팁 아이콘
+  flowIcons: {
+    1: { time: flowTime1, walk: flowWalk1, age: flowAge1, difficulty: flowDifficulty1, tip: flowTip1 },
+    2: { time: flowTime2, walk: flowWalk2, age: flowAge2, difficulty: flowDifficulty2, tip: flowTip2 },
+    3: { time: flowTime3, walk: flowWalk3, age: flowAge3, difficulty: flowDifficulty3, tip: flowTip3 },
+    4: { time: flowTime4, walk: flowWalk4, age: flowAge4, difficulty: flowDifficulty4, tip: flowTip4 },
   },
 }

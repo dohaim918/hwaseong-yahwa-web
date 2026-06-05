@@ -38,9 +38,15 @@ export const getModalPrograms = (id) =>
     ?.programs.filter((p) => p.featured)
     .map(({ name, place, time }) => ({ name, place, time })) ?? []
 
-/** flowOfNight 타임라인 (전체, 간략 형태) */
+/** flowOfNight 타임라인 행 (전체) — step/time/title/desc/place */
 export const getTimelineItems = (id) =>
-  getNight(id)?.programs.map(({ time, name, place }) => ({ time, program: name, place })) ?? []
+  getNight(id)?.programs.map(({ step, time, name, place, flowDesc }) => ({
+    step,
+    time,
+    title: name,
+    desc: flowDesc ?? null,
+    place,
+  })) ?? []
 
 /** route 웨이포인트 (전체 필드) */
 export const getWaypoints = (id) =>
@@ -69,12 +75,28 @@ export const getExperienceCards = (id) =>
       image: PROGRAM_ASSETS.experience[id]?.[index] ?? null,
     })) ?? []
 
-/** flowOfNight 핵심 포인트 패널 데이터 */
+/** flowOfNight 패널 — 특정 step 의 핵심 포인트 데이터 (행 클릭 시 갱신용) */
+export const getFlowPoint = (id, step) => {
+  const n = getNight(id)
+  if (!n) return null
+  const idx = n.programs.findIndex((p) => p.step === step)
+  const p = n.programs[idx]
+  if (!p) return null
+  return {
+    step: p.step,
+    title: p.cardTitle ?? p.name,
+    desc: p.desc,
+    tip: p.tip,
+    tipTag: p.tipTag ?? null,
+    image: PROGRAM_ASSETS.flowFeatured[id]?.[p.step] ?? null,
+  }
+}
+
+/** flowOfNight 기본 핵심 포인트 (featuredStep 진입점) */
 export const getFeaturedPoint = (id) => {
   const n = getNight(id)
   if (!n) return null
-  const p = n.programs.find((p) => p.step === n.flowOfNight.featuredStep)
-  return p ? { title: p.cardTitle ?? p.name, desc: p.desc, tip: p.tip } : null
+  return getFlowPoint(id, n.flowOfNight.featuredStep)
 }
 
 /** 카드 섹션용 — colorDark 포함 */

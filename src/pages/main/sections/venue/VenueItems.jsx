@@ -1,5 +1,5 @@
 import styled from "@emotion/styled"
-import { T, alpha, vDivider } from "@/styles/theme"
+import { T, alpha, vDivider, serif } from "@/styles/theme"
 import {
   BusIcon,
   CarIcon,
@@ -86,9 +86,8 @@ const InfoLabel = styled.span`
 
 const InfoValue = styled.dd`
   margin: 0;
-  font-family: ${T.fontSerif};
+  ${serif(700)}
   font-size: ${T.fontSize.sm};
-  font-weight: 700;
   color: ${alpha(T.main, 0.72)};
   white-space: nowrap;
 

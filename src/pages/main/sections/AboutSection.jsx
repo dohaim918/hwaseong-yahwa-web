@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 import styled from "@emotion/styled"
-import { T, alpha, GRADIENT, revealUp, glass, glow } from "@/styles/theme"
+import { T, alpha, GRADIENT, revealUp, glass, glow, serif } from "@/styles/theme"
 import { UI_TEXT } from "@/data/uiText"
 import SectionHeader from "@/components/ui/SectionHeader"
 import FullSection from "@/components/layout/FullSection"
@@ -162,18 +162,16 @@ const StatNum = styled.dd`
 `
 
 const NumVal = styled.span`
-  font-family: ${T.fontSerif};
+  ${serif(900)}
   font-variant-numeric: tabular-nums;
   font-size: clamp(28px, calc(2vw + 16px), 44px);
-  font-weight: 900;
   line-height: 1;
   color: ${({ $color }) => $color};
 `
 
 const NumUnit = styled.span`
-  font-family: ${T.fontSerif};
+  ${serif(500)}
   font-size: ${T.fontSize.md};
-  font-weight: 500;
   line-height: 1;
   color: ${({ $color }) => $color};
 

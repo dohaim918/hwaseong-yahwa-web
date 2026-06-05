@@ -16,12 +16,12 @@
 
 import { forwardRef } from "react"
 import styled from "@emotion/styled"
-import { T, alpha } from "@/styles/theme"
+import { T, alpha, serif } from "@/styles/theme"
 import { UI_TEXT } from "@/data/uiText"
 import { PROGRAM_ASSETS } from "@/data/programAssets"
 import FullSection from "@/components/layout/FullSection"
 import AnimatedBgImage from "@/components/ui/AnimatedBgImage"
-import { EdgeFade } from "@/components/ui/Deco"
+import { EdgeFade, OutlinePill } from "@/components/ui/Deco"
 import { FlowerIcon, StarIcon } from "@/components/ui/icons"
 import NightIndexRail from "@/pages/programs/sections/banner/NightIndexRail"
 import NightCounter from "@/pages/programs/sections/banner/NightCounter"
@@ -164,7 +164,6 @@ const TextBlock = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${T.spacing[32]};
-  z-index: 1;
   transition: gap ${T.transition.slow};
 
   @media (max-width: ${T.bp.mobile}) {
@@ -174,7 +173,6 @@ const TextBlock = styled.div`
 `
 
 const NightCode = styled.span`
-  font-family: ${T.fontSans};
   font-size: ${T.fontSize.md};
   font-weight: 700;
   letter-spacing: 4px;
@@ -205,20 +203,18 @@ const BigTitle = styled.h2`
   padding-bottom: ${T.spacing[8]};
 `
 
-const BigNum = styled.span`
-  font-family: ${T.fontSerif};
-  font-size: clamp(96px, 13vw, 180px);
-  font-weight: 700;
+const BigText = styled.span`
   line-height: 1.2;
   ${({ $grad }) => $grad}
 `
 
-const BigYa = styled.span`
-  font-family: ${T.fontSerif};
+const BigNum = styled(BigText)`
+  ${serif(700)}
+  font-size: clamp(96px, 13vw, 180px);
+`
+const BigYa = styled(BigText)`
+  ${serif(500)}
   font-size: clamp(60px, 8vw, 110px);
-  font-weight: 500;
-  line-height: 1.2;
-  ${({ $grad }) => $grad}
 `
 
 const NightStar = styled.span`
@@ -234,17 +230,15 @@ const NightStar = styled.span`
 `
 
 const Subtitle = styled.p`
-  font-family: ${T.fontSerif};
+  ${serif(700)}
   font-size: clamp(32px, 3.4vw, 44px);
-  font-weight: 700;
   color: ${({ $accent }) => $accent};
   line-height: 1.2;
 `
 
 const Desc = styled.p`
-  font-family: ${T.fontSans};
   font-size: ${T.fontSize.md};
-  line-height: ${T.spacing[32]};
+  line-height: 1.8;
   letter-spacing: 0.3px;
   color: ${alpha(T.white, 0.62)};
   white-space: pre-line;
@@ -270,16 +264,11 @@ const Tags = styled.div`
   }
 `
 
-const Tag = styled.span`
+// 공용 OutlinePill(accent 변형) — 테두리·배경·라운드 공용, 폰트/패딩만 배너용으로 확장
+const Tag = styled(OutlinePill)`
   padding: ${T.spacing[6]} ${T.spacing[16]};
-  border-radius: ${T.radius.pill};
-  font-family: ${T.fontSans};
   font-size: ${T.fontSize.md};
   letter-spacing: 0.3px;
-  color: ${({ $accent }) => $accent};
-  background: ${({ $accent }) => alpha($accent, 0.1)};
-  border: 1px solid ${({ $accent }) => $accent};
-  white-space: nowrap;
   transition: font-size ${T.transition.mid};
 
   @media (max-width: ${T.bp.mobile}) {
@@ -309,9 +298,9 @@ const FooterMark = styled.div`
 `
 
 const FooterText = styled.p`
-  font-family: ${T.fontSerif};
+  ${serif(400)}
   font-size: ${T.fontSize.sm};
-  line-height: ${T.spacing[24]};
+  line-height: 1.5;
   letter-spacing: 0.3px;
   color: ${alpha(T.white, 0.44)};
   white-space: pre-line;

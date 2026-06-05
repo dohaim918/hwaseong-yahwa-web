@@ -12,7 +12,7 @@
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 import styled from "@emotion/styled"
-import { T, alpha, pad2, focusRing } from "@/styles/theme"
+import { T, alpha, pad2, focusRing, serif } from "@/styles/theme"
 import { ChevronIcon } from "@/components/ui/icons"
 import { SrOnly } from "@/components/ui/Deco"
 
@@ -150,10 +150,9 @@ const CurNum = styled.span`
   position: relative;
   display: inline-flex;
   align-items: flex-end;
-  height: 56px;
-  font-family: ${T.fontSerif};
+  height: 1em;
+  ${serif(700)}
   font-size: 56px;
-  font-weight: 700;
   line-height: 1;
   letter-spacing: 2.24px;
   color: ${({ $accent }) => $accent};
@@ -164,12 +163,10 @@ const CurNum = styled.span`
 
   @media (max-width: ${T.bp.mobile}) {
     font-size: 44px;
-    height: 44px;
   }
 
   @media (max-width: ${T.bp.mini}) {
     font-size: 38px;
-    height: 38px;
   }
 `
 
@@ -195,11 +192,9 @@ const ReelCell = styled.span`
   line-height: 1;
 `
 
-
 const Slash = styled.span`
-  font-family: ${T.fontSerif};
+  ${serif(900)}
   font-size: 32px;
-  font-weight: 900;
   color: ${alpha(T.white, 0.39)};
   line-height: 1;
   letter-spacing: 1.28px;
@@ -211,9 +206,8 @@ const Slash = styled.span`
 `
 
 const TotalNum = styled.span`
-  font-family: ${T.fontSerif};
+  ${serif(700)}
   font-size: 36px;
-  font-weight: 700;
   color: ${alpha(T.white, 0.39)};
   line-height: 1;
   letter-spacing: 1.44px;
@@ -225,7 +219,7 @@ const TotalNum = styled.span`
 `
 
 const Quote = styled.p`
-  font-family: ${T.fontSerif};
+  ${serif(400)}
   font-size: ${T.fontSize.sm};
   color: ${alpha(T.white, 0.39)};
   letter-spacing: 0.02em;

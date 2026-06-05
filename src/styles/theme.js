@@ -100,6 +100,8 @@ export const T = {
   cardGap: "clamp(10px, 1.5vw, 20px)", // 카드 사이 간격
   cardPadY: "clamp(20px, 3vw, 42px)", // 카드 상하 패딩
   secPadBottom: "80px",
+  progSecPadY: "clamp(24px, 5.56vh, 100px)", // 프로그램 상세 세로 여백 (Experience · Flow)
+  progSecPadYCompact: "clamp(24px, 4vh, 48px)", // 태블릿·모바일: 카드 공간 확보
   contentW: "550px", // 섹션 내부 콘텐츠 컬럼 max-width (VenueSection 등)
 
   // ── 트랜지션
@@ -132,6 +134,9 @@ export const alpha = (hex, opacity) => {
   return `rgba(${r}, ${g}, ${b}, ${opacity})`
 }
 
+// ── accent 은은한 채움 배경 (태그·칩·패널 공통) — 사용: background: ${accentFill(accent)}
+export const accentFill = (color) => alpha(color, 0.1)
+
 // ── 숫자 2자리 제로패딩 헬퍼 — 사용: pad2(3) → "03"
 export const pad2 = (n) => String(n).padStart(2, "0")
 
@@ -147,6 +152,8 @@ export {
   textGradStops,
   fadeUp,
   revealUp,
+  gradientBorder,
+  serif,
 } from "@/styles/mixins"
 
 // ── 섹션 상단 accent 라인 헬퍼 (중앙에서 양쪽으로 퍼지는 그라디언트 라인)
@@ -192,19 +199,15 @@ const HERO_GRAD = {
 // 버튼 호버 → filter: brightness(1.2) 권장
 const makeNight = (color, dim, dark, gradTo, heroGrad, glow) => ({
   color,
-  bg: alpha(color, 0.08),
+  // ⏸️ 보류(고려 중) — 현재 미사용. 카드 배경 역할은 bgGrad(반투명 스크림)가 차지함.
+  //    불투명(0.92~0.97) 단색 카드 채움이 필요해지면 사용 검토.
   cardBg: `linear-gradient(175deg, ${alpha(dark, 0.92)}, ${alpha(T.bgDark, 0.97)})`,
-  border: {
-    default: `1px solid ${alpha(color, 0.3)}`,
-    hover: `1px solid ${alpha(color, 0.6)}`,
-  },
-  line: accentLine(color),
-  lineLeft: `linear-gradient(90deg, ${color}, transparent)`,
-  lineRight: `linear-gradient(90deg, transparent, ${color})`,
   shimmer: shimmerLine(color),
   grad: `linear-gradient(135deg, ${color}, ${dim})`,
   textGrad: textGrad(color, gradTo),
   whiteTextGrad: textGradStops([`${T.main} 20%`, `${color} 60%`, `${gradTo} 100%`], 134),
+  // FLOW 활성 행 타이틀 — 흰색에서 시작해 끝에서만 accent→gradTo
+  flowTitleGrad: textGradStops([`${T.main} 0%`, `${alpha(color, 0.8)} 70%`, `${gradTo} 100%`], 156),
   heroGrad,
   bgGrad:
     `linear-gradient(175deg,${alpha(dark, 0.6)} 0%,${alpha(T.bgDark, 0.58)} 100%),` +

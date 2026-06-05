@@ -14,9 +14,6 @@ import logoImg from "@/assets/images/logo/hwaseong-yahwa-logo.webp"
 
 const tf = UI_TEXT.footer
 
-// 로고 텍스트 골드
-// const LOGO_GOLD = "#d4a574"
-
 const SNS_ICON_MAP = {
   facebook: FacebookIcon,
   youtube: YoutubeIcon,

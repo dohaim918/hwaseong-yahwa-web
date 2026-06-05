@@ -93,7 +93,6 @@ const CarouselArea = styled.div`
   grid-template-rows: auto minmax(0, 1fr);
   width: 100%;
   min-width: 0;
-  min-height: 0;
   height: 100%;
 `
 
