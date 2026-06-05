@@ -96,7 +96,6 @@ const GalleryShell = styled(FullSection)`
   flex-direction: column;
   justify-content: space-between;
   align-items: stretch;
-  padding: 0;
   overflow: hidden;
 `
 

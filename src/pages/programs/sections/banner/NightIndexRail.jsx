@@ -11,7 +11,7 @@
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 import styled from "@emotion/styled"
-import { T, alpha, pad2, focusRing, accentLine } from "@/styles/theme"
+import { T, alpha, pad2, focusRing, accentLine, serif } from "@/styles/theme"
 
 export default function NightIndexRail({ nights, currentId, onSelect, accent }) {
   const total = nights.length
@@ -136,8 +136,7 @@ const RailItem = styled.button`
 `
 
 const RailNum = styled.span`
-  font-family: ${T.fontSerif};
-  font-weight: 700;
+  ${serif(700)}
   line-height: 1;
   font-size: ${({ $active }) => ($active ? "28px" : "22px")};
   letter-spacing: ${({ $active }) => ($active ? "1.12px" : "0.88px")};
@@ -148,7 +147,6 @@ const RailNum = styled.span`
 `
 
 const RailLabel = styled.span`
-  font-family: ${T.fontSans};
   line-height: 1;
   font-size: ${({ $active }) => ($active ? "16px" : "14px")};
   font-weight: ${({ $active }) => ($active ? 600 : 500)};

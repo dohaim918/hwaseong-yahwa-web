@@ -1,15 +1,14 @@
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //  props:
 //    label / labelAccent / title / titleGradient
-//    gradTitle / desc / descColor / center
+//    desc / center / hideLabelMini
 //
 //  A  <SectionHeader title={<>밤을 <GradSpan $g={...}>걷고 싶나요</GradSpan></>} />
 //  B  <SectionHeader label="..." title="..." titleGradient={...} center />
-//  C  <SectionHeader label="..." title="..." gradTitle="..." titleGradient={...} center />
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 import styled from "@emotion/styled"
-import { T, revealUp } from "@/styles/theme"
+import { T, revealUp, serif } from "@/styles/theme"
 import { LabelRow } from "@/components/ui/Deco"
 
 export default function SectionHeader({
@@ -17,9 +16,7 @@ export default function SectionHeader({
   labelAccent,
   title,
   titleGradient,
-  gradTitle,
   desc,
-  descColor,
   center = false,
   hideLabelMini = false,
   gap,
@@ -28,7 +25,6 @@ export default function SectionHeader({
   animDelay = 0,
   ...props
 }) {
-  const hasTitle = title || gradTitle
   const labelColor = labelAccent ?? T.sub
 
   return (
@@ -45,16 +41,15 @@ export default function SectionHeader({
         </LabelRow>
       )}
 
-      {/* 제목 — title, gradTitle 중 하나라도 있을 때만 */}
-      {hasTitle && (
+      {/* 제목 */}
+      {title && (
         <TitleWrap>
-          {title && <Title $gradient={titleGradient}>{title}</Title>}
-          {gradTitle && <Title $gradient={titleGradient}>{gradTitle}</Title>}
+          <Title $gradient={titleGradient}>{title}</Title>
         </TitleWrap>
       )}
 
       {/* 설명 */}
-      {desc && <Desc $color={descColor}>{desc}</Desc>}
+      {desc && <Desc>{desc}</Desc>}
     </Wrap>
   )
 }
@@ -108,9 +103,8 @@ const TitleWrap = styled.div`
 `
 
 const Title = styled.h2`
-  font-family: ${T.fontSerif};
+  ${serif(700)}
   font-size: ${T.fontSize.xxl};
-  font-weight: 700;
   line-height: 1.4;
   letter-spacing: -0.5px;
   color: ${T.main};
@@ -125,7 +119,7 @@ const Title = styled.h2`
 const Desc = styled.p`
   font-size: ${T.fontSize.sm};
   line-height: clamp(20px, 2.8vw, 28px);
-  color: ${({ $color }) => $color || T.sub};
+  color: ${T.sub};
   white-space: pre-line;
   transition: font-size ${T.transition.mid};
 

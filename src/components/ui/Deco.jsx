@@ -2,7 +2,7 @@
 // 재사용 데코 컴포넌트 모음: 선, 그라디언트 텍스트, 페이드 레이어, 카드 장식.
 
 import styled from "@emotion/styled"
-import { T, alpha } from "@/styles/theme"
+import { T, alpha, accentFill, glow } from "@/styles/theme"
 
 // 텍스트 일부에 그라디언트 스타일을 입힐 때 사용.
 export const GradSpan = styled.span`
@@ -87,6 +87,85 @@ export const Shimmer = styled.div`
   opacity: ${({ $active }) => ($active === false ? 0 : 1)};
   background: ${({ $bg }) => $bg};
   ${({ $top }) => ($top ? "top: 0;" : "bottom: 0;")}
+`
+
+// 카드 상/하단 빛줄기 한 쌍.
+//   ...rest      — 공통 $-prop (양쪽 동일 적용)
+//   bottomProps  — 하단만 다른 값 덮어쓰기 (예: 하단만 $glow)
+export function ShimmerPair({ bottomProps, ...rest }) {
+  return (
+    <>
+      <Shimmer $top {...rest} />
+      <Shimmer {...rest} {...bottomProps} />
+    </>
+  )
+}
+
+// 아웃라인 pill 태그/버튼 (패딩 기반 — 높이 고정 안 함).
+//   장소 핀(FlowTimeline)·팁 태그(FeaturedPanel)·배너 태그(BannerSection) 공용.
+//   아이콘+텍스트는 자식으로 (gap 8). 클릭 필요 시 as="button" 으로.
+//   $tight  — 위아래 패딩 축소 (팁 태그처럼 더 납작하게)
+//   $accent — 지정 시 accent 채움(테두리·글자 + 은은한 배경) / 미지정 시 중립(T.sub)
+export const OutlinePill = styled.span`
+  display: inline-flex;
+  align-items: center;
+  gap: ${T.spacing[8]};
+  flex-shrink: 0;
+  padding: ${({ $tight }) => ($tight ? "clamp(6px, 0.7vh, 9px)" : "clamp(10px, 1.1vh, 14px)")}
+    clamp(${T.spacing[12]}, 1.4vw, ${T.spacing[24]});
+  border: 1px solid ${({ $accent }) => ($accent ? $accent : alpha(T.sub, 0.3))};
+  border-radius: ${T.radius.pill};
+  /* accent: 은은한 accent 채움 / 중립: Button 아웃라인 variant 의 베이스 배경 */
+  background: ${({ $accent }) => ($accent ? accentFill($accent) : alpha(T.bgDark, 0.4))};
+  font-size: clamp(13px, 1vw, 18px);
+  line-height: 1;
+  color: ${({ $accent }) => ($accent ? $accent : T.sub)};
+  white-space: nowrap;
+`
+
+// 섹션 배경 빛덩어리 (radial glow) — 절대배치 + glow() 배경.
+//   side  — "top"(상단 중앙) | "bottom"(하단 풀폭) 위치/정렬 프리셋
+//   color — glow 색 (필수)
+//   width/height — 크기 (top은 width 사용, bottom은 풀폭)
+//   opacity/shape/stop — glow() 파라미터 (생략 시 glow 기본값)
+//   blur  — filter blur 값 (예: "60px") / round — true면 border-radius:50%
+export function SectionGlow({
+  side = "top",
+  color,
+  width,
+  height,
+  opacity,
+  shape,
+  stop,
+  blur,
+  round,
+  ...props
+}) {
+  return (
+    <GlowLayer
+      $side={side}
+      $w={width}
+      $h={height}
+      $blur={blur}
+      $round={round}
+      $bg={glow(color, { opacity, shape, stop })}
+      aria-hidden="true"
+      {...props}
+    />
+  )
+}
+
+const GlowLayer = styled.div`
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  background: ${({ $bg }) => $bg};
+  ${({ $side, $w, $h }) =>
+    $side === "top"
+      ? `top: -1px; left: 50%; transform: translateX(-50%); ${$w ? `width: ${$w};` : ""} height: ${$h};`
+      : `bottom: 0; left: 0; right: 0; height: ${$h};`}
+  ${({ $round }) => ($round ? "border-radius: 50%;" : "")}
+  ${({ $blur }) => ($blur ? `filter: blur(${$blur});` : "")}
 `
 
 // 카드 active/hover 상태를 보여주는 원형 테두리.

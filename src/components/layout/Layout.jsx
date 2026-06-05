@@ -8,8 +8,8 @@
 //  ProgramsPage에서 야별 전환 시 scrollTo(0) 또는 특정 섹션 스크롤이
 //  필요할 수 있으므로 OutletContext에 유지해 둔다.
 
-import { useState, useRef, Suspense } from "react"
-import { Outlet } from "react-router-dom"
+import { useState, useRef, Suspense, useLayoutEffect } from "react"
+import { Outlet, useLocation } from "react-router-dom"
 import styled from "@emotion/styled"
 import NavBar from "@/components/layout/NavBar"
 import CustomCursor from "@/components/ui/CustomCursor"
@@ -20,6 +20,15 @@ import { T, focusRing } from "@/styles/theme"
 export default function Layout() {
   const [accent, setAccent] = useState(T.pink)
   const mainRef = useRef(null)
+  const { pathname } = useLocation()
+
+  // 라우트가 바뀌어도 Main 스크롤 컨테이너는 유지된다.
+  // 그래서 /programs → / → /programs 이동 시 이전 섹션 위치가 남지 않도록 pathname 변경 때만 초기화한다.
+  useLayoutEffect(() => {
+    const main = mainRef.current
+    if (!main) return
+    main.scrollTop = 0
+  }, [pathname])
 
   return (
     <MvpModalProvider>

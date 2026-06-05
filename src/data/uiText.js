@@ -170,8 +170,9 @@ export const UI_TEXT = {
   flowOfNight: {
     sectionLabel: "FLOW OF NIGHT",
     // Image 1 정확한 텍스트
-    desc: "화성의 밤을 따라, 잔잔히 걸어보세요.\n시간과 공간이 맞닿는 화성야화의 매력을 느낄 수 있습니다.",
+    desc: "화성의 밤을 따라, 잔잔히 걸어보세요.\n시간과 공간이 맞닿는 화성야화의 장면이 펼쳐집니다.",
     panelLabel: "핵심 포인트", // ★ 핵심 포인트 ★
+    panelTipLabel: "관람 팁", // 팁 박스 제목
     // 하단 통계 바 레이블 (Image 1 정확한 텍스트)
     // nightData-v5.js flowOfNight.stats 키와 1:1 매핑
     statsLabels: {
@@ -180,7 +181,7 @@ export const UI_TEXT = {
       viewerAge: "관람 연령", // stats.viewerAge
       difficulty: "난이도", // stats.difficulty
     },
-    routeBtn: "관람 동선 보기 →",
+    routeBtn: "관람 동선 보기",
   },
 
   // ─────────────────────────────────────

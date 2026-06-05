@@ -1,6 +1,6 @@
 import styled from "@emotion/styled"
 import { T, alpha } from "@/styles/theme"
-import { Shimmer, Ring } from "@/components/ui/Deco"
+import { Ring, ShimmerPair } from "@/components/ui/Deco"
 
 export default function CardDeco({ imgs, style, color, active, hasHover }) {
   return (
@@ -12,8 +12,7 @@ export default function CardDeco({ imgs, style, color, active, hasHover }) {
       </Sym>
       <Ring $color={color} $active={active} $outer />
       <Ring $color={color} $active={active} />
-      <Shimmer $bg={style.shimmer} $active={active} $top />
-      <Shimmer $bg={style.shimmer} $active={active} />
+      <ShimmerPair $bg={style.shimmer} $active={active} />
       <Border $color={color} $active={active} />
       <MutedOverlay $show={hasHover && !active} />
     </>

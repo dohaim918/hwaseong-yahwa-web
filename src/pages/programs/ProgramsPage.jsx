@@ -19,6 +19,7 @@ import { NIGHTS } from "@/data/nightData"
 import NightTabBar from "@/pages/programs/NightTabBar"
 import BannerSection from "@/pages/programs/sections/banner/BannerSection"
 import ExperienceSection from "@/pages/programs/sections/ExperienceSection"
+import FlowSection from "@/pages/programs/sections/flow/FlowSection"
 
 const VALID_IDS = [1, 2, 3, 4]
 const DEFAULT_ID = 1
@@ -87,14 +88,10 @@ export default function ProgramsPage() {
       {/* ── 2. EXPERIENCE 섹션 ── */}
       <ExperienceSection night={NIGHTS[currentId - 1]} />
 
-      {/* ── 3~4. 나머지 섹션 (이후 단계에서 실제 컴포넌트로 교체) ── */}
+      {/* ── 3. FLOW OF NIGHT 섹션 ── */}
+      <FlowSection night={NIGHTS[currentId - 1]} />
 
-      <PHSection aria-label="FLOW OF NIGHT (작업 중)">
-        <PHInner>
-          <PHTag>3 · FLOW OF NIGHT</PHTag>
-          <PHDesc>{NIGHTS[currentId - 1].flowOfNight.h2}</PHDesc>
-        </PHInner>
-      </PHSection>
+      {/* ── 4. 나머지 섹션 (이후 단계에서 실제 컴포넌트로 교체) ── */}
 
       <PHSection aria-label="FINAL INVITATION (작업 중)">
         <PHInner>
@@ -114,12 +111,7 @@ export default function ProgramsPage() {
 const PHSection = styled(ColumnSection)`
   align-items: center;
   justify-content: center;
-  min-height: 700px;
   background: linear-gradient(180deg, ${T.bgBase} 0%, ${T.bgCard} 50%, ${T.bgBase} 100%);
-
-  @media (max-width: ${T.bp.mobile}) {
-    min-height: 600px;
-  }
 `
 
 const PHInner = styled.div`
