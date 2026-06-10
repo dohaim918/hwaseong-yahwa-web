@@ -2,22 +2,20 @@
 //  props:
 //    variant  — 'gradient' | 'outline'  (기본: gradient)
 //    size     — 'sm' | 'md' | 'lg'      (기본: md)
-//    accent   — 색상값 (기본: T.pink)
-//    night    — NIGHT_STYLE[n] 객체 — accent·gradient 한 번에 지정
-//    gradient — 풀 그라디언트 문자열 직접 지정 (night 없을 때)
+//    accent   — night 색 (T.pink/amber/emerald/violet) — gradient 는 buttonGrad(accent) 로 파생 (기본: T.pink)
+//    gradient — 풀 그라디언트 문자열 직접 지정 (예외 디자인용 탈출구)
 //    bordered — gradient 버튼에 테두리 추가
 //    radius   — border-radius 오버라이드 (기본: T.radius.pill)
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 import styled from "@emotion/styled"
-import { T, alpha, focusRing } from "@/styles/theme"
+import { T, alpha, focusRing, buttonGrad } from "@/styles/theme"
 
 export default function Button({
   as,
   variant = "gradient",
   size = "md",
   accent = T.pink,
-  night,
   gradient,
   bordered,
   radius,
@@ -27,16 +25,13 @@ export default function Button({
   children,
   ...props
 }) {
-  const effectiveAccent = night?.color ?? accent
-  const effectiveGradient = night?.grad ?? gradient
-
   return (
     <StyledBtn
       as={as}
       $variant={variant}
       $size={size}
-      $accent={effectiveAccent}
-      $gradient={effectiveGradient}
+      $accent={accent}
+      $gradient={gradient}
       $bordered={bordered}
       $radius={radius}
       type={as ? undefined : type}
@@ -131,7 +126,7 @@ const StyledBtn = styled("button", {
     `
     color: ${T.white};
     filter: brightness(1);
-    background: ${$gradient ?? `linear-gradient(135deg, ${$accent}, ${alpha($accent, 0.55)})`};
+    background: ${$gradient ?? buttonGrad($accent)};
     box-shadow: ${SIZE[$size].shadow($accent)};
     ${$bordered ? `border: 1.5px solid ${alpha($accent, 0.4)};` : ""}
 

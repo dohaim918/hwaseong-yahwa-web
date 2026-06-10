@@ -56,8 +56,9 @@ export default function FlowSection({ night }) {
       night={night}
       bg={flowBg}
       bgKey={night.id}
-      bgOpacity={1}
-      mobileBgOpacity={0.15}
+      bgOpacity={0.6}
+      mobileBgOpacity={0.8}
+      bgBlendMode="lighten"
       topFade={{ size: "clamp(120px, 16vh, 220px)", opacity: 0.9, z: 2 }}
       glows={[
         {

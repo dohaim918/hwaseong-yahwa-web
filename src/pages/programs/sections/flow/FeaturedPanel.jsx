@@ -132,7 +132,6 @@ const Img = styled.img`
   width: ${IMG_SIZE};
   height: ${IMG_SIZE};
   object-fit: contain;
-  mix-blend-mode: lighten;
 `
 
 // 텍스트 + 팁 박스는 줄지 않고 항상 노출

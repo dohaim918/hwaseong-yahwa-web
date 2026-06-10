@@ -2,7 +2,8 @@
 // 재사용 데코 컴포넌트 모음: 선, 그라디언트 텍스트, 페이드 레이어, 카드 장식.
 
 import styled from "@emotion/styled"
-import { T, alpha, accentFill, glow } from "@/styles/theme"
+import { T, alpha, accentFill, glow, revealUp } from "@/styles/theme"
+import { StarIcon } from "@/components/ui/icons"
 
 // 텍스트 일부에 그라디언트 스타일을 입힐 때 사용.
 export const GradSpan = styled.span`
@@ -31,37 +32,88 @@ export const GradLine = styled.div`
     $dir === "left"
       ? `linear-gradient(90deg, transparent, ${$color})`
       : `linear-gradient(90deg, ${$color}, transparent)`};
-
-  @media (max-width: ${T.bp.mini}) {
-    ${({ $hideMini }) => $hideMini && `display: none;`}
-  }
 `
 
-// 라벨 텍스트 양옆에 짧은 GradLine을 붙이는 행.
-export function LabelRow({
-  children,
-  color,
-  lineWidth = "28px",
-  gap = T.spacing[12],
-  hideMini = false,
-  justify = "center",
-  ...props
-}) {
+// 섹션/히어로 라벨 텍스트 양옆에 짧은 GradLine을 붙이는 행.
+export function SectionLabelRow({ children, color, justify = "center", ...props }) {
   return (
-    <LabelRowWrap $gap={gap} $justify={justify} {...props}>
-      <GradLine $color={color} $dir="left" $width={lineWidth} $hideMini={hideMini} />
+    <SectionLabelRowWrap $justify={justify} {...props}>
+      <SectionLabelLine $color={color} $dir="left" $width={T.spacing[32]} />
       {children}
-      <GradLine $color={color} $dir="right" $width={lineWidth} $hideMini={hideMini} />
-    </LabelRowWrap>
+      <SectionLabelLine $color={color} $dir="right" $width={T.spacing[32]} />
+    </SectionLabelRowWrap>
   )
 }
 
-const LabelRowWrap = styled.div`
+const SectionLabelRowWrap = styled.div`
   display: flex;
   align-items: center;
   justify-content: ${({ $justify = "center" }) => $justify};
-  gap: ${({ $gap }) => $gap};
+  gap: ${T.spacing[8]};
   width: 100%;
+`
+
+const SectionLabelLine = styled(GradLine)`
+  @media (max-width: ${T.bp.mini}) {
+    display: none;
+  }
+`
+
+// 섹션 하단 짧은 문구 티커.
+export function SectionTicker({ text, color = T.violet, animIn }) {
+  return (
+    <TickerRow $animIn={animIn}>
+      <TickerLine $color={alpha(color, 0.5)} $dir="left" $width={T.spacing[42]} />
+      <StarIcon size={14} color={alpha(color, 0.6)} />
+      <TickerText $color={color}>{text}</TickerText>
+      <StarIcon size={14} color={alpha(color, 0.6)} />
+      <TickerLine $color={alpha(color, 0.5)} $dir="right" $width={T.spacing[42]} />
+    </TickerRow>
+  )
+}
+
+const TickerRow = styled.div`
+  position: relative;
+  z-index: 8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: ${T.spacing[12]};
+  padding-block: ${T.spacing[24]} clamp(40px, 7.4vh, 160px);
+  ${({ $animIn }) => revealUp($animIn, 0.55)}
+`
+
+const TickerLine = styled(GradLine)`
+  @media (max-width: ${T.bp.mini}) {
+    display: none;
+  }
+`
+
+const TickerText = styled.span`
+  font-family: ${T.fontSerif};
+  font-size: ${T.fontSize.md};
+  font-weight: 700;
+  color: ${({ $color }) => alpha($color, 0.6)};
+  letter-spacing: 4px;
+  white-space: nowrap;
+  line-height: 1;
+  transform: translateY(1px);
+  transition:
+    font-size ${T.transition.mid},
+    letter-spacing ${T.transition.mid};
+
+  @media (max-width: ${T.bp.tablet}) {
+    font-size: ${T.fontSize.sm};
+    letter-spacing: 3px;
+  }
+  @media (max-width: ${T.bp.mobile}) {
+    font-size: ${T.fontSize.xs};
+    letter-spacing: 2px;
+  }
+  @media (max-width: ${T.bp.mini}) {
+    font-size: ${T.fontSize.xxs};
+    letter-spacing: 1.5px;
+  }
 `
 
 // 카드나 모달 위아래에 얇게 흐르는 빛 라인.

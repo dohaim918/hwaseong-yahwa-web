@@ -108,7 +108,6 @@ export default function ExperienceSection({ night }) {
               titleGradient={night.style.whiteTextGrad}
               desc={t.desc}
               center
-              hideLabelMini
               animIn={animIn}
               animDelay={0.1}
               pb="0"

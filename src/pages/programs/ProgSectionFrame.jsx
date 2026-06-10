@@ -58,7 +58,6 @@ export default function ProgSectionFrame({
             animIn={animIn}
             pb="0"
             {...header}
-            hideLabelMini
           />
         )}
         {typeof children === "function" ? children(renderProps) : children}

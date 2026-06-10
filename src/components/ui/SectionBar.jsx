@@ -42,7 +42,7 @@ export default function SectionBar({
   return (
     <Bar $color={color} $visible={visible}>
       <Left>
-        <FlowerIcon color={color} style={{ flexShrink: 0, overflow: "visible" }} />
+        <FlowerMark color={color} />
         <Label $color={color}>{label}</Label>
         {sub && <Sub>{sub}</Sub>}
       </Left>
@@ -56,6 +56,11 @@ export default function SectionBar({
     </Bar>
   )
 }
+
+const FlowerMark = styled(FlowerIcon)`
+  flex-shrink: 0;
+  overflow: visible;
+`
 
 const Bar = styled.div`
   position: relative;

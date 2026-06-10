@@ -12,8 +12,8 @@ const DOT_ACTIVE_W = "22px"
 const SIDE_OPACITY = [0.59, 0.32, 0.14]
 const SIDE_OPACITY_HOVER = [0.78, 0.5, 0.28]
 
-// 글래스 버튼 공통 표면/호버 (화살표·VIEW SCENE 공유)
-const glass = (bAlpha, blur) => `
+// 보더가 있는 글래스 버튼 표면 (화살표·VIEW SCENE 공유)
+const borderGlass = (bAlpha, blur) => `
   background:${alpha(T.bgDark, 0.36)};
   border:1px solid ${alpha(T.violet, bAlpha)};
   backdrop-filter:blur(${blur});
@@ -38,7 +38,7 @@ function SideStack({ images, side, indexes, animIn, onSelect }) {
           onClick={() => onSelect(idx)}
           aria-label={images[idx].alt}
         >
-          <SideImg src={images[idx].src} alt="" />
+          <SideImg src={images[idx].src} alt="" loading="lazy" />
         </SideThumb>
       ))}
     </SideStackWrap>
@@ -60,7 +60,7 @@ function CenterViewer({
   return (
     <CenterViewerWrap $animIn={animIn}>
       <CenterFrame role="region" aria-label="갤러리 캐러셀" $prevSrc={prevSrc}>
-        <CenterImg key={active} src={activeItem.src} alt={activeItem.alt} />
+        <CenterImg key={active} src={activeItem.src} alt={activeItem.alt} loading="lazy" />
         <CenterBorder />
         <ArrowBtn type="button" $side="left" onClick={onPrev} aria-label="이전 이미지">
           <ChevronIcon dir="left" />
@@ -267,7 +267,7 @@ const ArrowBtn = styled.button`
   justify-content: center;
   cursor: pointer;
   color: ${alpha(T.white, 0.85)};
-  ${glass(0.3, "4px")}
+  ${borderGlass(0.3, "4px")}
   transition: background ${T.transition.mid}, border-color ${T.transition.mid}, box-shadow ${T
     .transition.mid}, transform ${T.transition.spring};
 
@@ -308,7 +308,7 @@ const ViewSceneBtn = styled.button`
   padding: 0 18px;
   height: ${T.spacing[32]};
   border-radius: ${T.radius.pill};
-  ${glass(0.7, "2px")}
+  ${borderGlass(0.7, "2px")}
   cursor: pointer;
   white-space: nowrap;
   transition:

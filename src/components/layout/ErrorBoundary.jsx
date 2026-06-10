@@ -79,7 +79,7 @@ const Label = styled.span`
   color: ${alpha(T.pink, 0.7)};
 `
 
-const Title = styled.h2`
+const Title = styled.h1`
   font-family: ${T.fontSerif};
   font-size: ${T.fontSize.xxl};
   color: ${T.main};

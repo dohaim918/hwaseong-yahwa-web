@@ -232,3 +232,12 @@ export const NIGHT_STYLE = {
   3: makeNight(T.emerald, T.emeraldDim, T.emeraldDark, T.amber, HERO_GRAD[3], NIGHT_GLOW[3]),
   4: makeNight(T.violet, T.violetDim, T.violetDark, T.pink, HERO_GRAD[4], NIGHT_GLOW[4]),
 }
+
+// ── 버튼 채움(gradient) — night 색 → 해당 야의 grad(135deg, color→dim) 단일 소스 조회
+//    gradient 버튼 accent 는 night 색(T.pink/amber/emerald/violet)만 사용한다는 규칙.
+//    규칙을 벗어난 색이 오면 조용히 삼키지 않고 명확한 에러로 즉시 알린다.
+export const buttonGrad = (color) => {
+  const night = Object.values(NIGHT_STYLE).find((s) => s.color === color)
+  if (!night) throw new Error(`buttonGrad: '${color}'는 night 색이 아닙니다 (T.pink/amber/emerald/violet 중 하나)`)
+  return night.grad
+}

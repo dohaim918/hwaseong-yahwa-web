@@ -12,7 +12,7 @@ import { UI_TEXT } from "@/data/uiText"
 import MobileMenu from "@/components/layout/MobileMenu"
 import Button from "@/components/ui/Button"
 import { useMvpModal } from "@/components/ui/MvpModal"
-import logoImage from "@/assets/images/logo/hwaseong-yahwa-logo.webp"
+import BrandLogo from "@/components/ui/BrandLogo"
 
 export default function NavBar({ accent = T.pink }) {
   const [isOpen, setIsOpen] = useState(false)
@@ -23,11 +23,9 @@ export default function NavBar({ accent = T.pink }) {
   return (
     <>
       <Nav>
-        <h1>
-          <Logo to="/" aria-label="화성야화 메인으로 이동">
-            <LogoImage src={logoImage} alt="화성야화" />
-          </Logo>
-        </h1>
+        <Logo to="/" aria-label="화성야화 메인으로 이동">
+          <BrandLogo />
+        </Logo>
 
         <Right>
           <NavLinks>
@@ -92,19 +90,13 @@ const Nav = styled.nav`
 `
 
 const Logo = styled(Link)`
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  width: 124px;
   transition: opacity ${T.transition.fast};
 
   &:hover {
     opacity: 0.82;
   }
-`
-
-const LogoImage = styled.img`
-  width: 100%;
-  height: auto;
 `
 
 const Right = styled.div`
