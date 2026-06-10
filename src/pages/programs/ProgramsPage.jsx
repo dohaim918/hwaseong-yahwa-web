@@ -12,14 +12,13 @@
 
 import { useEffect, useRef, useState, useCallback } from "react"
 import { useSearchParams, useOutletContext } from "react-router-dom"
-import styled from "@emotion/styled"
-import { T, NIGHT_STYLE } from "@/styles/theme"
-import { ColumnSection } from "@/components/layout/FullSection"
+import { NIGHT_STYLE } from "@/styles/theme"
 import { NIGHTS } from "@/data/nightData"
 import NightTabBar from "@/pages/programs/NightTabBar"
 import BannerSection from "@/pages/programs/sections/banner/BannerSection"
 import ExperienceSection from "@/pages/programs/sections/ExperienceSection"
 import FlowSection from "@/pages/programs/sections/flow/FlowSection"
+import FinalSection from "@/pages/programs/sections/FinalSection"
 
 const VALID_IDS = [1, 2, 3, 4]
 const DEFAULT_ID = 1
@@ -91,44 +90,8 @@ export default function ProgramsPage() {
       {/* ── 3. FLOW OF NIGHT 섹션 ── */}
       <FlowSection night={NIGHTS[currentId - 1]} />
 
-      {/* ── 4. 나머지 섹션 (이후 단계에서 실제 컴포넌트로 교체) ── */}
-
-      <PHSection aria-label="FINAL INVITATION (작업 중)">
-        <PHInner>
-          <PHTag>4 · FINAL INVITATION</PHTag>
-          <PHDesc>화성의 밤, 지금 만나보세요</PHDesc>
-        </PHInner>
-      </PHSection>
+      {/* ── 4. FINAL 섹션 (Footer 내장) ── */}
+      <FinalSection night={NIGHTS[currentId - 1]} />
     </>
   )
 }
-
-// ─────────────────────────────────────────────────────────────
-//  Placeholder Section — 이후 단계에서 실제 섹션 컴포넌트로 교체
-//  풀스크린·scroll-snap·overflow:clip 골격은 ColumnSection 베이스에서 상속.
-// ─────────────────────────────────────────────────────────────
-
-const PHSection = styled(ColumnSection)`
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(180deg, ${T.bgBase} 0%, ${T.bgCard} 50%, ${T.bgBase} 100%);
-`
-
-const PHInner = styled.div`
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  gap: ${T.spacing[16]};
-`
-
-const PHTag = styled.span`
-  font-family: ${T.fontMono};
-  font-size: ${T.fontSize.xs};
-  letter-spacing: 0.3em;
-  color: ${T.sub};
-`
-
-const PHDesc = styled.p`
-  font-size: ${T.fontSize.md};
-  color: ${T.sub};
-`

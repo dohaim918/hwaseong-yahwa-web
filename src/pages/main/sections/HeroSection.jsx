@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom"
 import styled from "@emotion/styled"
-import { T, alpha, GRADIENT, NIGHT_STYLE, fadeUp } from "@/styles/theme"
+import { T, alpha, GRADIENT, fadeUp } from "@/styles/theme"
 import { UI_TEXT } from "@/data/uiText"
 import FullSection from "@/components/layout/FullSection"
 import { ArrowRightIcon, StarIcon } from "@/components/ui/icons"
-import { LabelRow, GradLine } from "@/components/ui/Deco"
+import { SectionLabelRow, GradLine } from "@/components/ui/Deco"
 import Button from "@/components/ui/Button"
 import AnimatedBgImage from "@/components/ui/AnimatedBgImage"
 import ParticleCanvas from "@/components/ui/ParticleCanvas"
@@ -18,7 +18,7 @@ export default function HeroSection({ mousePos }) {
 
   return (
     <FullSection ref={secRef}>
-      <AnimatedBgImage src={heroBg} opacity={0.8} />
+      <AnimatedBgImage src={heroBg} opacity={0.8} loading="eager" />
       <ParticleCanvas mousePos={mousePos} />
       <Orb />
 
@@ -26,7 +26,7 @@ export default function HeroSection({ mousePos }) {
         <TopGroup>
           <Header>
             <Hanja>{t.hanjaLabel}</Hanja>
-            <HeroLabelRow color={T.pink} hideMini>
+            <HeroLabelRow color={T.pink}>
               <LabelText>{t.festivalLabel}</LabelText>
             </HeroLabelRow>
           </Header>
@@ -47,7 +47,7 @@ export default function HeroSection({ mousePos }) {
         </TopGroup>
 
         <CtaRow>
-          <Button as={Link} to="/programs" size="lg" night={NIGHT_STYLE[1]} variant="gradient">
+          <Button as={Link} to="/programs" size="lg" accent={T.pink} variant="gradient">
             {t.ctaPrimary}
           </Button>
           <Button as={Link} to="/booking" size="lg" accent={T.pink} variant="outline">
@@ -156,7 +156,7 @@ const Hanja = styled.div`
   }
 `
 
-const HeroLabelRow = styled(LabelRow)`
+const HeroLabelRow = styled(SectionLabelRow)`
   ${fadeUp(0.05)}
 `
 
@@ -180,7 +180,7 @@ const LabelText = styled.span`
   }
 `
 
-const Title = styled.h2`
+const Title = styled.h1`
   font-family: ${T.fontSerif};
   font-size: ${T.fontSize.hero};
   font-weight: 900;

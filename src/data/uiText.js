@@ -336,7 +336,7 @@ export const UI_TEXT = {
     },
 
     copyright: "© 2026 수원시 문화재단 HWASEONG NIGHT FIRE. All rights reserved.",
-    copyrightMini: "© 2026 수원시 문화재단 HWASEONG NIGHT FIRE.",
+    copyrightMini: "© 2026 수원시 문화재단",
     legal: ["이용약관", "개인정보처리방침", "사업자정보"],
   },
 }

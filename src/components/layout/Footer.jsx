@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/icons"
 import { useMvpModal } from "@/components/ui/MvpModal"
 import { useResponsive } from "@/hooks/useResponsive"
-import logoImg from "@/assets/images/logo/hwaseong-yahwa-logo.webp"
+import BrandLogo from "@/components/ui/BrandLogo"
 
 const tf = UI_TEXT.footer
 
@@ -21,8 +21,8 @@ const SNS_ICON_MAP = {
   kakao: KakaoIcon,
 }
 
-export default function Footer() {
-  const { isMini } = useResponsive()
+export default function Footer({ accent = T.violet }) {
+  const { isMini, isSmall } = useResponsive()
   const mvpModal = useMvpModal()
   const openPending = (label) => {
     mvpModal.open({
@@ -34,18 +34,14 @@ export default function Footer() {
   }
 
   return (
-    <FooterEl>
+    <FooterEl $accent={accent}>
       <FooterMain>
         <FooterGrid>
           {/* ── col1: 브랜드 + 주소 + SNS ── */}
           <BrandCol>
             <BrandLeft>
               <LogoRow>
-                <LogoImg src={logoImg} alt={tf.brand} />
-                {/* <LogoTxt>
-                  <LogoKr>{tf.brand}</LogoKr>
-                  <LogoEn>{tf.brandEn}</LogoEn>
-                </LogoTxt> */}
+                <BrandLogo alt={tf.brand} />
               </LogoRow>
               <Addr>
                 {tf.address}
@@ -111,7 +107,7 @@ export default function Footer() {
 
       {/* ── 카피라이트 바 ── */}
       <CopyBar>
-        <CopyText>{isMini ? tf.copyrightMini : tf.copyright}</CopyText>
+        <CopyText>{isSmall ? tf.copyrightMini : tf.copyright}</CopyText>
         <CopyLegal>
           {tf.legal.map((item) => (
             <CopyBtn
@@ -143,30 +139,31 @@ const FooterEl = styled.footer`
     left: 0;
     right: 0;
     height: 2px;
-    background: ${accentLine(T.violet)};
+    background: ${({ $accent }) => accentLine($accent)};
   }
 `
 
 const FooterMain = styled.div`
-  padding: clamp(${T.spacing[32]}, 4.5vw, 60px) ${T.pagePad} ${T.spacing[32]};
+  /* 위아래 대칭 패딩 (좌우는 pagePad) */
+  padding: clamp(${T.spacing[24]}, 3.4vw, 44px) ${T.pagePad};
 
   @media (max-width: ${T.bp.mini}) {
-    padding-block: ${T.spacing[24]} ${T.spacing[20]};
+    padding-block: ${T.spacing[20]};
   }
 `
 
 const FooterGrid = styled.div`
   display: grid;
   grid-template-columns: minmax(0, 1.8fr) repeat(3, minmax(0, 1fr));
-  gap: ${T.spacing[42]};
+  gap: ${T.spacing[32]};
 
   @media (max-width: ${T.bp.tablet}) {
     grid-template-columns: repeat(3, 1fr);
-    gap: ${T.spacing[32]};
+    gap: ${T.spacing[24]};
   }
 
   @media (max-width: ${T.bp.mobile}) {
-    gap: ${T.spacing[24]};
+    gap: ${T.spacing[20]};
   }
 
   @media (max-width: ${T.bp.mini}) {
@@ -201,10 +198,6 @@ const BrandCol = styled.div`
     gap: ${T.spacing[16]};
     padding-bottom: ${T.spacing[12]};
   }
-
-  /* @media (max-width: ${T.bp.mini}) {
-    gap: ${T.spacing[8]};
-  } */
 `
 
 const BrandLeft = styled.div`
@@ -223,40 +216,6 @@ const LogoRow = styled.div`
   align-items: center;
   gap: ${T.spacing[12]};
 `
-
-const LogoImg = styled.img`
-  width: 124px;
-  /* object-fit: contain;
-  flex-shrink: 0; */
-
-  /* @media (max-width: ${T.bp.mini}) {
-    width: 38px;
-    height: 38px;
-  } */
-`
-
-// const LogoTxt = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   gap: ${T.spacing[4]};
-// `
-
-// const LogoKr = styled.span`
-//   font-family: ${T.fontSerif};
-//   font-size: 19px;
-//   font-weight: 500;
-//   letter-spacing: 1.5px;
-//   color: ${LOGO_GOLD};
-//   line-height: 1;
-// `
-
-// const LogoEn = styled.span`
-//   font-size: 9px;
-//   font-weight: 400;
-//   letter-spacing: 0.5px;
-//   color: ${alpha(LOGO_GOLD, 0.6)};
-//   line-height: 1;
-// `
 
 const Addr = styled.address`
   font-style: normal;
@@ -425,19 +384,17 @@ const CopyBar = styled.div`
   align-items: center;
   justify-content: space-between;
   gap: ${T.spacing[12]};
-  padding: ${T.spacing[20]} ${T.pagePad} ${T.spacing[42]};
+  padding: ${T.spacing[16]} ${T.pagePad} ${T.spacing[28]};
   border-top: 1px solid ${alpha(T.white, 0.04)};
 
-  @media (max-width: ${T.bp.mobile}) {
+  /* 미니: 위 패딩·구분선 제거(아코디언 선과 중복 방지) + 2줄 세로 스택(중앙정렬) */
+  @media (max-width: ${T.bp.mini}) {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    gap: ${T.spacing[8]};
-    padding-bottom: ${T.spacing[32]};
-  }
-
-  @media (max-width: ${T.bp.mini}) {
-    padding-bottom: ${T.spacing[24]};
+    gap: ${T.spacing[6]};
+    padding-block: 0 ${T.spacing[20]};
+    border-top: 0;
   }
 `
 

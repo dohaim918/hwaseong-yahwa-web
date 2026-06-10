@@ -1,7 +1,7 @@
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //  props:
 //    label / labelAccent / title / titleGradient
-//    desc / center / hideLabelMini
+//    desc / center
 //
 //  A  <SectionHeader title={<>밤을 <GradSpan $g={...}>걷고 싶나요</GradSpan></>} />
 //  B  <SectionHeader label="..." title="..." titleGradient={...} center />
@@ -9,7 +9,7 @@
 
 import styled from "@emotion/styled"
 import { T, revealUp, serif } from "@/styles/theme"
-import { LabelRow } from "@/components/ui/Deco"
+import { SectionLabelRow } from "@/components/ui/Deco"
 
 export default function SectionHeader({
   label,
@@ -18,7 +18,6 @@ export default function SectionHeader({
   titleGradient,
   desc,
   center = false,
-  hideLabelMini = false,
   gap,
   pb,
   animIn,
@@ -30,15 +29,9 @@ export default function SectionHeader({
   return (
     <Wrap $center={center} $gap={gap} $pb={pb} $animIn={animIn} $animDelay={animDelay} {...props}>
       {label && (
-        <LabelRow
-          color={labelColor}
-          lineWidth="32px"
-          gap={T.spacing[8]}
-          hideMini={hideLabelMini}
-          justify={center ? "center" : "flex-start"}
-        >
+        <SectionLabelRow color={labelColor} justify={center ? "center" : "flex-start"}>
           <LabelText $color={labelColor}>{label}</LabelText>
-        </LabelRow>
+        </SectionLabelRow>
       )}
 
       {/* 제목 */}

@@ -87,6 +87,7 @@ export default function MobileMenu({ isOpen, onClose, accent = T.pink, onMvpOpen
               as={Link}
               to={UI_TEXT.nav.ctaTo}
               accent={accent}
+              $accent={accent}
               onClick={onClose}
               tabIndex={isOpen ? 0 : -1}
             >
@@ -94,7 +95,7 @@ export default function MobileMenu({ isOpen, onClose, accent = T.pink, onMvpOpen
               <ArrowRightIcon size={14} />
             </BookBtn>
           ) : (
-            <BookBtn accent={accent} onClick={handleMvpClick} tabIndex={isOpen ? 0 : -1}>
+            <BookBtn accent={accent} $accent={accent} onClick={handleMvpClick} tabIndex={isOpen ? 0 : -1}>
               {UI_TEXT.nav.ctaLabel}
               <ArrowRightIcon size={14} />
             </BookBtn>
@@ -284,10 +285,10 @@ const BookBtn = styled(Button)`
   font-size: ${T.fontSize.xs};
   letter-spacing: 1.5px;
   color: ${T.main};
-  box-shadow: 0 0 24px ${({ accent }) => alpha(accent, 0.3)};
+  box-shadow: 0 0 24px ${({ $accent }) => alpha($accent, 0.3)};
 
   &:hover:not(:disabled) {
-    box-shadow: 0 0 36px ${({ accent }) => alpha(accent, 0.55)};
+    box-shadow: 0 0 36px ${({ $accent }) => alpha($accent, 0.55)};
   }
 
   @media (max-width: ${T.bp.mobile}) {

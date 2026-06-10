@@ -45,7 +45,7 @@ const Code = styled.div`
   letter-spacing: 4px;
 `
 
-const Title = styled.h2`
+const Title = styled.h1`
   font-family: ${T.fontSerif};
   font-size: ${T.fontSize.xxl};
   color: ${T.main};

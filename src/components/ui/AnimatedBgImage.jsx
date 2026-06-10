@@ -1,7 +1,8 @@
 import styled from "@emotion/styled"
 import { T } from "@/styles/theme"
 
-// 스크롤 진입 시 서서히 드러나는 풀섹션 배경 이미지
+// 스크롤 진입 시 서서히 드러나는 풀섹션 배경 이미지 (범용)
+//   특수 배치(하단 밴드·object-position 등)는 사용처가 styled(AnimatedBgImage) 로 확장한다.
 export default function AnimatedBgImage({
   src,
   opacity = 1,
@@ -9,12 +10,14 @@ export default function AnimatedBgImage({
   blendMode = "normal",
   animate = true,
   alt = "",
+  loading = "lazy",
   ...props
 }) {
   return (
     <BgImg
       src={src}
       alt={alt}
+      loading={loading}
       $opacity={opacity}
       $mobileOpacity={mobileOpacity}
       $blendMode={blendMode}

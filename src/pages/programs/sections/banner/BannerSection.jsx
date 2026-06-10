@@ -35,7 +35,7 @@ const BannerSection = forwardRef(function BannerSection({ night, nights, onSelec
     <FullSection ref={ref}>
       {bg && (
         <BgReveal key={id}>
-          <AnimatedBgImage src={bg} opacity={0.55} mobileOpacity={0.2} animate />
+          <AnimatedBgImage src={bg} opacity={0.55} mobileOpacity={0.2} animate loading="eager" />
         </BgReveal>
       )}
       <EdgeFade side="top" size={T.navHeightMini} opacity={0.9} z={2} />
@@ -194,7 +194,7 @@ const VisualGroup = styled.div`
   }
 `
 
-const BigTitle = styled.h2`
+const BigTitle = styled.h1`
   position: relative;
   display: flex;
   width: max-content;

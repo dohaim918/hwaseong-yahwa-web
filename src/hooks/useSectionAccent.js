@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import { useOutletContext } from "react-router-dom"
 import { SECTION_COLOR } from "@/styles/theme"
 
+// Layout 하위 라우트 전용: Outlet context 의 setAccent 를 사용한다.
 // 섹션 노출 감지 + NavBar accent 연결.
 // color:null 이면 자동 accent를 끄고 반환된 setAccent로 직접 제어한다.
 export function useSectionAccent(

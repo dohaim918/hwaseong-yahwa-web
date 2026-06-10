@@ -124,6 +124,17 @@ export function TicketIcon({ size = 24, color = "currentColor", ...rest }) {
   )
 }
 
+export function CalendarIcon({ size = 24, color = "currentColor", ...rest }) {
+  return (
+    <Svg size={size} viewBox="0 0 24 24" {...rest}>
+      <rect x="3" y="4.5" width="18" height="17" rx="2" stroke={color} strokeWidth="1.5" strokeLinejoin="round"/>
+      <path d="M3 9.5H21" stroke={color} strokeWidth="1.5"/>
+      <path d="M8 2.5V6" stroke={color} strokeWidth="1.5" strokeLinecap="round"/>
+      <path d="M16 2.5V6" stroke={color} strokeWidth="1.5" strokeLinecap="round"/>
+    </Svg>
+  )
+}
+
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //  2. 교통 아이콘  (경로 안내용 · 기본 size=32)
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

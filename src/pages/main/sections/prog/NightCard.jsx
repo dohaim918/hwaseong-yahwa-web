@@ -141,7 +141,7 @@ const Card = styled.div`
     opacity ${T.transition.mid},
     box-shadow ${T.transition.mid};
   ${({ $active, $color }) =>
-    $active && `box-shadow: 0 0 40px ${alpha($color, 0.3)}, 0 32px 80px rgba(0,0,0,.75);`}
+    $active && `box-shadow: 0 0 40px ${alpha($color, 0.3)}, 0 32px 80px ${alpha(T.bgBase, 0.75)};`}
 `
 
 // ── Content 패딩 분기 — active 여부 × 뷰포트 브레이크포인트 조합

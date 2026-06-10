@@ -78,21 +78,28 @@ import flowWalk1 from "@/assets/images/programs/flow/icons/01-walk.webp"
 import flowAge1 from "@/assets/images/programs/flow/icons/01-age.webp"
 import flowDifficulty1 from "@/assets/images/programs/flow/icons/01-difficulty.webp"
 import flowTip1 from "@/assets/images/programs/flow/icons/01-tip.webp"
-import flowTime2 from "@/assets/images/programs/flow/icons/02-time.webp"
-import flowWalk2 from "@/assets/images/programs/flow/icons/02-walk.webp"
-import flowAge2 from "@/assets/images/programs/flow/icons/02-age.webp"
-import flowDifficulty2 from "@/assets/images/programs/flow/icons/02-difficulty.webp"
 import flowTip2 from "@/assets/images/programs/flow/icons/02-tip.webp"
-import flowTime3 from "@/assets/images/programs/flow/icons/03-time.webp"
-import flowWalk3 from "@/assets/images/programs/flow/icons/03-walk.webp"
-import flowAge3 from "@/assets/images/programs/flow/icons/03-age.webp"
-import flowDifficulty3 from "@/assets/images/programs/flow/icons/03-difficulty.webp"
 import flowTip3 from "@/assets/images/programs/flow/icons/03-tip.webp"
-import flowTime4 from "@/assets/images/programs/flow/icons/04-time.webp"
-import flowWalk4 from "@/assets/images/programs/flow/icons/04-walk.webp"
-import flowAge4 from "@/assets/images/programs/flow/icons/04-age.webp"
-import flowDifficulty4 from "@/assets/images/programs/flow/icons/04-difficulty.webp"
 import flowTip4 from "@/assets/images/programs/flow/icons/04-tip.webp"
+
+// ── 프로그레스 FINAL INVITATION 메타 아이콘 ────────
+import finalPeriod from "@/assets/images/programs/final/icons/period.webp"
+import finalHours from "@/assets/images/programs/final/icons/hours.webp"
+import finalLocation from "@/assets/images/programs/final/icons/location.webp"
+import finalTicket from "@/assets/images/programs/final/icons/ticket.webp"
+
+// ── 프로그레스 FINAL INVITATION 섹션 배경 (야별) ────────
+import finalBg1 from "@/assets/images/programs/final/bg/01-bg.webp"
+import finalBg2 from "@/assets/images/programs/final/bg/02-bg.webp"
+import finalBg3 from "@/assets/images/programs/final/bg/03-bg.webp"
+import finalBg4 from "@/assets/images/programs/final/bg/04-bg.webp"
+
+const flowStatIcons = {
+  time: flowTime1,
+  walk: flowWalk1,
+  age: flowAge1,
+  difficulty: flowDifficulty1,
+}
 
 export const PROGRAM_ASSETS = {
   // 메인 ProgSection에서 사용되는 이미지
@@ -170,10 +177,26 @@ export const PROGRAM_ASSETS = {
     },
   },
   // 야 id(1~4) → FLOW OF NIGHT 통계·팁 아이콘
+  // 통계 아이콘은 ProgramStatsBar 에서 mask 처리 → 1야 실루엣을 공용으로 쓰고 색만 accent 로 변경.
+  // 관람팁 아이콘은 원본 이미지 색감이 중요해 야별 파일 유지.
   flowIcons: {
-    1: { time: flowTime1, walk: flowWalk1, age: flowAge1, difficulty: flowDifficulty1, tip: flowTip1 },
-    2: { time: flowTime2, walk: flowWalk2, age: flowAge2, difficulty: flowDifficulty2, tip: flowTip2 },
-    3: { time: flowTime3, walk: flowWalk3, age: flowAge3, difficulty: flowDifficulty3, tip: flowTip3 },
-    4: { time: flowTime4, walk: flowWalk4, age: flowAge4, difficulty: flowDifficulty4, tip: flowTip4 },
+    1: { ...flowStatIcons, tip: flowTip1 },
+    2: { ...flowStatIcons, tip: flowTip2 },
+    3: { ...flowStatIcons, tip: flowTip3 },
+    4: { ...flowStatIcons, tip: flowTip4 },
+  },
+  // 야 id(1~4) → FINAL INVITATION 섹션 배경
+  finalBgs: {
+    1: finalBg1,
+    2: finalBg2,
+    3: finalBg3,
+    4: finalBg4,
+  },
+  // FINAL INVITATION 공통 메타 아이콘
+  finalIcons: {
+    period: finalPeriod,
+    hours: finalHours,
+    location: finalLocation,
+    ticket: finalTicket,
   },
 }
