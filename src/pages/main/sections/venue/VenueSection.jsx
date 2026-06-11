@@ -1,5 +1,5 @@
 import styled from "@emotion/styled"
-import { T, alpha, GRADIENT, revealUp, glass } from "@/styles/theme"
+import { T, alpha, GRADIENT, revealUp, glass, flexCol, flexRow } from "@/styles/theme"
 import { UI_TEXT } from "@/data/uiText"
 import SectionHeader from "@/components/ui/SectionHeader"
 import FullSection from "@/components/layout/FullSection"
@@ -123,8 +123,7 @@ const ContentArea = styled.div`
 const ContentRight = styled.div`
   grid-column: 2;
   position: relative;
-  display: flex;
-  flex-direction: column;
+  ${flexCol()}
   align-items: center;
   justify-content: center;
 
@@ -159,9 +158,7 @@ const InfoBox = styled.dl`
 
 // ── 오시는 길 ─────────────────────────────────────────
 const AccessWrap = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${T.spacing[24]};
+  ${flexCol(T.spacing[24])}
   width: 100%;
   max-width: ${T.contentW};
   padding-block: ${T.spacing[48]} ${T.spacing[32]};
@@ -179,9 +176,7 @@ const AccessWrap = styled.div`
 `
 
 const AccessHead = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${T.spacing[12]};
+  ${flexRow(T.spacing[12])}
   width: 100%;
 `
 

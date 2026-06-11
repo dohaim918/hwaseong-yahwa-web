@@ -12,7 +12,7 @@
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 import styled from "@emotion/styled"
-import { T, alpha, glow, revealUp } from "@/styles/theme"
+import { T, alpha, glow, revealUp, flexCol, flexRow } from "@/styles/theme"
 import { EdgeFade } from "@/components/ui/Deco"
 import Button from "@/components/ui/Button"
 import Footer from "@/components/layout/Footer"
@@ -79,8 +79,7 @@ const CtaWrapper = styled.div`
   position: relative;
   flex: 1;
   min-height: 0;
-  display: flex;
-  flex-direction: column;
+  ${flexCol()}
   overflow: hidden;
   background: ${({ $bg }) => $bg};
 `
@@ -127,8 +126,7 @@ const CtaArea = styled.div`
   z-index: 5;
   flex: 1;
   min-height: 0;
-  display: flex;
-  align-items: center;
+  ${flexRow()}
   justify-content: center;
   padding: ${({ $tabBar }) => `${ctaPadTop($tabBar)} ${T.pagePad} 0`};
   ${({ $borderTop, $accent }) => ($borderTop ? `border-top: 1px solid ${alpha($accent, 0.15)};` : "")}
@@ -139,19 +137,15 @@ const CtaArea = styled.div`
 `
 
 const Inner = styled.div`
-  display: flex;
-  flex-direction: column;
+  ${flexCol(`clamp(${T.spacing[4]}, 0.8vh, ${T.spacing[8]})`)}
   align-items: center;
-  gap: clamp(${T.spacing[4]}, 0.8vh, ${T.spacing[8]});
   width: 100%;
   max-width: ${({ $maxWidth }) => $maxWidth};
 `
 
 const Btns = styled.div`
-  display: flex;
-  align-items: center;
+  ${flexRow(T.spacing[24])}
   justify-content: center;
-  gap: ${T.spacing[24]};
   padding-top: clamp(${T.spacing[16]}, 2.5vh, ${T.spacing[32]});
   ${({ $animIn }) => revealUp($animIn, 0.38)}
 

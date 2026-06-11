@@ -7,7 +7,7 @@
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 import styled from "@emotion/styled"
-import { T, alpha, revealUp, focusRing, glass, serif } from "@/styles/theme"
+import { T, alpha, revealUp, focusRing, glass, serif, flexCol } from "@/styles/theme"
 import { UI_TEXT } from "@/data/uiText"
 import { getExperienceCards } from "@/data/nightData"
 import { PROGRAM_ASSETS } from "@/data/programAssets"
@@ -140,10 +140,8 @@ export default function ExperienceSection({ night }) {
 
 // ── 헤더 영역 ─────────────────────────────
 const HeaderArea = styled.div`
-  display: flex;
-  flex-direction: column;
+  ${flexCol(T.spacing[12])}
   align-items: center;
-  gap: ${T.spacing[12]};
   flex-shrink: 0;
 `
 
@@ -200,8 +198,7 @@ const CardsRow = styled.div`
 const CardOuter = styled.article`
   ${({ $animIn, $delay }) => revealUp($animIn, $delay)}
   filter: drop-shadow(0 0 12px ${T.bgDark});
-  display: flex;
-  flex-direction: column;
+  ${flexCol()}
   min-height: 0;
 `
 
@@ -209,8 +206,7 @@ const CardOuter = styled.article`
 const CardInner = styled.div`
   position: relative;
   flex: 1;
-  display: flex;
-  flex-direction: column;
+  ${flexCol()}
   overflow: hidden;
   border-radius: ${T.radius.card};
   background: ${T.bgBase};
@@ -301,8 +297,7 @@ const CardContent = styled.div`
   ${glass("8px")}
   background: linear-gradient(to bottom, ${alpha(T.bgBase, 0.5)} 0%, ${T.bgBase} 70%);
   padding: clamp(${T.spacing[16]}, 1.67vw, ${T.spacing[32]});
-  display: flex;
-  flex-direction: column;
+  ${flexCol()}
   align-items: center;
   transition: box-shadow ${T.transition.mid};
 
@@ -314,10 +309,8 @@ const CardContent = styled.div`
 
 // ── 카드 메타 (카테고리 + 제목) ──────────────
 const CardMeta = styled.div`
-  display: flex;
-  flex-direction: column;
+  ${flexCol(`clamp(${T.spacing[4]}, 0.78vw, ${T.spacing[6]})`)}
   align-items: center;
-  gap: clamp(${T.spacing[4]}, 0.78vw, ${T.spacing[6]});
   text-align: center;
 `
 

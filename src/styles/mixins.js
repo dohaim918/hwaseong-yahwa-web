@@ -5,6 +5,20 @@
 
 import { T, alpha, accentLine } from "@/styles/theme"
 
+// ── flex column — 가장 흔한 패턴 (gap 옵션) / 사용: ${flexCol(T.spacing[8])}
+export const flexCol = (gap = 0) => `
+  display: flex;
+  flex-direction: column;
+  ${gap ? `gap: ${gap};` : ""}
+`
+
+// ── flex row — 가장 흔한 패턴 (gap·align 옵션) / 사용: ${flexRow(T.spacing[8])}
+export const flexRow = (gap = 0, align = "center") => `
+  display: flex;
+  align-items: ${align};
+  ${gap ? `gap: ${gap};` : ""}
+`
+
 // ── 글래스(블러) 배경 — webkit prefix 동반 / 사용: ${glass("8px")}
 export const glass = (blur = "8px") => `
   backdrop-filter: blur(${blur});

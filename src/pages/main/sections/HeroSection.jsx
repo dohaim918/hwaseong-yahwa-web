@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 import styled from "@emotion/styled"
-import { T, alpha, GRADIENT, fadeUp } from "@/styles/theme"
+import { T, alpha, GRADIENT, fadeUp, flexCol, flexRow } from "@/styles/theme"
 import { UI_TEXT } from "@/data/uiText"
 import FullSection from "@/components/layout/FullSection"
 import { ArrowRightIcon, StarIcon } from "@/components/ui/icons"
@@ -89,10 +89,8 @@ const Content = styled.div`
   max-width: 100%;
   text-align: center;
   padding: 0 ${T.spacing[24]};
-  display: flex;
-  flex-direction: column;
+  ${flexCol(T.spacing[42])}
   align-items: center;
-  gap: ${T.spacing[42]};
   transform: translateY(-60px);
   transition:
     transform ${T.transition.slow},
@@ -114,10 +112,8 @@ const Content = styled.div`
 `
 
 const TopGroup = styled.div`
-  display: flex;
-  flex-direction: column;
+  ${flexCol(T.spacing[24])}
   align-items: center;
-  gap: ${T.spacing[24]};
   width: 100%;
   transition: gap ${T.transition.slow};
 
@@ -131,10 +127,8 @@ const TopGroup = styled.div`
 `
 
 const Header = styled.div`
-  display: flex;
-  flex-direction: column;
+  ${flexCol(T.spacing[20])}
   align-items: center;
-  gap: ${T.spacing[20]};
   width: 100%;
   transition: gap ${T.transition.slow};
 
@@ -198,19 +192,15 @@ const Title = styled.h1`
 `
 
 const Divider = styled.div`
-  display: flex;
-  align-items: center;
+  ${flexRow(T.spacing[12])}
   justify-content: center;
-  gap: ${T.spacing[12]};
   width: 100%;
   ${fadeUp(0.42)}
 `
 
 const SubGroup = styled.div`
-  display: flex;
-  flex-direction: column;
+  ${flexCol(T.spacing[12])}
   align-items: center;
-  gap: ${T.spacing[12]};
   transition: gap ${T.transition.slow};
 
   @media (max-width: ${T.bp.mobile}) {
@@ -271,11 +261,8 @@ const ScrollIndicator = styled.div`
   width: max-content;
   margin-inline: auto;
   z-index: 10;
-  display: flex;
-  flex-direction: column;
+  ${flexCol(T.spacing[16])}
   align-items: center;
-  gap: ${T.spacing[16]};
-
   ${fadeUp(1.1)}
 
   @media (max-width: ${T.bp.mobile}) {

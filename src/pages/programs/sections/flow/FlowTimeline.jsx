@@ -10,7 +10,16 @@
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 import styled from "@emotion/styled"
-import { T, alpha, revealUp, focusRing, accentLine, serif } from "@/styles/theme"
+import {
+  T,
+  alpha,
+  revealUp,
+  focusRing,
+  accentLine,
+  serif,
+  flexCol,
+  flexRow,
+} from "@/styles/theme"
 import { MapPinIcon } from "@/components/ui/icons"
 import { OutlinePill } from "@/components/ui/Deco"
 
@@ -78,8 +87,7 @@ const Timeline = styled.div`
 // ── 레일: 세로 라인 + 균등 점 셀 ──
 const Rail = styled.div`
   position: relative;
-  display: flex;
-  flex-direction: column;
+  ${flexCol()}
   flex-shrink: 0;
   width: clamp(20px, 1.6vw, 24px);
 
@@ -102,8 +110,7 @@ const Rail = styled.div`
 
 const RailCell = styled.div`
   flex: 1;
-  display: flex;
-  align-items: center;
+  ${flexRow()}
   justify-content: center;
 `
 
@@ -145,8 +152,7 @@ const Dot = styled.span`
 
 // ── 행 컬럼 ──
 const Rows = styled.div`
-  display: flex;
-  flex-direction: column;
+  ${flexCol()}
   flex: 1;
   min-width: 0;
 `
@@ -206,9 +212,7 @@ const Row = styled.button`
 
 // 시간 + 내용 묶음 (한 영역)
 const RowMain = styled.div`
-  display: flex;
-  align-items: center;
-  gap: clamp(${T.spacing[16]}, 3vw, 60px);
+  ${flexRow(`clamp(${T.spacing[16]}, 3vw, 60px)`)}
   flex: 1;
   min-width: 0;
 
@@ -236,9 +240,7 @@ const Time = styled.span`
 
 const Body = styled.div`
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: ${T.spacing[4]};
+  ${flexCol(T.spacing[4])}
   min-width: 0;
 `
 

@@ -1,5 +1,5 @@
 import styled from "@emotion/styled"
-import { T, alpha, accentLine, focusRing } from "@/styles/theme"
+import { T, alpha, accentLine, focusRing, flexCol, flexRow } from "@/styles/theme"
 import { UI_TEXT } from "@/data/uiText"
 import {
   FacebookIcon,
@@ -177,9 +177,7 @@ const FooterGrid = styled.div`
 // ─────────────────────────────────────────────────────
 
 const BrandCol = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${T.spacing[16]};
+  ${flexCol(T.spacing[16])}
 
   /* tablet: 로고·주소(좌) / SNS(우) 가로 배치 */
   @media (max-width: ${T.bp.tablet}) {
@@ -201,9 +199,7 @@ const BrandCol = styled.div`
 `
 
 const BrandLeft = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${T.spacing[12]};
+  ${flexCol(T.spacing[12])}
 
   @media (max-width: ${T.bp.mobile}) {
     align-items: center;
@@ -212,9 +208,7 @@ const BrandLeft = styled.div`
 `
 
 const LogoRow = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${T.spacing[12]};
+  ${flexRow(T.spacing[12])}
 `
 
 const Addr = styled.address`
@@ -281,9 +275,7 @@ const SnsBtn = styled.button`
 `
 
 const FCol = styled.details`
-  display: flex;
-  flex-direction: column;
-  gap: ${T.spacing[16]};
+  ${flexCol(T.spacing[16])}
 
   @media (max-width: ${T.bp.mini}) {
     gap: 0;
@@ -332,9 +324,7 @@ const FColHead = styled.summary`
 `
 
 const FLinks = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${T.spacing[8]};
+  ${flexCol(T.spacing[8])}
 
   @media (max-width: ${T.bp.mini}) {
     gap: ${T.spacing[6]};

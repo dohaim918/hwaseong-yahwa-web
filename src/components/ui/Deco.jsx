@@ -220,6 +220,21 @@ const GlowLayer = styled.div`
   ${({ $blur }) => ($blur ? `filter: blur(${$blur});` : "")}
 `
 
+// accent 색 원형 점 + 자동 glow (size*2 box-shadow).
+//   $color   — accent 색 (필수)
+//   $size    — 점 지름 px (기본 6)
+//   $opacity — 투명도 (기본 1)
+export const AccentDot = styled.span`
+  display: inline-block;
+  flex-shrink: 0;
+  width: ${({ $size = 6 }) => $size}px;
+  height: ${({ $size = 6 }) => $size}px;
+  border-radius: 50%;
+  background: ${({ $color }) => $color};
+  box-shadow: 0 0 ${({ $size = 6 }) => $size * 2}px ${({ $color }) => $color};
+  opacity: ${({ $opacity = 1 }) => $opacity};
+`
+
 // 카드 active/hover 상태를 보여주는 원형 테두리.
 export const Ring = styled.div`
   position: absolute;

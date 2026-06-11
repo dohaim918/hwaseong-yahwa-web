@@ -1,5 +1,5 @@
 import styled from "@emotion/styled"
-import { T, alpha, revealUp, focusRing } from "@/styles/theme"
+import { T, alpha, revealUp, focusRing, flexCol, flexRow } from "@/styles/theme"
 import { PROGRAM_ASSETS } from "@/data/programAssets"
 import { StarIcon } from "@/components/ui/icons"
 import CardDeco from "./CardDeco"
@@ -83,8 +83,7 @@ const CardOuter = styled.div`
   position: relative;
   flex: 1;
   height: 100%;
-  display: flex;
-  flex-direction: column;
+  ${flexCol()}
   align-items: stretch;
   justify-content: center;
   transition:
@@ -132,8 +131,7 @@ const Card = styled.div`
     $isCarousel ? "100%" : $hasHover && $active ? "100%" : "90%"};
   border-radius: ${T.radius.card};
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
+  ${flexCol()}
   cursor: pointer;
   opacity: ${({ $hasHover, $active }) => ($hasHover ? ($active ? 1 : 0.3) : 0.6)};
   transition:
@@ -161,8 +159,7 @@ const padTablet = ($active) =>
 const Content = styled.div`
   position: relative;
   z-index: 3;
-  display: flex;
-  flex-direction: column;
+  ${flexCol()}
   justify-content: space-between;
   height: 100%;
   padding: ${({ $active }) => padBase($active)};
@@ -179,8 +176,7 @@ const Content = styled.div`
 `
 
 const Top = styled.div`
-  display: flex;
-  flex-direction: column;
+  ${flexCol()}
   align-items: center;
 `
 
@@ -233,8 +229,7 @@ const NightStar = styled.span`
   right: -18px;
   width: 18px;
   height: 18px;
-  display: flex;
-  align-items: center;
+  ${flexRow()}
   justify-content: center;
 `
 
@@ -255,10 +250,8 @@ const Btm = styled.div`
 
 const Kw = styled.div`
   grid-area: slot;
-  display: flex;
-  flex-direction: column;
+  ${flexCol(T.spacing[8])}
   align-items: center;
-  gap: ${T.spacing[8]};
   text-align: center;
   padding-bottom: ${T.spacing[8]};
   transition: opacity ${T.transition.fast};
@@ -301,9 +294,7 @@ const KwText = styled.span`
 
 const HoverInfo = styled.div`
   grid-area: slot;
-  display: flex;
-  flex-direction: column;
-  gap: ${T.spacing[6]};
+  ${flexCol(T.spacing[6])}
   padding: ${T.spacing[8]} 0;
   transition: opacity ${T.transition.fast};
   opacity: ${({ $active }) => ($active ? 1 : 0)};
@@ -331,8 +322,7 @@ const HoverDesc = styled.p`
 `
 
 const CtaText = styled.span`
-  display: flex;
-  align-items: center;
+  ${flexRow()}
   justify-content: center;
   padding-top: ${T.spacing[8]};
   font-size: ${T.fontSize.sm};

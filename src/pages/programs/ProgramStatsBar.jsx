@@ -1,5 +1,15 @@
 import styled from "@emotion/styled"
-import { T, alpha, revealUp, gradientBorder, vDivider, serif, glass } from "@/styles/theme"
+import {
+  T,
+  alpha,
+  revealUp,
+  gradientBorder,
+  vDivider,
+  serif,
+  glass,
+  flexCol,
+  flexRow,
+} from "@/styles/theme"
 import Button from "@/components/ui/Button"
 import { ArrowRightIcon } from "@/components/ui/icons"
 
@@ -122,9 +132,7 @@ const StatsGroup = styled.div`
 
 const Stat = styled.div`
   position: relative;
-  display: flex;
-  align-items: center;
-  gap: ${({ $variant }) => barStyle($variant).statGap};
+  ${({ $variant }) => flexRow(barStyle($variant).statGap)}
   min-width: 0;
 
   ${({ $divider, $accent, $variant }) =>
@@ -167,9 +175,7 @@ const IconBox = styled.span`
 `
 
 const Meta = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${T.spacing[8]};
+  ${flexCol(T.spacing[8])}
   min-width: 0;
 `
 
@@ -187,9 +193,7 @@ const Label = styled.span`
 `
 
 const ValRow = styled.div`
-  display: flex;
-  align-items: center;
-  gap: clamp(${T.spacing[8]}, 1.2vw, ${T.spacing[24]});
+  ${flexRow(`clamp(${T.spacing[8]}, 1.2vw, ${T.spacing[24]})`)}
   min-width: 0;
 `
 
@@ -205,9 +209,7 @@ const Value = styled.span`
 `
 
 const Gauge = styled.div`
-  display: flex;
-  align-items: center;
-  gap: clamp(${T.spacing[6]}, 0.7vw, ${T.spacing[12]});
+  ${flexRow(`clamp(${T.spacing[6]}, 0.7vw, ${T.spacing[12]})`)}
 
   @media (max-width: ${T.bp.mini}) {
     display: none;

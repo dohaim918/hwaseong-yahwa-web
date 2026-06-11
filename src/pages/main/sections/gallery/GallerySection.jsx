@@ -1,5 +1,5 @@
 import styled from "@emotion/styled"
-import { T, GRADIENT } from "@/styles/theme"
+import { T, GRADIENT, flexCol } from "@/styles/theme"
 import { UI_TEXT } from "@/data/uiText"
 import FullSection from "@/components/layout/FullSection"
 import SectionBar from "@/components/ui/SectionBar"
@@ -131,11 +131,9 @@ const BgGrad = styled.div`
 // ── 콘텐츠 Inner (z-index 없음 — stacking context 만들지 않아야 edge fade가 SideThumb 위에 올라옴)
 const Inner = styled.div`
   position: relative;
-  display: flex;
-  flex-direction: column;
+  ${flexCol(`clamp(${T.spacing[20]}, 3.2vh, ${T.spacing[32]})`)}
   align-items: center;
   justify-content: center;
-  gap: clamp(${T.spacing[20]}, 3.2vh, ${T.spacing[32]});
   flex: 1;
   padding: clamp(${T.spacing[20]}, 3.2vh, ${T.spacing[32]}) 0;
   min-height: 0;

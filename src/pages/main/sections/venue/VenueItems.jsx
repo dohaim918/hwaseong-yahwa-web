@@ -1,5 +1,5 @@
 import styled from "@emotion/styled"
-import { T, alpha, vDivider, serif } from "@/styles/theme"
+import { T, alpha, vDivider, serif, flexCol, flexRow } from "@/styles/theme"
 import {
   BusIcon,
   CarIcon,
@@ -42,11 +42,9 @@ export function VenueAccessItem({ item }) {
 
 const InfoItem = styled.div`
   position: relative;
-  display: flex;
-  flex-direction: column;
+  ${flexCol(T.spacing[16])}
   align-items: center;
   justify-content: center;
-  gap: ${T.spacing[16]};
   flex: 1;
   padding: ${T.spacing[4]};
   border-radius: ${T.radius.md};
@@ -65,10 +63,8 @@ const InfoItem = styled.div`
 `
 
 const InfoHead = styled.dt`
-  display: flex;
-  flex-direction: column;
+  ${flexCol(T.spacing[12])}
   align-items: center;
-  gap: ${T.spacing[12]};
 
   @media (max-width: ${T.bp.mini}) {
     gap: ${T.spacing[6]};
@@ -98,10 +94,8 @@ const InfoValue = styled.dd`
 
 const AccessItem = styled.li`
   position: relative;
-  display: flex;
-  align-items: center;
+  ${flexRow(T.spacing[12])}
   justify-content: center;
-  gap: ${T.spacing[12]};
   flex: 1;
 
   ${vDivider(T.amber, { height: "52px", opacity: 0.2, right: `-${T.spacing[4]}` })}
@@ -134,9 +128,7 @@ const AccessItem = styled.li`
 `
 
 const AccessTxt = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${T.spacing[4]};
+  ${flexCol(T.spacing[4])}
 `
 
 const AccessMain = styled.span`

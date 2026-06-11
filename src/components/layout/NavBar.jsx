@@ -7,7 +7,7 @@ import { useState } from "react"
 import { Link, NavLink } from "react-router-dom"
 import styled from "@emotion/styled"
 import { css } from "@emotion/react"
-import { T, alpha, glass, accentLine } from "@/styles/theme"
+import { T, alpha, glass, accentLine, flexCol, flexRow } from "@/styles/theme"
 import { UI_TEXT } from "@/data/uiText"
 import MobileMenu from "@/components/layout/MobileMenu"
 import Button from "@/components/ui/Button"
@@ -82,8 +82,7 @@ const Nav = styled.nav`
   @media (max-width: ${T.bp.mini}) {
     height: ${T.navHeightMini};
   }
-  display: flex;
-  align-items: center;
+  ${flexRow()}
   justify-content: space-between;
   background: ${alpha(T.bgBase, 0.45)};
   ${glass("18px")}
@@ -100,14 +99,11 @@ const Logo = styled(Link)`
 `
 
 const Right = styled.div`
-  display: flex;
-  align-items: center;
+  ${flexRow()}
 `
 
 const NavLinks = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${T.spacing[32]};
+  ${flexRow(T.spacing[32])}
   max-width: 600px;
   overflow: hidden;
   transition:
@@ -200,8 +196,7 @@ const DesktopBookBtn = styled(Button)`
 `
 
 const Hamburger = styled.button`
-  display: flex;
-  flex-direction: column;
+  ${flexCol()}
   justify-content: space-between;
   width: 24px;
   height: 18px;

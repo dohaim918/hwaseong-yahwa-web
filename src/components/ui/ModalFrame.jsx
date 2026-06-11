@@ -14,7 +14,7 @@
 import { useRef } from "react"
 import { createPortal } from "react-dom"
 import styled from "@emotion/styled"
-import { T, alpha, shimmerLine, focusRing, glass } from "@/styles/theme"
+import { T, alpha, shimmerLine, focusRing, glass, flexCol } from "@/styles/theme"
 import { Shimmer } from "@/components/ui/Deco"
 import { CloseIcon } from "@/components/ui/icons"
 import { useFocusLock } from "@/hooks/useFocusLock"
@@ -86,8 +86,7 @@ const Overlay = styled.div`
 
 const Panel = styled.div`
   position: relative;
-  display: flex;
-  flex-direction: column;
+  ${flexCol()}
   width: min(${({ $maxWidth }) => `${$maxWidth}px`}, 100%);
   max-height: 88dvh;
   /* 스크롤은 내부 Scroll 이 담당 → Shimmer·닫기버튼(absolute)은 항상 고정 */

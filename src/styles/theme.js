@@ -143,6 +143,8 @@ export const pad2 = (n) => String(n).padStart(2, "0")
 // ── CSS 조각 믹스인은 styles/mixins.js 로 분리 — 기존 import 호환을 위해 re-export
 //    (textGrad/textGradStops 는 아래 프리셋에서 내부적으로도 사용 → 별도 import)
 export {
+  flexCol,
+  flexRow,
   glass,
   focusRing,
   sectionAccent,

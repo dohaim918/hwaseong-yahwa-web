@@ -8,7 +8,17 @@
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 import styled from "@emotion/styled"
-import { T, alpha, accentFill, glass, revealUp, shimmerLine, serif } from "@/styles/theme"
+import {
+  T,
+  alpha,
+  accentFill,
+  glass,
+  revealUp,
+  shimmerLine,
+  serif,
+  flexCol,
+  flexRow,
+} from "@/styles/theme"
 import { ShimmerPair, OutlinePill } from "@/components/ui/Deco"
 import { StarIcon } from "@/components/ui/icons"
 import ModalFrame from "@/components/ui/ModalFrame"
@@ -90,8 +100,7 @@ const Card = styled.div`
   position: relative;
   width: 100%;
   overflow: clip;
-  display: flex;
-  flex-direction: column;
+  ${flexCol()}
   padding: clamp(${T.spacing[24]}, 2.2vw, ${T.spacing[42]});
   border: 1px solid ${({ $accent }) => $accent};
   border-radius: ${T.radius.card};
@@ -100,19 +109,15 @@ const Card = styled.div`
   ${({ $animIn }) => revealUp($animIn, 0.45)}
 `
 
+// 높이 비례 간격: 화면 ~909px→4 ~ ~1090px→16 (작은 높이에서 더 촘촘)
 const Stack = styled.div`
-  display: flex;
-  flex-direction: column;
+  ${flexCol(`clamp(${T.spacing[4]}, calc(6.6vh - 56px), ${T.spacing[16]})`)}
   align-items: center;
-  /* 높이 비례 간격: 화면 ~909px→4 ~ ~1090px→16 (작은 높이에서 더 촘촘) */
-  gap: clamp(${T.spacing[4]}, calc(6.6vh - 56px), ${T.spacing[16]});
   width: 100%;
 `
 
 const LabelRow = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${T.spacing[16]};
+  ${flexRow(T.spacing[16])}
   flex-shrink: 0;
 `
 
@@ -135,20 +140,16 @@ const Img = styled.img`
 `
 
 // 텍스트 + 팁 박스는 줄지 않고 항상 노출
+// 높이 비례 간격: 화면 ~802px→12 ~ ~1083px→42
 const Body = styled.div`
-  display: flex;
-  flex-direction: column;
+  ${flexCol(`clamp(${T.spacing[12]}, calc(10.71vh - 74px), ${T.spacing[42]})`)}
   flex-shrink: 0;
-  /* 높이 비례 간격: 화면 ~802px→12 ~ ~1083px→42 */
-  gap: clamp(${T.spacing[12]}, calc(10.71vh - 74px), ${T.spacing[42]});
   width: 100%;
 `
 
+// 높이 비례 간격: 화면 ~806px→16 ~ ~1086px→32
 const Texts = styled.div`
-  display: flex;
-  flex-direction: column;
-  /* 높이 비례 간격: 화면 ~806px→16 ~ ~1086px→32 */
-  gap: clamp(${T.spacing[16]}, calc(5.71vh - 30px), ${T.spacing[32]});
+  ${flexCol(`clamp(${T.spacing[16]}, calc(5.71vh - 30px), ${T.spacing[32]})`)}
   text-align: center;
   align-items: center;
 `
@@ -173,9 +174,7 @@ const Desc = styled.p`
 `
 
 const TipBox = styled.div`
-  display: flex;
-  align-items: center;
-  gap: clamp(${T.spacing[16]}, 1.6vw, ${T.spacing[24]});
+  ${flexRow(`clamp(${T.spacing[16]}, 1.6vw, ${T.spacing[24]})`)}
   width: 100%;
   padding: clamp(${T.spacing[16]}, 1.4vw, ${T.spacing[24]});
   border: 1px solid ${({ $accent }) => alpha($accent, 0.27)};
@@ -198,17 +197,13 @@ const TipIcon = styled.img`
 `
 
 const TipMain = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${T.spacing[12]};
+  ${flexCol(T.spacing[12])}
   width: 100%;
 `
 
 const TipHead = styled.div`
-  display: flex;
-  align-items: center;
+  ${flexRow(T.spacing[8])}
   justify-content: space-between;
-  gap: ${T.spacing[8]};
 `
 
 const TipLabel = styled(AccentLabel)`

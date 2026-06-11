@@ -1,5 +1,5 @@
 import styled from "@emotion/styled"
-import { T, alpha } from "@/styles/theme"
+import { T, alpha, flexRow } from "@/styles/theme"
 import { Ring, ShimmerPair } from "@/components/ui/Deco"
 
 export default function CardDeco({ imgs, style, color, active, hasHover }) {
@@ -38,8 +38,7 @@ const BgGrad = styled.div`
 const Sym = styled.div`
   position: absolute;
   inset: 0;
-  display: flex;
-  align-items: center;
+  ${flexRow()}
   justify-content: center;
   pointer-events: none;
   z-index: 1;

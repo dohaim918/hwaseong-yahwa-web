@@ -9,7 +9,7 @@
 
 import { useState } from "react"
 import styled from "@emotion/styled"
-import { T } from "@/styles/theme"
+import { T, flexCol } from "@/styles/theme"
 import { PROGRAM_ASSETS } from "@/data/programAssets"
 import { UI_TEXT } from "@/data/uiText"
 import { getTimelineItems, getFlowPoint } from "@/data/nightData"
@@ -172,9 +172,7 @@ const Main = styled.div`
 
 const Left = styled.div`
   position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: clamp(${T.spacing[16]}, 2.4vh, ${T.spacing[32]});
+  ${flexCol(`clamp(${T.spacing[16]}, 2.4vh, ${T.spacing[32]})`)}
   min-height: 0;
 `
 
