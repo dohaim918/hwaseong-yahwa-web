@@ -1,6 +1,6 @@
 import { Component } from "react"
 import styled from "@emotion/styled"
-import { T, alpha } from "@/styles/theme"
+import { T, alpha, flexCol, flexRow } from "@/styles/theme"
 import Button from "@/components/ui/Button"
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -56,18 +56,15 @@ export default ErrorBoundary
 
 const Sec = styled.section`
   min-height: 100dvh;
-  display: flex;
-  align-items: center;
+  ${flexRow()}
   justify-content: center;
   padding: ${T.spacing[48]} ${T.pagePad};
   background: ${T.bgBase};
 `
 
 const Inner = styled.div`
-  display: flex;
-  flex-direction: column;
+  ${flexCol(T.spacing[16])}
   align-items: center;
-  gap: ${T.spacing[16]};
   text-align: center;
   max-width: 360px;
 `

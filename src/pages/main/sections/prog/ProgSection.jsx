@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import styled from "@emotion/styled"
-import { T, textGrad, revealUp, glow } from "@/styles/theme"
+import { T, textGrad, revealUp, glow, flexRow } from "@/styles/theme"
 import { getCardData } from "@/data/nightData"
 import { UI_TEXT } from "@/data/uiText"
 import { PROGRAM_ASSETS } from "@/data/programAssets"
@@ -177,10 +177,8 @@ const HdCards = styled.div`
 `
 
 const CardsRow = styled.div`
-  display: flex;
+  ${flexRow(T.spacing[20])}
   justify-content: center;
-  gap: ${T.spacing[20]};
-  align-items: center;
   height: 100%;
   min-height: 0;
   padding: 0 calc(${T.pagePad} + clamp(0px, calc((100vw - 1920px) / 8), 80px));

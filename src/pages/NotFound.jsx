@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 import styled from "@emotion/styled"
-import { T, alpha } from "@/styles/theme"
+import { T, alpha, flexCol, flexRow } from "@/styles/theme"
 import Button from "@/components/ui/Button"
 
 // ── 404 — 존재하지 않는 경로
@@ -21,18 +21,15 @@ export default function NotFound() {
 
 const Sec = styled.section`
   min-height: 100dvh;
-  display: flex;
-  align-items: center;
+  ${flexRow()}
   justify-content: center;
   padding: ${T.spacing[48]} ${T.pagePad};
   scroll-snap-align: start;
 `
 
 const Inner = styled.div`
-  display: flex;
-  flex-direction: column;
+  ${flexCol(T.spacing[16])}
   align-items: center;
-  gap: ${T.spacing[16]};
   text-align: center;
 `
 

@@ -18,7 +18,7 @@
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 import styled from "@emotion/styled"
-import { T, alpha, focusRing, glass, accentLine } from "@/styles/theme"
+import { T, alpha, focusRing, glass, accentLine, flexRow } from "@/styles/theme"
 
 export default function NightTabBar({ nights, currentId, onSelect, visible }) {
   return (
@@ -62,8 +62,7 @@ const TabBar = styled.nav`
   border-top: 1px solid ${alpha(T.white, 0.06)};
   border-bottom: 1px solid ${alpha(T.white, 0.06)};
 
-  display: flex;
-  align-items: center;
+  ${flexRow()}
   justify-content: center;
 
   /* 가시성 토글 — 위로 슬라이드 + 페이드 */
@@ -84,10 +83,8 @@ const TabBar = styled.nav`
 `
 
 const TabInner = styled.div`
-  display: flex;
-  align-items: center;
+  ${flexRow(T.spacing[48])}
   height: 100%;
-  gap: ${T.spacing[48]};
   transition: gap ${T.transition.mid};
 
   @media (max-width: ${T.bp.mobile}) {
@@ -98,8 +95,7 @@ const TabInner = styled.div`
 const TabBtn = styled.button`
   position: relative;
   height: 100%;
-  display: flex;
-  align-items: center;
+  ${flexRow()}
   font-size: ${T.fontSize.sm};
   font-weight: ${({ $active }) => ($active ? 700 : 400)};
   color: ${({ $active, $accent }) => ($active ? $accent : T.sub)};

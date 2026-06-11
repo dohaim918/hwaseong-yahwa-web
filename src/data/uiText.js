@@ -149,7 +149,7 @@ export const UI_TEXT = {
   //  sectionLabel / navSubtitle / allProgramsLink 제거 (미사용)
   // ─────────────────────────────────────
   progressBanner: {
-    detailBtn: "자세히 보기 →",
+    detailBtn: "자세히 보기",
     footerText: BANNER_COMMON.footerText,
   },
 

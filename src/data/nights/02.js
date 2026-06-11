@@ -41,7 +41,7 @@ const NIGHT_02 = {
     schedule: "매주 금요일",
     location: "화성 성곽 일원",
     category: "야간 여정",
-    tip: "해설사와 함께하는 성곽 탐방은 출발 10분 전 창룡문 앞 집결입니다.",
+    tip: "성곽 탐방은 10분 전 창룡문에서 집결합니다.",
   },
 
   programs: [

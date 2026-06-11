@@ -11,7 +11,7 @@
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 import styled from "@emotion/styled"
-import { T, alpha, pad2, focusRing, accentLine, serif } from "@/styles/theme"
+import { T, alpha, pad2, focusRing, accentLine, serif, flexCol, flexRow } from "@/styles/theme"
 
 export default function NightIndexRail({ nights, currentId, onSelect, accent }) {
   const total = nights.length
@@ -59,9 +59,7 @@ export default function NightIndexRail({ nights, currentId, onSelect, accent }) 
 
 const Rail = styled.div`
   position: relative;
-  display: flex;
-  align-items: stretch;
-  gap: ${T.spacing[24]};
+  ${flexRow(T.spacing[24], "stretch")}
   flex-shrink: 0;
 
   /* 모바일에선 레일 숨김 — 탭바·카운터로 전환 가능하므로 중복 제거 */
@@ -108,16 +106,13 @@ const ActiveSeg = styled.span`
 `
 
 const Labels = styled.div`
-  display: flex;
-  flex-direction: column;
+  ${flexCol()}
 `
 
 const RailItem = styled.button`
-  display: flex;
-  flex-direction: column;
+  ${flexCol(T.spacing[6])}
   align-items: center;
   justify-content: center;
-  gap: ${T.spacing[6]};
   height: clamp(108px, 13.4vh, 145px);
   width: 34px;
   text-align: center;

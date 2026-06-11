@@ -11,7 +11,7 @@
 //  의미 전달이 필요하면 호출 측에서 aria-label + role="img" 로 오버라이드.
 //
 //  그룹 구분:
-//    1. 기본 UI 아이콘   — Star, Flower, Close, MapPin, Clock, Ticket
+//    1. 기본 UI 아이콘   — Star, Flower, Close, MapPin, Clock, Ticket, Calendar, Sparkle, Tag
 //    2. 교통 아이콘      — Subway, Bus, Car          (기본 size=32)
 //    3. 방향·인터랙션   — ArrowRight, Chevron, Expand
 //    4. SNS 아이콘      — Facebook, Youtube, Instagram, Kakao
@@ -131,6 +131,38 @@ export function CalendarIcon({ size = 24, color = "currentColor", ...rest }) {
       <path d="M3 9.5H21" stroke={color} strokeWidth="1.5"/>
       <path d="M8 2.5V6" stroke={color} strokeWidth="1.5" strokeLinecap="round"/>
       <path d="M16 2.5V6" stroke={color} strokeWidth="1.5" strokeLinecap="round"/>
+    </Svg>
+  )
+}
+
+// 요일/일정 표기용 반짝임 아이콘 (ProgModal meta — 매주 목요일 등)
+// viewBox 를 그림 영역(≈2~14)에 맞춰 좁혀 다른 메타 아이콘과 광학 크기를 맞춤.
+// strokeWidth 0.8 → viewBox 축소(스케일 1.33) 보정해 실제 ≈1.06px (MapPin 1px과 유사)
+export function SparkleIcon({ size = 16, color = "currentColor", strokeWidth = 0.8, ...rest }) {
+  return (
+    <Svg size={size} viewBox="2 2 12 12" {...rest}>
+      <path d="M7.99707 3.31543C8.07073 3.6245 8.14835 3.91465 8.2334 4.18652C8.49142 5.0113 8.81992 5.69625 9.29883 6.25391L9.5127 6.48438C10.1087 7.0803 10.8682 7.46645 11.8105 7.76074C12.0818 7.84546 12.3713 7.92265 12.6797 7.99609C12.3712 8.06956 12.081 8.1467 11.8096 8.23145C10.8669 8.52576 10.1071 8.91222 9.50977 9.50781L9.50879 9.50879C8.9132 10.1062 8.52673 10.8659 8.23242 11.8086C8.14768 12.0801 8.07053 12.3702 7.99707 12.6787C7.92363 12.3704 7.84643 12.0808 7.76172 11.8096C7.50415 10.9848 7.17662 10.2998 6.69922 9.74219L6.48535 9.51172C5.88933 8.91403 5.12969 8.52718 4.1875 8.23242C3.91563 8.14737 3.62548 8.06976 3.31641 7.99609C3.62542 7.9225 3.91568 7.84566 4.1875 7.76074C5.12964 7.46641 5.8893 7.08043 6.48535 6.48438C7.0814 5.88832 7.46739 5.12867 7.76172 4.18652C7.84663 3.91471 7.92348 3.62444 7.99707 3.31543ZM5.17969 10.4395C5.25 10.4962 5.31661 10.5539 5.37793 10.6152C5.44019 10.6775 5.49885 10.7455 5.55664 10.8174C5.27634 10.9613 4.98681 11.126 4.68555 11.3115C4.8711 11.0097 5.03612 10.7202 5.17969 10.4395ZM10.8164 10.4375C10.9594 10.7178 11.1237 11.0068 11.3086 11.3076C11.0078 11.1228 10.7187 10.9585 10.4385 10.8154C10.4959 10.7442 10.5544 10.6771 10.6162 10.6152C10.678 10.5534 10.7451 10.4949 10.8164 10.4375ZM11.3125 4.68457C11.1269 4.98583 10.9623 5.27536 10.8184 5.55566C10.7465 5.49787 10.6785 5.43921 10.6162 5.37695C10.5549 5.31563 10.4972 5.24902 10.4404 5.17871C10.7211 5.03515 11.0107 4.87013 11.3125 4.68457ZM4.68945 4.68848C4.98855 4.87241 5.2755 5.03618 5.55371 5.17871C5.49698 5.24903 5.43925 5.31563 5.37793 5.37695C5.31661 5.43827 5.25 5.496 5.17969 5.55273C5.03715 5.27452 4.87338 4.98758 4.68945 4.68848Z" stroke={color} strokeWidth={strokeWidth}/>
+    </Svg>
+  )
+}
+
+// 카테고리/태그 표기용 북마크 아이콘 (ProgModal meta — 축제의 중심 등)
+// 다른 메타 아이콘과 통일되도록 fill(면) → stroke(외곽선)으로 변경.
+export function TagIcon({ size = 16, color = "currentColor", strokeWidth = 1.2, ...rest }) {
+  return (
+    <Svg size={size} viewBox="0 0 16 16" {...rest}>
+      <path d="M4.2 2.4H11.8V14L8 11L4.2 14V2.4Z" stroke={color} strokeWidth={strokeWidth} strokeLinejoin="round" strokeLinecap="round"/>
+    </Svg>
+  )
+}
+
+// 정보(ⓘ) — 미니 모달 메타 팝오버 트리거용
+export function InfoIcon({ size = 16, color = "currentColor", strokeWidth = 1.5, ...rest }) {
+  return (
+    <Svg size={size} viewBox="0 0 16 16" {...rest}>
+      <circle cx="8" cy="8" r="6.5" stroke={color} strokeWidth={strokeWidth} />
+      <path d="M8 7.2V11" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" />
+      <circle cx="8" cy="5" r="0.9" fill={color} />
     </Svg>
   )
 }

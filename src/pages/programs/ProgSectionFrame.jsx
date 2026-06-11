@@ -11,7 +11,7 @@ import AnimatedBgImage from "@/components/ui/AnimatedBgImage"
 import { EdgeFade, SectionGlow } from "@/components/ui/Deco"
 import SectionHeader from "@/components/ui/SectionHeader"
 import { useSectionAccent } from "@/hooks/useSectionAccent"
-import { T } from "@/styles/theme"
+import { T, flexCol } from "@/styles/theme"
 
 export default function ProgSectionFrame({
   night,
@@ -73,9 +73,7 @@ const Inner = styled.div`
   z-index: 10;
   flex: 1;
   min-height: 0;
-  display: flex;
-  flex-direction: column;
-  gap: ${({ $gap }) => $gap};
+  ${({ $gap }) => flexCol($gap)}
   margin-top: calc(${T.navHeight} + ${T.tabNavHeight});
   padding: ${T.progSecPadY} ${T.pagePad};
 

@@ -1,5 +1,5 @@
 import styled from "@emotion/styled"
-import { T, alpha, focusRing, revealUp } from "@/styles/theme"
+import { T, alpha, focusRing, revealUp, flexRow } from "@/styles/theme"
 import { ArrowRightIcon, FlowerIcon } from "@/components/ui/icons"
 import { useMvpModal } from "@/components/ui/MvpModal"
 
@@ -65,9 +65,8 @@ const FlowerMark = styled(FlowerIcon)`
 const Bar = styled.div`
   position: relative;
   z-index: 10;
-  display: flex;
+  ${flexRow()}
   justify-content: space-between;
-  align-items: center;
   align-self: stretch;
   margin: ${T.navHeight} ${T.pagePad} 0;
   padding: ${T.spacing[12]};
@@ -82,9 +81,7 @@ const Bar = styled.div`
 `
 
 const Left = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${T.spacing[8]};
+  ${flexRow(T.spacing[8])}
   min-width: 0;
 
   @media (max-width: ${T.bp.mini}) {
@@ -134,9 +131,7 @@ const Sub = styled.span`
 `
 
 const LinkButton = styled.button`
-  display: flex;
-  align-items: center;
-  gap: ${T.spacing[8]};
+  ${flexRow(T.spacing[8])}
   font-size: ${T.fontSize.xs};
   cursor: pointer;
   color: ${T.sub};

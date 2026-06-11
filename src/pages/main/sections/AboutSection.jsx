@@ -1,6 +1,16 @@
 import { Link } from "react-router-dom"
 import styled from "@emotion/styled"
-import { T, alpha, GRADIENT, revealUp, glass, glow, serif } from "@/styles/theme"
+import {
+  T,
+  alpha,
+  GRADIENT,
+  revealUp,
+  glass,
+  glow,
+  serif,
+  flexCol,
+  flexRow,
+} from "@/styles/theme"
 import { UI_TEXT } from "@/data/uiText"
 import SectionHeader from "@/components/ui/SectionHeader"
 import FullSection from "@/components/layout/FullSection"
@@ -89,10 +99,8 @@ const ContentArea = styled.div`
   width: 100%;
   max-width: 960px;
   padding: 0 ${T.pagePad};
-  display: flex;
-  flex-direction: column;
+  ${flexCol(T.spacing[8])}
   align-items: center;
-  gap: ${T.spacing[8]};
 
   @media (max-width: ${T.bp.mobile}) {
     gap: ${T.spacing[4]};
@@ -118,10 +126,8 @@ const StatsBox = styled.dl`
 `
 
 const StatCell = styled.div`
-  display: flex;
-  flex-direction: column;
+  ${flexCol(T.spacing[8])}
   align-items: center;
-  gap: ${T.spacing[8]};
   padding: ${T.spacing[36]} ${T.spacing[24]};
   overflow: hidden;
   background-color: ${alpha(T.white, 0.02)};
@@ -191,10 +197,8 @@ const StatLabel = styled.dt`
 
 // ── 버튼 행 ───────────────────────────────────────────
 const BtnsRow = styled.div`
-  display: flex;
-  align-items: center;
+  ${flexRow(T.spacing[24])}
   justify-content: center;
-  gap: ${T.spacing[24]};
   padding-top: ${T.spacing[32]};
   ${({ $animIn }) => revealUp($animIn, 0.6)}
 

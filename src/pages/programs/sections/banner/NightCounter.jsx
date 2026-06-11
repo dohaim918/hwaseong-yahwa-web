@@ -12,7 +12,7 @@
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 import styled from "@emotion/styled"
-import { T, alpha, pad2, focusRing, serif } from "@/styles/theme"
+import { T, alpha, pad2, focusRing, serif, flexCol, flexRow } from "@/styles/theme"
 import { ChevronIcon } from "@/components/ui/icons"
 import { SrOnly } from "@/components/ui/Deco"
 
@@ -85,21 +85,16 @@ export default function NightCounter({
 // ─────────────────────────────────────────────────────────────
 
 const Counter = styled.div`
-  display: flex;
-  flex-direction: column;
+  ${flexCol(T.spacing[16])}
   align-items: center;
-  gap: ${T.spacing[16]};
 `
 
 const CounterRow = styled.div`
-  display: flex;
-  align-items: flex-end;
-  gap: ${T.spacing[16]};
+  ${flexRow(T.spacing[16], "flex-end")}
 `
 
 const Arrow = styled.button`
-  display: flex;
-  align-items: center;
+  ${flexRow()}
   width: 44px;
   height: 48px;
   padding-top: ${T.spacing[4]};
@@ -141,9 +136,7 @@ const Arrow = styled.button`
 `
 
 const Nums = styled.div`
-  display: flex;
-  align-items: flex-end;
-  gap: ${T.spacing[16]};
+  ${flexRow(T.spacing[16], "flex-end")}
 `
 
 const CurNum = styled.span`
@@ -180,8 +173,7 @@ const Reel = styled.span`
 
 // 릴 트랙 — 1·2·3·4를 세로로 쌓아두고 translateY 로 굴림
 const ReelTrack = styled.span`
-  display: flex;
-  flex-direction: column;
+  ${flexCol()}
   will-change: transform;
   transition: transform ${T.transition.spring};
 `

@@ -1,6 +1,6 @@
 import { useState } from "react"
 import styled from "@emotion/styled"
-import { T, alpha, revealUp } from "@/styles/theme"
+import { T, alpha, revealUp, flexCol, flexRow } from "@/styles/theme"
 import { ChevronIcon, ExpandIcon } from "@/components/ui/icons"
 
 const RATIO = 1.78
@@ -168,9 +168,7 @@ const Stage = styled.div`
 `
 
 const SideStackWrap = styled.div`
-  display: flex;
-  align-items: center;
-  gap: var(--side-gap);
+  ${flexRow("var(--side-gap)")}
   position: absolute;
   top: calc(var(--center-h) / 2);
   transform: translateY(-50%);
@@ -215,8 +213,7 @@ const SideImg = styled.img`
 `
 
 const CenterViewerWrap = styled.div`
-  display: flex;
-  flex-direction: column;
+  ${flexCol()}
   align-items: center;
   position: relative;
   z-index: 8;
@@ -262,8 +259,7 @@ const ArrowBtn = styled.button`
   width: ${T.spacing[42]};
   height: ${T.spacing[42]};
   border-radius: 50%;
-  display: flex;
-  align-items: center;
+  ${flexRow()}
   justify-content: center;
   cursor: pointer;
   color: ${alpha(T.white, 0.85)};
@@ -302,9 +298,7 @@ const ViewSceneBtn = styled.button`
   left: 50%;
   transform: translateX(-50%);
   z-index: 6;
-  display: flex;
-  align-items: center;
-  gap: ${T.spacing[8]};
+  ${flexRow(T.spacing[8])}
   padding: 0 18px;
   height: ${T.spacing[32]};
   border-radius: ${T.radius.pill};
@@ -355,9 +349,7 @@ const ViewSceneBtn = styled.button`
 `
 
 const Dots = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${T.spacing[8]};
+  ${flexRow(T.spacing[8])}
   margin-top: clamp(${T.spacing[20]}, 3.6vh, ${T.spacing[36]});
 
   @media (max-width: ${T.bp.mobile}) {

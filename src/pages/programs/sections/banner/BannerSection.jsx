@@ -14,22 +14,26 @@
 //  props: night / nights / onSelect
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-import { forwardRef } from "react"
+import { forwardRef, useState } from "react"
 import styled from "@emotion/styled"
-import { T, alpha, serif } from "@/styles/theme"
+import { T, alpha, serif, flexCol } from "@/styles/theme"
 import { UI_TEXT } from "@/data/uiText"
 import { PROGRAM_ASSETS } from "@/data/programAssets"
 import FullSection from "@/components/layout/FullSection"
 import AnimatedBgImage from "@/components/ui/AnimatedBgImage"
+import Button from "@/components/ui/Button"
 import { EdgeFade, OutlinePill } from "@/components/ui/Deco"
-import { FlowerIcon, StarIcon } from "@/components/ui/icons"
+import { FlowerIcon, StarIcon, ArrowRightIcon } from "@/components/ui/icons"
 import NightIndexRail from "@/pages/programs/sections/banner/NightIndexRail"
 import NightCounter from "@/pages/programs/sections/banner/NightCounter"
+import ProgModal from "@/pages/programs/sections/banner/ProgModal"
 
 const BannerSection = forwardRef(function BannerSection({ night, nights, onSelect }, ref) {
   const { id, color, style, nightName, num, banner } = night
   // 배너 전용 배경 (programAssets.banners 로 통합 — bannerAssets.js 폐기)
   const bg = PROGRAM_ASSETS.banners[id]
+  // 자세히 보기 → 프로그레스 모달 (ProgModal)
+  const [modalOpen, setModalOpen] = useState(false)
 
   return (
     <FullSection ref={ref}>
@@ -70,6 +74,15 @@ const BannerSection = forwardRef(function BannerSection({ night, nights, onSelec
                   </Tag>
                 ))}
               </Tags>
+              <DetailBtn
+                variant="gradient"
+                size="lg"
+                accent={color}
+                bordered
+                onClick={() => setModalOpen(true)}
+              >
+                {UI_TEXT.progressBanner.detailBtn} <ArrowRightIcon />
+              </DetailBtn>
             </TextBlock>
           </TextAnim>
         </Stage>
@@ -93,6 +106,9 @@ const BannerSection = forwardRef(function BannerSection({ night, nights, onSelec
           onNext={() => onSelect(id + 1)}
         />
       </CounterSlot>
+
+      {/* ── 자세히 보기 모달 (포털 렌더 · 위치 무관) ── */}
+      <ProgModal open={modalOpen} onClose={() => setModalOpen(false)} night={night} />
     </FullSection>
   )
 })
@@ -161,9 +177,7 @@ const TextAnim = styled.div`
 `
 
 const TextBlock = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${T.spacing[32]};
+  ${flexCol(T.spacing[32])}
   transition: gap ${T.transition.slow};
 
   @media (max-width: ${T.bp.mobile}) {
@@ -186,8 +200,7 @@ const NightCode = styled.span`
 
 // ── 1야 + 시작의 빛 묶음 ──
 const VisualGroup = styled.div`
-  display: flex;
-  flex-direction: column;
+  ${flexCol()}
 
   @media (max-width: ${T.bp.mobile}) {
     align-items: center;
@@ -276,6 +289,15 @@ const Tag = styled(OutlinePill)`
   }
   @media (max-width: ${T.bp.mini}) {
     font-size: ${T.fontSize.xxs};
+  }
+`
+
+// ── 자세히 보기 → ProgModal 트리거 (공용 Button · 정렬만 래핑) ──
+const DetailBtn = styled(Button)`
+  align-self: flex-start;
+
+  @media (max-width: ${T.bp.mobile}) {
+    align-self: center;
   }
 `
 

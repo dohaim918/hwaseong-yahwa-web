@@ -1,6 +1,6 @@
 import { keyframes } from "@emotion/react"
 import styled from "@emotion/styled"
-import { T, alpha } from "@/styles/theme"
+import { T, alpha, flexCol } from "@/styles/theme"
 
 export default function RouteLoader({ label = "페이지 로딩중..." }) {
   return (
@@ -21,8 +21,7 @@ const spin = keyframes`
 const Loader = styled.div`
   min-height: 100dvh;
   padding: ${T.spacing[32]} ${T.pagePad};
-  display: flex;
-  flex-direction: column;
+  ${flexCol()}
   align-items: center;
   justify-content: center;
   text-align: center;

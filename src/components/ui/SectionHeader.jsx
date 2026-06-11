@@ -8,7 +8,7 @@
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 import styled from "@emotion/styled"
-import { T, revealUp, serif } from "@/styles/theme"
+import { T, revealUp, serif, flexCol } from "@/styles/theme"
 import { SectionLabelRow } from "@/components/ui/Deco"
 
 export default function SectionHeader({
@@ -49,9 +49,7 @@ export default function SectionHeader({
 
 // center: align-items(자식 정렬) + text-align(텍스트 정렬) 동시 처리
 const Wrap = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${({ $gap }) => $gap ?? T.spacing[24]};
+  ${({ $gap }) => flexCol($gap ?? T.spacing[24])}
   align-items: ${({ $center }) => ($center ? "center" : "flex-start")};
   text-align: ${({ $center }) => ($center ? "center" : "left")};
   padding-bottom: ${({ $pb }) => $pb ?? T.spacing[42]};
@@ -91,8 +89,7 @@ const LabelText = styled.span`
 `
 
 const TitleWrap = styled.div`
-  display: flex;
-  flex-direction: column;
+  ${flexCol()}
 `
 
 const Title = styled.h2`

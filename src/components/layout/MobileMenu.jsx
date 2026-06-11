@@ -2,7 +2,7 @@ import { useRef } from "react"
 import { Link, useLocation } from "react-router-dom"
 import styled from "@emotion/styled"
 import { css } from "@emotion/react"
-import { T, alpha, pad2, focusRing, glass, glow } from "@/styles/theme"
+import { T, alpha, pad2, focusRing, glass, glow, flexCol, flexRow } from "@/styles/theme"
 import { UI_TEXT } from "@/data/uiText"
 import { CloseIcon, ArrowRightIcon } from "@/components/ui/icons"
 import Button from "@/components/ui/Button"
@@ -127,8 +127,7 @@ const Inner = styled.div`
   width: 100%;
   max-width: 600px;
   height: 100%;
-  display: flex;
-  flex-direction: column;
+  ${flexCol()}
   justify-content: center;
   padding: ${T.navHeight} ${T.rsvPad} ${T.spacing[48]} clamp(${T.spacing[32]}, 8vw, 68px);
   position: relative;
@@ -169,8 +168,7 @@ const CloseBtn = styled.button`
   top: 0;
   right: ${T.pagePad};
   height: ${T.navHeight};
-  display: flex;
-  align-items: center;
+  ${flexRow()}
   justify-content: center;
   color: ${alpha(T.sub, 0.52)};
   transition: color ${T.transition.fast};
@@ -197,9 +195,7 @@ const Glow = styled.div`
 `
 
 const NavList = styled.nav`
-  display: flex;
-  flex-direction: column;
-  gap: ${T.spacing[36]};
+  ${flexCol(T.spacing[36])}
 `
 
 // Link와 button 메뉴가 같은 모양을 쓰도록 공통 스타일만 분리
@@ -270,8 +266,7 @@ const Divider = styled.span`
 const BottomArea = styled.div`
   margin-top: ${T.spacing[48]};
   padding-left: ${T.spacing[20]};
-  display: flex;
-  flex-direction: column;
+  ${flexCol()}
   align-items: flex-start;
   opacity: 0;
   animation: fadeUp ${T.transition.slow} forwards;
