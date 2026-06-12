@@ -15,7 +15,7 @@ import { useMvpModal } from "@/components/ui/MvpModal"
 import SectionHeader from "@/components/ui/SectionHeader"
 import { ChevronIcon } from "@/components/ui/icons"
 import ProgSectionFrame from "@/pages/programs/ProgSectionFrame"
-import ExperienceCard from "@/pages/programs/sections/ExperienceCard"
+import ExperienceCard from "@/pages/programs/sections/experience/ExperienceCard"
 
 const t = UI_TEXT.experience
 const TOP_FADE_SIZE = `clamp(${T.secPadBottom}, 12vh, calc(${T.secPadBottom} + ${T.spacing[48]} + ${T.spacing[12]}))`
@@ -150,4 +150,3 @@ const CardsRow = styled.div`
     gap: ${T.spacing[8]};
   }
 `
-

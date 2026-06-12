@@ -100,6 +100,12 @@ import finalBg2 from "@/assets/images/programs/final/bg/02-bg.webp"
 import finalBg3 from "@/assets/images/programs/final/bg/03-bg.webp"
 import finalBg4 from "@/assets/images/programs/final/bg/04-bg.webp"
 
+// ── 동선 모달(RouteModal) 지도 배경 (야별) — 지명·건물·시설·도로 포함, 핀/경로선 제외 ────────
+import routeMap1 from "@/assets/images/programs/route/1-route-map.webp"
+import routeMap2 from "@/assets/images/programs/route/2-route-map.webp"
+import routeMap3 from "@/assets/images/programs/route/3-route-map.webp"
+import routeMap4 from "@/assets/images/programs/route/4-route-map.webp"
+
 const flowStatIcons = {
   time: flowTime1,
   walk: flowWalk1,
@@ -211,5 +217,12 @@ export const PROGRAM_ASSETS = {
     hours: finalHours,
     location: finalLocation,
     ticket: finalTicket,
+  },
+  // 야 id(1~4) → 동선 모달(RouteModal) 지도 배경
+  routeMaps: {
+    1: routeMap1,
+    2: routeMap2,
+    3: routeMap3,
+    4: routeMap4,
   },
 }

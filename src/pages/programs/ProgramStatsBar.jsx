@@ -52,7 +52,7 @@ export default function ProgramStatsBar({
       </StatsGroup>
 
       {hasAction && (
-        <RouteBtn accent={accent} size="lg" onClick={onAction}>
+        <RouteBtn accent={accent} size="lg" bordered onClick={onAction}>
           {actionLabel}
           <ArrowRightIcon size={16} />
         </RouteBtn>

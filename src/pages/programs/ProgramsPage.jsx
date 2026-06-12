@@ -16,7 +16,7 @@ import { NIGHT_STYLE } from "@/styles/theme"
 import { NIGHTS } from "@/data/nightData"
 import NightTabBar from "@/pages/programs/NightTabBar"
 import BannerSection from "@/pages/programs/sections/banner/BannerSection"
-import ExperienceSection from "@/pages/programs/sections/ExperienceSection"
+import ExperienceSection from "@/pages/programs/sections/experience/ExperienceSection"
 import FlowSection from "@/pages/programs/sections/flow/FlowSection"
 import FinalSection from "@/pages/programs/sections/FinalSection"
 

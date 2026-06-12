@@ -167,6 +167,45 @@ export function InfoIcon({ size = 16, color = "currentColor", strokeWidth = 1.5,
   )
 }
 
+// ── 동선 모달 시설 범례용 (화장실 · 의료 · 주차장) — 안내소는 InfoIcon 재사용 ──
+
+// 화장실 — 남녀 픽토그램
+export function RestroomIcon({ size = 16, color = "currentColor", ...rest }) {
+  return (
+    <Svg size={size} viewBox="0 0 16 16" {...rest}>
+      <circle cx="4.3" cy="2.5" r="1.4" fill={color} />
+      <path d="M2.6 5.2h3.4l-.8 4.2H6V14H4.6V9.4H3.4L2.6 5.2z" fill={color} />
+      <circle cx="11.5" cy="2.5" r="1.4" fill={color} />
+      <path d="M9.6 9.4l1-4.2h1.8l1 4.2h-1V14h-1.8V9.4H9.6z" fill={color} />
+      <rect x="7.6" y="1.2" width="0.8" height="13.6" rx="0.4" fill={color} opacity="0.35" />
+    </Svg>
+  )
+}
+
+// 의료 — 십자
+export function MedicalIcon({ size = 16, color = "currentColor", ...rest }) {
+  return (
+    <Svg size={size} viewBox="0 0 16 16" {...rest}>
+      <path d="M6.3 2h3.4v4.3H14v3.4H9.7V14H6.3V9.7H2V6.3h4.3V2z" fill={color} />
+    </Svg>
+  )
+}
+
+// 주차장 — P
+export function ParkingIcon({ size = 16, color = "currentColor", strokeWidth = 1.6, ...rest }) {
+  return (
+    <Svg size={size} viewBox="0 0 16 16" {...rest}>
+      <path
+        d="M5.4 13.2V2.8h3.4a2.6 2.6 0 010 5.2H5.4"
+        stroke={color}
+        strokeWidth={strokeWidth}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </Svg>
+  )
+}
+
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //  2. 교통 아이콘  (경로 안내용 · 기본 size=32)
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

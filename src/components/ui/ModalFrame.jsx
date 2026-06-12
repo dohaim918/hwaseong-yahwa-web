@@ -8,6 +8,9 @@
 //  내용물만 children 으로 넣으면 됨. (MvpModal · FeaturedPanel 오버레이 등 공용)
 //  props:
 //    open · onClose · accent · maxWidth(기본 360)
+//    maxHeight → fullscreen 일 때 높이 상한(px). 미지정 시 화면 높이까지
+//    fullscreen → 화면 여백(가장자리 24·모바일 12) 둔 대형 카드. padding 0 (내부가 자체 레이아웃),
+//                 테두리·radius·그림자 유지. children(예: RouteModal)이 Stage 를 100% 채움
 //    ariaLabel | labelledBy / describedBy
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -24,6 +27,8 @@ export default function ModalFrame({
   onClose,
   accent = T.pink,
   maxWidth = 360,
+  maxHeight,
+  fullscreen = false,
   ariaLabel,
   labelledBy,
   describedBy,
@@ -47,7 +52,7 @@ export default function ModalFrame({
   }
 
   return createPortal(
-    <Overlay role="presentation" onPointerDown={onDown} onPointerUp={onUp}>
+    <Overlay role="presentation" $fullscreen={fullscreen} onPointerDown={onDown} onPointerUp={onUp}>
       <Panel
         ref={panelRef}
         role="dialog"
@@ -57,13 +62,15 @@ export default function ModalFrame({
         aria-describedby={describedBy}
         $accent={accent}
         $maxWidth={maxWidth}
+        $maxHeight={maxHeight}
+        $fullscreen={fullscreen}
         onPointerDown={(e) => e.stopPropagation()}
       >
-        <Shimmer $top $bg={shimmerLine(accent)} />
+        {!fullscreen && <Shimmer $top $bg={shimmerLine(accent)} />}
         <CloseBtn ref={closeRef} type="button" aria-label="닫기" onClick={onClose}>
           <CloseIcon size={18} />
         </CloseBtn>
-        <Scroll>{children}</Scroll>
+        <Scroll $fullscreen={fullscreen}>{children}</Scroll>
       </Panel>
     </Overlay>,
     document.body
@@ -82,33 +89,57 @@ const Overlay = styled.div`
   background: ${alpha(T.bgBase, 0.72)};
   ${glass("10px")}
   animation: fadeIn ${T.transition.fast} both;
+
+  @media (max-width: ${T.bp.mobile}) {
+    padding: ${({ $fullscreen }) => ($fullscreen ? T.spacing[12] : T.spacing[24])};
+  }
 `
 
 const Panel = styled.div`
   position: relative;
   ${flexCol()}
-  width: min(${({ $maxWidth }) => `${$maxWidth}px`}, 100%);
-  max-height: 88dvh;
   /* 스크롤은 내부 Scroll 이 담당 → Shimmer·닫기버튼(absolute)은 항상 고정 */
   overflow: hidden;
-  padding: ${T.spacing[42]} ${T.spacing[32]};
-  border: 1px solid ${({ $accent }) => alpha($accent, 0.38)};
-  border-radius: ${T.radius.lg};
-  background:
-    radial-gradient(circle at 50% 0%, ${({ $accent }) => alpha($accent, 0.16)} 0%, transparent 56%),
-    linear-gradient(180deg, ${alpha(T.bgCard, 0.96)}, ${alpha(T.bgBase, 0.98)});
-  box-shadow:
-    0 0 40px ${({ $accent }) => alpha($accent, 0.22)},
-    0 24px 80px ${alpha(T.bgDark, 0.45)};
-  text-align: center;
-  animation: modalIn ${T.transition.spring} both;
-  transition:
-    padding ${T.transition.mid},
-    width ${T.transition.mid};
 
-  @media (max-width: ${T.bp.mini}) {
-    padding: ${T.spacing[36]} ${T.spacing[24]};
-  }
+  ${({ $fullscreen, $accent, $maxWidth, $maxHeight }) =>
+    $fullscreen
+      ? `
+    width: min(calc(100dvw - ${T.spacing[48]}), ${$maxWidth}px);
+    height: calc(100dvh - ${T.spacing[48]});
+    ${$maxHeight ? `max-height: ${$maxHeight}px;` : ""}
+    background: ${T.bgBase};
+    border: 1px solid ${alpha(T.white, 0.14)};
+    border-radius: ${T.radius.md};
+    box-shadow: 0 ${T.spacing[24]} ${T.secPadBottom} ${alpha(T.bgDark, 0.72)};
+    animation: fadeIn ${T.transition.fast} both;
+
+    @media (max-width: ${T.bp.mobile}) {
+      width: calc(100dvw - ${T.spacing[24]});
+      height: calc(100dvh - ${T.spacing[24]});
+    }
+  `
+      : `
+    width: min(${$maxWidth}px, 100%);
+    max-height: 88dvh;
+    padding: ${T.spacing[42]} ${T.spacing[32]};
+    border: 1px solid ${alpha($accent, 0.38)};
+    border-radius: ${T.radius.lg};
+    background:
+      radial-gradient(circle at 50% 0%, ${alpha($accent, 0.16)} 0%, transparent 56%),
+      linear-gradient(180deg, ${alpha(T.bgCard, 0.96)}, ${alpha(T.bgBase, 0.98)});
+    box-shadow:
+      0 0 40px ${alpha($accent, 0.22)},
+      0 24px 80px ${alpha(T.bgDark, 0.45)};
+    text-align: center;
+    animation: modalIn ${T.transition.spring} both;
+    transition:
+      padding ${T.transition.mid},
+      width ${T.transition.mid};
+
+    @media (max-width: ${T.bp.mini}) {
+      padding: ${T.spacing[36]} ${T.spacing[24]};
+    }
+  `}
 `
 
 // 내용 래퍼 — 내용이 88dvh 를 넘을 때만 여기서 스크롤(짧으면 내용 높이만큼).
@@ -117,6 +148,8 @@ const Scroll = styled.div`
   flex: 1;
   min-height: 0;
   width: 100%;
+  /* 풀스크린(가로형)은 내부가 100% 높이를 채우고 자체 레이아웃 → 넘침 숨김 */
+  ${({ $fullscreen }) => $fullscreen && "height: 100%; overflow: hidden;"}
 `
 
 const CloseBtn = styled.button`
