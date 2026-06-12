@@ -61,7 +61,6 @@ function CenterViewer({
     <CenterViewerWrap $animIn={animIn}>
       <CenterFrame role="region" aria-label="갤러리 캐러셀" $prevSrc={prevSrc}>
         <CenterImg key={active} src={activeItem.src} alt={activeItem.alt} loading="lazy" />
-        <CenterBorder />
         <ArrowBtn type="button" $side="left" onClick={onPrev} aria-label="이전 이미지">
           <ChevronIcon dir="left" />
         </ArrowBtn>
@@ -227,6 +226,8 @@ const CenterFrame = styled.div`
   height: var(--center-h);
   border-radius: ${T.radius.sm};
   overflow: hidden;
+  border: 1px solid ${alpha(T.violet, 0.7)};
+  box-shadow: 0 0 40px ${alpha(T.violet, 0.2)};
   /* 이전 이미지를 배경으로 깔아 전환 깜빡임 방지 */
   ${({ $prevSrc }) => ($prevSrc ? `background: url(${$prevSrc}) center / cover;` : "")}
 `
@@ -236,18 +237,6 @@ const CenterImg = styled.img`
   height: 100%;
   object-fit: cover;
   animation: imgScale 0.5s ease both;
-`
-
-const CenterBorder = styled.div`
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  border-radius: ${T.radius.sm};
-  border: 1px solid ${alpha(T.violet, 0.7)};
-  box-shadow:
-    0 0 40px ${alpha(T.violet, 0.2)},
-    inset 0 0 20px ${alpha(T.violet, 0.04)};
-  pointer-events: none;
 `
 
 const ArrowBtn = styled.button`
