@@ -163,12 +163,17 @@ const CloseBtn = styled.button`
   height: ${T.spacing[32]};
   color: ${alpha(T.sub, 0.7)};
   border-radius: ${T.radius.full};
+
   transition:
     color ${T.transition.fast},
     background ${T.transition.fast};
 
   &:hover {
     color: ${T.main};
+  }
+
+  svg {
+    filter: drop-shadow(0 0 2px ${T.bgBase}) drop-shadow(0 0 5px ${T.bgBase});
   }
 
   ${focusRing("currentColor", T.radius.full)}

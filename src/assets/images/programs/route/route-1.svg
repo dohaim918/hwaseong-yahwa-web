@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_레이어_2" data-name="레이어 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 2182 1400">
+  <defs>
+    <style>
+      .cls-1 {
+        opacity: 0;
+      }
+
+      .cls-1, .cls-2, .cls-3, .cls-4, .cls-5, .cls-6, .cls-7 {
+        fill: none;
+      }
+
+      .cls-8 {
+        filter: url(#outer-glow-2);
+      }
+
+      .cls-9 {
+        filter: url(#outer-glow-3);
+      }
+
+      .cls-10 {
+        filter: url(#outer-glow-1);
+      }
+
+      .cls-2 {
+        stroke-dasharray: 4.41 8.82;
+      }
+
+      .cls-2, .cls-3, .cls-4, .cls-5, .cls-6, .cls-7 {
+        stroke-linecap: round;
+        stroke-miterlimit: 10;
+      }
+
+      .cls-2, .cls-3, .cls-4, .cls-5, .cls-7 {
+        stroke: #fff;
+        stroke-width: 3px;
+      }
+
+      .cls-4 {
+        stroke-dasharray: 4.02 8.04;
+      }
+
+      .cls-5 {
+        stroke-dasharray: 3.94 7.88;
+      }
+
+      .cls-6 {
+        stroke: #c9547a;
+        stroke-width: 9px;
+      }
+
+      .cls-7 {
+        stroke-dasharray: 3.98 7.97;
+      }
+    </style>
+    <filter id="outer-glow-1" x="734" y="312" width="342" height="599" filterUnits="userSpaceOnUse">
+      <feOffset dx="0" dy="0"/>
+      <feGaussianBlur result="blur" stdDeviation="5"/>
+      <feFlood flood-color="#c9547a" flood-opacity="1"/>
+      <feComposite in2="blur" operator="in"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="outer-glow-2" x="1217" y="283" width="215" height="153" filterUnits="userSpaceOnUse">
+      <feOffset dx="0" dy="0"/>
+      <feGaussianBlur result="blur-2" stdDeviation="10"/>
+      <feFlood flood-color="#c9547a" flood-opacity="1"/>
+      <feComposite in2="blur-2" operator="in"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="outer-glow-3" x="1394" y="238" width="219" height="335" filterUnits="userSpaceOnUse">
+      <feOffset dx="0" dy="0"/>
+      <feGaussianBlur result="blur-3" stdDeviation="10"/>
+      <feFlood flood-color="#c9547a" flood-opacity="1"/>
+      <feComposite in2="blur-3" operator="in"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="_레이어_1-2" data-name="레이어 1">
+    <g>
+      <g>
+        <g class="cls-10">
+          <path class="cls-6" d="M964.64,882.39h-42.64c-7.34,0-31.34-4.52-31.34-35.29s-.85-42.35-14.4-45.46-13.27-6.78-16.38-12.14-10.7-22.18-34.35-23.91c-36.14-2.64-78.63-52.8-70.96-94.96,8.28-45.55,51.2-82.82,51.2-82.82l249.6-223.43-11.58-23.34"/>
+        </g>
+        <g class="cls-8">
+          <path class="cls-6" d="M1260.69,383.66c13.22,9.37,26.07,18.54,49.23,17.05,18.65-1.2,25.83-1.76,40.79-23.5,10.15-14.75,22.56-34.56,37.25-49.81"/>
+        </g>
+        <g class="cls-9">
+          <path class="cls-6" d="M1437.76,281.73c23.72-17.69,53.18,17.83,66.78,34.07,0,0,8.92,9.96,12.28,17.13,12.74,27.22,41.19,94.32,56.09,128,18.82,42.54-19.39,71.06-29.27,75.29s-28.52-.56-49.69-14.4"/>
+        </g>
+      </g>
+      <g>
+        <g>
+          <line class="cls-3" x1="964.64" y1="882.39" x2="962.64" y2="882.39"/>
+          <path class="cls-7" d="M954.67,882.39h-32.67c-7.34,0-31.34-4.52-31.34-35.29s-.85-42.35-14.4-45.46c-13.55-3.11-13.27-6.78-16.38-12.14-3.11-5.36-10.7-22.18-34.35-23.91-36.14-2.64-78.63-52.8-70.96-94.96,8.28-45.55,51.2-82.82,51.2-82.82l245.14-219.44"/>
+          <polyline class="cls-3" points="1053.87 365.7 1055.36 364.37 1054.48 362.57"/>
+          <line class="cls-2" x1="1050.56" y1="354.67" x2="1046.64" y2="346.77"/>
+          <line class="cls-3" x1="1044.68" y1="342.82" x2="1043.79" y2="341.02"/>
+        </g>
+        <g>
+          <path class="cls-3" d="M1260.69,383.66c.54.39,1.09.77,1.63,1.15"/>
+          <path class="cls-5" d="M1268.81,389.27c10.76,7.05,22.66,12.63,41.11,11.44,18.65-1.2,25.83-1.76,40.79-23.5,9.21-13.38,20.28-30.92,33.22-45.46"/>
+          <path class="cls-3" d="M1386.58,328.85c.46-.49.92-.97,1.38-1.45"/>
+        </g>
+        <g>
+          <path class="cls-3" d="M1437.76,281.73c.55-.41,1.1-.79,1.65-1.14"/>
+          <path class="cls-4" d="M1446.78,277.47c21.74-4.95,45.85,24.1,57.76,38.33,0,0,8.92,9.96,12.28,17.13,12.74,27.22,41.19,94.32,56.09,128,18.82,42.54-19.39,71.06-29.27,75.29-9.08,3.89-25.55.16-44.59-11.21"/>
+          <path class="cls-3" d="M1495.63,522.91c-.56-.35-1.12-.72-1.68-1.08"/>
+        </g>
+      </g>
+      <rect class="cls-1" width="2182" height="1400"/>
+    </g>
+  </g>
+</svg>

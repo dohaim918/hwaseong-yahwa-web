@@ -31,18 +31,22 @@ import exp0101 from "@/assets/images/programs/experience/01-01.webp"
 import exp0102 from "@/assets/images/programs/experience/01-02.webp"
 import exp0103 from "@/assets/images/programs/experience/01-03.webp"
 import exp0104 from "@/assets/images/programs/experience/01-04.webp"
+import exp0105 from "@/assets/images/programs/experience/01-05.webp"
 import exp0201 from "@/assets/images/programs/experience/02-01.webp"
 import exp0202 from "@/assets/images/programs/experience/02-02.webp"
 import exp0203 from "@/assets/images/programs/experience/02-03.webp"
 import exp0204 from "@/assets/images/programs/experience/02-04.webp"
+import exp0205 from "@/assets/images/programs/experience/02-05.webp"
 import exp0301 from "@/assets/images/programs/experience/03-01.webp"
 import exp0302 from "@/assets/images/programs/experience/03-02.webp"
 import exp0303 from "@/assets/images/programs/experience/03-03.webp"
 import exp0304 from "@/assets/images/programs/experience/03-04.webp"
+import exp0305 from "@/assets/images/programs/experience/03-05.webp"
 import exp0401 from "@/assets/images/programs/experience/04-01.webp"
 import exp0402 from "@/assets/images/programs/experience/04-02.webp"
 import exp0403 from "@/assets/images/programs/experience/04-03.webp"
 import exp0404 from "@/assets/images/programs/experience/04-04.webp"
+import exp0405 from "@/assets/images/programs/experience/04-05.webp"
 
 // ── 프로그레스 FLOW OF NIGHT 섹션 데코 SVG ────────
 import flowDeco1 from "@/assets/images/programs/flow/deco/01-deco.svg"
@@ -145,10 +149,10 @@ export const PROGRAM_ASSETS = {
   },
   // 야 id(1~4) → EXPERIENCE 카드 순서
   experience: {
-    1: [exp0101, exp0102, exp0103, exp0104],
-    2: [exp0201, exp0202, exp0203, exp0204],
-    3: [exp0301, exp0302, exp0303, exp0304],
-    4: [exp0401, exp0402, exp0403, exp0404],
+    1: [exp0101, exp0102, exp0103, exp0104, exp0105],
+    2: [exp0201, exp0202, exp0203, exp0204, exp0205],
+    3: [exp0301, exp0302, exp0303, exp0304, exp0305],
+    4: [exp0401, exp0402, exp0403, exp0404, exp0405],
   },
   // 야 id(1~4) → FLOW OF NIGHT 데코 SVG
   flowDecos: {

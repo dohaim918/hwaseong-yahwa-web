@@ -1,4 +1,4 @@
-// ProgModal — BannerSection "자세히 보기" 트리거 모달 (Figma 123-5365, 480px frame).
+// ProgModal — BannerSection "자세히 보기" 트리거 모달 (480px frame).
 // ModalFrame 공용 겉틀 안에 야별 modal 콘텐츠 채움.
 // 배경은 야별 전용 이미지(modalBgs[id]) — exclusion 블렌드로 어두운 패널과 어우러짐.
 
@@ -17,12 +17,11 @@ import { SparkleIcon, MapPinIcon, TagIcon, InfoIcon } from "@/components/ui/icon
 
 const t = UI_TEXT.progModal
 
-// 메타 3줄(일정·장소·카테고리) — 아이콘은 데이터에 둘 수 없어 여기서 매핑
-const META_ITEMS = [
-  { key: "schedule", Icon: SparkleIcon },
-  { key: "location", Icon: MapPinIcon },
-  { key: "category", Icon: TagIcon },
-]
+const META_ICONS = {
+  schedule: SparkleIcon,
+  location: MapPinIcon,
+  category: TagIcon,
+}
 
 export default function ProgModal({ open, onClose, night }) {
   const { id, color, style, modal } = night
@@ -35,12 +34,16 @@ export default function ProgModal({ open, onClose, night }) {
   const { isMini } = useResponsive()
 
   // 인라인(SideColumn)·툴팁 양쪽에서 동일하게 재사용
-  const metaRows = META_ITEMS.map(({ key, Icon }) => (
-    <MetaRow key={key}>
-      <Icon size={16} color={color} />
-      <span>{modal[key]}</span>
-    </MetaRow>
-  ))
+  const metaRows = t.metaItems.map(({ key, label }) => {
+    const Icon = META_ICONS[key]
+
+    return (
+      <MetaRow key={key}>
+        <Icon size={16} color={color} aria-label={label} />
+        <span>{modal[key]}</span>
+      </MetaRow>
+    )
+  })
 
   return (
     <ModalFrame open={open} onClose={onClose} accent={color} maxWidth={480} labelledBy={titleId}>
@@ -248,7 +251,7 @@ const MainTitle = styled.h2`
 `
 
 // 설명 + 메타를 묶어 우측 정렬(좁은 컬럼). 좌측 여백으로 배경 이미지가 비친다.
-// gap 16 = Figma 18px (토큰 없음, 최근접)
+// gap 16 (토큰 없음, 최근접 18px)
 const SideColumn = styled.div`
   align-self: flex-end;
   ${flexCol(T.spacing[16])}
@@ -305,7 +308,7 @@ const ProgramsStack = styled.div`
 
 // 라벨 + (미니) ⓘ 트리거 행
 const LabelRow = styled.div`
-  ${flexRow(T.spacing[8])}
+  ${flexRow(T.spacing[6])}
 `
 
 const ProgramsLabel = styled.p`
@@ -328,7 +331,7 @@ const ProgramsCard = styled.div`
   }
 `
 
-// padding 20 = Figma 18px (토큰 없음, 최근접)
+// padding 20 (토큰 없음, 최근접 18px)
 const ProgramRow = styled.div`
   ${flexRow(T.spacing[12])}
   padding: 0 ${T.spacing[20]};
@@ -344,7 +347,7 @@ const ProgName = styled.p`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  /* Figma: 1행만 밝게(#f0eeff), 2~3행은 0.8 디밍 */
+  /* 1행만 밝게(#f0eeff), 2~3행은 0.8 디밍 */
   color: ${({ $first }) => ($first ? T.main : alpha(T.main, 0.8))};
   transition: font-size ${T.transition.fast};
   @media (max-width: ${T.bp.mini}) {
@@ -372,7 +375,7 @@ const ProgTime = styled(ProgMeta)`
   color: ${T.sub};
 `
 
-// padding 8·20 = Figma 9px·19px (토큰 없음, 최근접)
+// padding 8·20 (토큰 없음, 최근접 9px·19px)
 const TipBox = styled.div`
   ${flexRow(T.spacing[12])}
   padding: ${T.spacing[8]} ${T.spacing[20]};

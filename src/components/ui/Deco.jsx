@@ -2,7 +2,7 @@
 // 재사용 데코 컴포넌트 모음: 선, 그라디언트 텍스트, 페이드 레이어, 카드 장식.
 
 import styled from "@emotion/styled"
-import { T, alpha, accentFill, glow, revealUp } from "@/styles/theme"
+import { T, alpha, accentFill, glow, revealUp, flexRow } from "@/styles/theme"
 import { StarIcon } from "@/components/ui/icons"
 
 // 텍스트 일부에 그라디언트 스타일을 입힐 때 사용.
@@ -45,14 +45,14 @@ export function SectionLabelRow({ children, color, justify = "center", ...props 
   )
 }
 
+// SectionLabelRow 내부 flex 래퍼 (라벨 + 양옆 라인 정렬).
 const SectionLabelRowWrap = styled.div`
-  display: flex;
-  align-items: center;
+  ${flexRow(T.spacing[8])}
   justify-content: ${({ $justify = "center" }) => $justify};
-  gap: ${T.spacing[8]};
   width: 100%;
 `
 
+// 라벨 양옆 짧은 그라디언트 라인 — 미니에서는 숨김.
 const SectionLabelLine = styled(GradLine)`
   @media (max-width: ${T.bp.mini}) {
     display: none;
@@ -72,23 +72,24 @@ export function SectionTicker({ text, color = T.violet, animIn }) {
   )
 }
 
+// SectionTicker 한 줄 래퍼 (등장 시 revealUp).
 const TickerRow = styled.div`
   position: relative;
   z-index: 8;
-  display: flex;
-  align-items: center;
+  ${flexRow(T.spacing[12])}
   justify-content: center;
-  gap: ${T.spacing[12]};
   padding-block: ${T.spacing[24]} clamp(40px, 7.4vh, 160px);
   ${({ $animIn }) => revealUp($animIn, 0.55)}
 `
 
+// 티커 양옆 그라디언트 라인 — 미니에서는 숨김.
 const TickerLine = styled(GradLine)`
   @media (max-width: ${T.bp.mini}) {
     display: none;
   }
 `
 
+// 티커 가운데 문구 — 브레이크포인트별 폰트·자간 축소.
 const TickerText = styled.span`
   font-family: ${T.fontSerif};
   font-size: ${T.fontSize.md};
@@ -158,18 +159,23 @@ export function ShimmerPair({ bottomProps, ...rest }) {
 //   아이콘+텍스트는 자식으로 (gap 8). 클릭 필요 시 as="button" 으로.
 //   $tight  — 위아래 패딩 축소 (팁 태그처럼 더 납작하게)
 //   $accent — 지정 시 accent 채움(테두리·글자 + 은은한 배경) / 미지정 시 중립(T.sub)
+//   $sm     — 작은 라벨 칩(xxs·bold·작은 padding·테두리 alpha) — RouteModal Tag·RouteDetailPanel Badge 용
 export const OutlinePill = styled.span`
   display: inline-flex;
   align-items: center;
-  gap: ${T.spacing[8]};
+  gap: ${({ $sm }) => ($sm ? T.spacing[6] : T.spacing[8])};
   flex-shrink: 0;
-  padding: ${({ $tight }) => ($tight ? "clamp(6px, 0.7vh, 9px)" : "clamp(10px, 1.1vh, 14px)")}
-    clamp(${T.spacing[12]}, 1.4vw, ${T.spacing[24]});
-  border: 1px solid ${({ $accent }) => ($accent ? $accent : alpha(T.sub, 0.3))};
+  padding: ${({ $sm, $tight }) =>
+    $sm
+      ? `${T.spacing[6]} ${T.spacing[12]}`
+      : `${$tight ? "clamp(6px, 0.7vh, 9px)" : "clamp(10px, 1.1vh, 14px)"} clamp(${T.spacing[12]}, 1.4vw, ${T.spacing[24]})`};
+  border: 1px solid
+    ${({ $accent, $sm }) => ($accent ? ($sm ? alpha($accent, 0.4) : $accent) : alpha(T.sub, 0.3))};
   border-radius: ${T.radius.pill};
   /* accent: 은은한 accent 채움 / 중립: Button 아웃라인 variant 의 베이스 배경 */
   background: ${({ $accent }) => ($accent ? accentFill($accent) : alpha(T.bgDark, 0.4))};
-  font-size: clamp(13px, 1vw, 18px);
+  font-size: ${({ $sm }) => ($sm ? T.fontSize.xxs : "clamp(13px, 1vw, 18px)")};
+  ${({ $sm }) => $sm && `font-weight: 700;`}
   line-height: 1;
   color: ${({ $accent }) => ($accent ? $accent : T.sub)};
   white-space: nowrap;
@@ -207,6 +213,7 @@ export function SectionGlow({
   )
 }
 
+// SectionGlow 실제 레이어 — top(상단 중앙) / bottom(하단 풀폭) 위치 프리셋.
 const GlowLayer = styled.div`
   position: absolute;
   z-index: 1;
@@ -262,6 +269,7 @@ export const Ring = styled.div`
   }
 `
 
+// EdgeFade 방향별 기본 두께.
 const EDGE_FADE_SIZE = {
   top: "clamp(120px, 18vh, 200px)",
   bottom: "100px",
@@ -269,6 +277,7 @@ const EDGE_FADE_SIZE = {
   right: "clamp(60px, 16vw, 300px)",
 }
 
+// EdgeFade 방향별 그라디언트 생성 (해당 모서리 색 → 투명).
 const edgeFadeBg = (side, color, opacity) => {
   const c = alpha(color, opacity)
   switch (side) {
@@ -285,6 +294,7 @@ const edgeFadeBg = (side, color, opacity) => {
   }
 }
 
+// EdgeFade 실제 레이어 — 방향별 위치·크기·배경 적용.
 const EdgeFadeLayer = styled.div`
   position: absolute;
   pointer-events: none;

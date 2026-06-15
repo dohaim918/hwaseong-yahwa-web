@@ -52,6 +52,20 @@ export function StarIcon({ size = 14, color = "currentColor", opacity = 1, ...re
   )
 }
 
+// 라인 스타일 별(streamline ticket-star) — viewBox 16 여백 포함 → Clock·MapPin과 채움 비율 통일
+// strokeWidth 1.0 = 1.5 × 16/24 → viewBox 24인 Clock·MapPin과 렌더 두께 일치
+export function TicketStarIcon({ size = 16, color = "currentColor", ...rest }) {
+  return (
+    <Svg size={size} viewBox="0 0 16 16" {...rest}>
+      <path
+        d="M9.67383 5.6875L9.8457 6.04785L10.2393 6.10742L14.0361 6.67871L11.2715 9.47266L11.002 9.74512L11.0645 10.123L11.7109 14.0332L8.35938 12.207L8 12.0117L7.6416 12.207L4.28809 14.0332L4.93555 10.123L4.99805 9.74512L4.72852 9.47266L1.96289 6.67871L5.76074 6.10742L6.1543 6.04785L6.32617 5.6875L8 2.1709L9.67383 5.6875Z"
+        stroke={color}
+        strokeWidth="1"
+      />
+    </Svg>
+  )
+}
+
 // ── 꽃(야화 모티프) 공용 geometry — FlowerIcon · CustomCursor 단일 소스 ──
 //    좌표계 기준 viewBox: "-8 -8 16 16" (꽃잎 끝 ≈ 7.5). 커서는 동일 path를
 //    더 넉넉한 viewBox로 감싸 시각 크기만 조절한다.
@@ -168,40 +182,42 @@ export function InfoIcon({ size = 16, color = "currentColor", strokeWidth = 1.5,
 }
 
 // ── 동선 모달 시설 범례용 (화장실 · 의료 · 주차장) — 안내소는 InfoIcon 재사용 ──
+//    모두 원형 테두리 + 심볼. 단색(currentColor) → 호출 측에서 dim/accent 제어.
 
-// 화장실 — 남녀 픽토그램
-export function RestroomIcon({ size = 16, color = "currentColor", ...rest }) {
+// 화장실 — 원형 테두리 + 남녀 픽토그램
+export function RestroomIcon({ size = 24, color = "currentColor", ...rest }) {
   return (
-    <Svg size={size} viewBox="0 0 16 16" {...rest}>
-      <circle cx="4.3" cy="2.5" r="1.4" fill={color} />
-      <path d="M2.6 5.2h3.4l-.8 4.2H6V14H4.6V9.4H3.4L2.6 5.2z" fill={color} />
-      <circle cx="11.5" cy="2.5" r="1.4" fill={color} />
-      <path d="M9.6 9.4l1-4.2h1.8l1 4.2h-1V14h-1.8V9.4H9.6z" fill={color} />
-      <rect x="7.6" y="1.2" width="0.8" height="13.6" rx="0.4" fill={color} opacity="0.35" />
-    </Svg>
-  )
-}
-
-// 의료 — 십자
-export function MedicalIcon({ size = 16, color = "currentColor", ...rest }) {
-  return (
-    <Svg size={size} viewBox="0 0 16 16" {...rest}>
-      <path d="M6.3 2h3.4v4.3H14v3.4H9.7V14H6.3V9.7H2V6.3h4.3V2z" fill={color} />
-    </Svg>
-  )
-}
-
-// 주차장 — P
-export function ParkingIcon({ size = 16, color = "currentColor", strokeWidth = 1.6, ...rest }) {
-  return (
-    <Svg size={size} viewBox="0 0 16 16" {...rest}>
+    <Svg size={size} viewBox="0 0 24 24" {...rest}>
+      <circle cx="8.89" cy="7.44" r="1.44" fill={color} />
+      <circle cx="15.39" cy="7.44" r="1.44" fill={color} />
       <path
-        d="M5.4 13.2V2.8h3.4a2.6 2.6 0 010 5.2H5.4"
-        stroke={color}
-        strokeWidth={strokeWidth}
-        strokeLinecap="round"
-        strokeLinejoin="round"
+        d="M7.0835 10.0557H10.6946L9.97238 18.0001H7.80572L7.0835 10.0557ZM13.5835 10.0557H17.1946L17.9168 14.0279H16.8335L16.4724 18.0001H14.3057L13.9446 14.0279H12.8613L13.5835 10.0557Z"
+        fill={color}
       />
+      <circle cx="12" cy="12" r="10" stroke={color} />
+    </Svg>
+  )
+}
+
+// 의료 — 원형 테두리 + 십자
+export function MedicalIcon({ size = 24, color = "currentColor", ...rest }) {
+  return (
+    <Svg size={size} viewBox="0 0 24 24" {...rest}>
+      <path d="M18 13.25H13.25V18H10.75V13.25H6V10.75H10.75V6H13.25V10.75H18" fill={color} />
+      <circle cx="12" cy="12" r="10" stroke={color} />
+    </Svg>
+  )
+}
+
+// 주차장 — 원형 테두리 + P
+export function ParkingIcon({ size = 24, color = "currentColor", ...rest }) {
+  return (
+    <Svg size={size} viewBox="0 0 24 24" {...rest}>
+      <path
+        d="M13.0667 6.3999H8.25L8.25 17.5999H10.1667V13.7666H13.0667C15.0976 13.7666 16.75 12.1142 16.75 10.0832C16.75 8.0523 15.0976 6.3999 13.0667 6.3999ZM13.2738 11.9999H10.1667V8.25H13.2738C14.226 8.25 15 9.09073 15 10.125C15 11.1592 14.226 11.9999 13.2738 11.9999Z"
+        fill={color}
+      />
+      <circle cx="12" cy="12" r="10" stroke={color} />
     </Svg>
   )
 }

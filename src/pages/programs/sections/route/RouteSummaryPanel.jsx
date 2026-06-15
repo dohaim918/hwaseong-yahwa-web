@@ -1,59 +1,72 @@
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-//  RouteSummaryPanel — 동선 모달 좌측 "동선 요약" 패널 (Figma 518:4794)
+//  RouteSummaryPanel — 동선 모달 좌측 "동선 요약" 패널
 //  ────────────────────────────────────────────────
 //  헤더(동선 요약 · 총 N개 포인트) + 5포인트 리스트(dot·이름·시간) +
 //  푸터(예상 소요 시간 · 동선 경로 범례)
-//  activeStep 포인트만 accent 강조 (1차는 첫 포인트 고정, 2차에서 선택 연동)
+//  activeStep 포인트만 accent 강조. compact=true 면 선택 후 얇은 세로 레일로 전환
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-import { Fragment } from "react"
 import styled from "@emotion/styled"
-import { T, alpha, flexCol, flexRow, accentLine } from "@/styles/theme"
+import { T, alpha, flexCol, flexRow, accentLine, serif, focusRing } from "@/styles/theme"
 
 export default function RouteSummaryPanel({
   waypoints,
   sidebar,
+  pointsUnit,
   duration,
   accent,
-  activeStep = "01",
+  activeStep,
+  onSelect,
+  compact = false, // true: 패널 오픈 후 얇은 레일(번호+라벨 세로) / false: 박스 요약
 }) {
   return (
-    <Panel>
-      <Head>
-        <Title>{sidebar.title}</Title>
-        <Sub>총 {waypoints.length}개 포인트</Sub>
-      </Head>
+    <Panel $compact={compact}>
+      {!compact && (
+        <Head>
+          <Title>{sidebar.title}</Title>
+          <Sub>
+            총 {waypoints.length}
+            {pointsUnit}
+          </Sub>
+        </Head>
+      )}
 
-      <Body>
-        {waypoints.map((w, i) => {
+      <Body $compact={compact}>
+        {waypoints.map((w) => {
           const active = w.step === activeStep
           return (
-            <Fragment key={w.step}>
-              {i > 0 && <Connector aria-hidden="true" />}
-              <Item $active={active}>
-                <Dot $active={active} $accent={accent}>
-                  {w.step}
-                </Dot>
-                <Info>
-                  <Name>{w.label}</Name>
-                  <Time>{w.time}</Time>
-                </Info>
-              </Item>
-            </Fragment>
+            <Item
+              key={w.step}
+              type="button"
+              $active={active}
+              $accent={accent}
+              $compact={compact}
+              onClick={() => onSelect?.(w.step)}
+            >
+              <Dot $active={active} $accent={accent}>
+                {w.step}
+              </Dot>
+              <Info $compact={compact}>
+                <Name $compact={compact}>{w.label}</Name>
+                {!compact && <Time>{w.time}</Time>}
+              </Info>
+            </Item>
           )
         })}
       </Body>
 
-      <Foot>
-        <Dur>
-          <DurLabel>{sidebar.durationLabel}</DurLabel>
-          <DurVal>{duration}</DurVal>
-        </Dur>
-        <Legend>
-          <LegLine $accent={accent} aria-hidden="true" />
-          <LegText>{sidebar.routeLineLabel}</LegText>
-        </Legend>
-      </Foot>
+      {!compact && (
+        <Foot>
+          <Dur>
+            <DurLabel>{sidebar.durationLabel}</DurLabel>
+            <DurVal>{duration}</DurVal>
+          </Dur>
+          <Legend>
+            <LegLine $accent={accent} aria-hidden="true" />
+            <LegText>{sidebar.routeLineLabel}</LegText>
+          </Legend>
+        </Foot>
+      )}
     </Panel>
   )
 }
@@ -62,11 +75,14 @@ export default function RouteSummaryPanel({
 
 const Panel = styled.div`
   ${flexCol()}
-  width: 196px;
-  border: 1px solid ${alpha(T.white, 0.09)};
-  border-radius: ${T.radius.lg};
-  background: ${T.bgDark};
   overflow: hidden;
+  ${({ $compact }) =>
+    $compact
+      ? `width: auto;`
+      : `width: 196px;
+         border: 1px solid ${alpha(T.white, 0.09)};
+         border-radius: ${T.radius.lg};
+         background: ${T.bgDark};`}
 `
 
 const Head = styled.div`
@@ -76,27 +92,53 @@ const Head = styled.div`
 `
 
 const Title = styled.span`
-  font-size: 11px;
+  font-size: ${T.fontSize.xxs};
   font-weight: 700;
   letter-spacing: 2.5px;
   color: ${T.sub};
 `
 
 const Sub = styled.span`
-  font-size: 11px;
+  font-size: ${T.fontSize.xxs};
   color: ${T.muted};
 `
 
 const Body = styled.div`
-  ${flexCol()}
-  padding: ${T.spacing[12]};
+  ${({ $compact }) => flexCol($compact ? T.spacing[20] : T.spacing[4])}
+  padding: ${({ $compact }) => ($compact ? "0" : T.spacing[12])};
 `
 
-const Item = styled.div`
-  ${flexRow(T.spacing[12])}
-  padding: ${T.spacing[6]} ${T.spacing[8]};
+const Item = styled.button`
+  position: relative;
+  ${({ $compact }) => ($compact ? flexCol(T.spacing[4]) : flexRow(T.spacing[12]))}
+  ${({ $compact }) => ($compact ? "align-items: center;" : "width: 100%; text-align: left;")}
+  padding: ${({ $compact }) => ($compact ? "0" : `${T.spacing[6]} ${T.spacing[8]}`)};
+  border: 0;
   border-radius: ${T.radius.xs};
-  background: ${({ $active }) => ($active ? alpha(T.white, 0.07) : "transparent")};
+  background: ${({ $active, $compact }) =>
+    !$compact && $active ? alpha(T.white, 0.07) : "transparent"};
+  cursor: pointer;
+  transition: background ${T.transition.fast};
+
+  &:hover {
+    ${({ $compact }) => (!$compact ? `background: ${alpha(T.white, 0.05)};` : "")}
+  }
+
+  /* 레일(compact): 번호 동그라미 사이 세로 연결선 — 마지막 항목 제외 */
+  ${({ $compact }) =>
+    $compact
+      ? `&:not(:last-of-type)::after {
+           content: "";
+           position: absolute;
+           left: 50%;
+           bottom: -14px;
+           width: 1px;
+           height: 12px;
+           background: ${alpha(T.white, 0.18)};
+           transform: translateX(-50%);
+         }`
+      : ""}
+  ${({ $accent }) => focusRing($accent, T.radius.xs)}
 `
 
 const Dot = styled.span`
@@ -105,8 +147,9 @@ const Dot = styled.span`
   place-items: center;
   width: 28px;
   height: 28px;
+  line-height: 1;
   border-radius: ${T.radius.full};
-  font-size: 10px;
+  font-size: ${T.fontSize.xxs};
   font-weight: 700;
   ${({ $active, $accent }) =>
     $active
@@ -123,27 +166,20 @@ const Dot = styled.span`
 `
 
 const Info = styled.div`
-  ${flexCol("2px")}
-  min-width: 0;
+  ${flexCol(T.spacing[4])}
+  ${({ $compact }) => ($compact ? "align-items: center;" : "")}
 `
 
 const Name = styled.span`
-  font-size: 13px;
+  font-size: ${({ $compact }) => ($compact ? T.fontSize.xxs : T.fontSize.xs)};
   font-weight: 700;
-  color: ${T.main};
+  color: ${({ $compact }) => ($compact ? T.sub : T.main)};
+  white-space: nowrap;
 `
 
 const Time = styled.span`
-  font-size: 11px;
+  font-size: ${T.fontSize.xxs};
   color: ${T.sub};
-`
-
-// 아이템 사이 세로 커넥터 점
-const Connector = styled.span`
-  width: 1px;
-  height: 7px;
-  margin-left: calc(${T.spacing[8]} + 14px);
-  background: ${alpha(T.white, 0.1)};
 `
 
 const Foot = styled.div`
@@ -157,14 +193,13 @@ const Dur = styled.div`
 `
 
 const DurLabel = styled.span`
-  font-size: 11px;
+  font-size: ${T.fontSize.xxs};
   color: ${T.sub};
 `
 
 const DurVal = styled.strong`
-  font-family: ${T.fontSerif};
-  font-size: 15px;
-  font-weight: 700;
+  ${serif(700)}
+  font-size: ${T.fontSize.sm};
   color: ${T.main};
 `
 
@@ -180,6 +215,6 @@ const LegLine = styled.span`
 `
 
 const LegText = styled.span`
-  font-size: 11px;
+  font-size: ${T.fontSize.xxs};
   color: ${T.sub};
 `

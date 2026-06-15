@@ -1,5 +1,5 @@
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-//  BannerSection  —  프로그레스 페이지 배너 (Figma 463:4185)
+//  BannerSection  —  프로그레스 페이지 배너
 //  ────────────────────────────────────────────────────────────
 //  레이아웃 (1920 기준 / pagePad = 160px):
 //    [좌]   NightIndexRail (01시작~04달빛)   — 고정, active 구간만 이동
@@ -16,7 +16,7 @@
 
 import { forwardRef, useState } from "react"
 import styled from "@emotion/styled"
-import { T, alpha, serif, flexCol } from "@/styles/theme"
+import { T, alpha, serif, flexCol, flexRow } from "@/styles/theme"
 import { UI_TEXT } from "@/data/uiText"
 import { PROGRAM_ASSETS } from "@/data/programAssets"
 import FullSection from "@/components/layout/FullSection"
@@ -148,9 +148,7 @@ const Content = styled.div`
   z-index: 5;
   width: 100%;
   height: 100%;
-  display: flex;
-  align-items: center;
-  gap: clamp(${T.spacing[48]}, 7vw, 100px);
+  ${flexRow(`clamp(${T.spacing[48]}, 7vw, 100px)`)}
   padding: 0 ${T.pagePad};
   animation: fadeIn ${T.transition.slow} both;
 
@@ -162,8 +160,7 @@ const Content = styled.div`
 
 const Stage = styled.div`
   flex: 1;
-  display: flex;
-  align-items: center;
+  ${flexRow()}
   justify-content: flex-start;
 
   @media (max-width: ${T.bp.mobile}) {
@@ -279,9 +276,11 @@ const Tags = styled.div`
 
 // 공용 OutlinePill(accent 변형) — 테두리·배경·라운드 공용, 폰트/패딩만 배너용으로 확장
 const Tag = styled(OutlinePill)`
-  padding: ${T.spacing[6]} ${T.spacing[16]};
+  padding: ${T.spacing[8]} ${T.spacing[16]};
   font-size: ${T.fontSize.md};
   letter-spacing: 0.3px;
+  background: ${({ $accent }) =>
+    `linear-gradient(135deg, ${alpha($accent, 0.25)}, ${alpha($accent, 0.15)}), ${alpha(T.bgDark, 0.8)}`};
   transition: font-size ${T.transition.mid};
 
   @media (max-width: ${T.bp.mobile}) {
@@ -306,9 +305,7 @@ const FooterMark = styled.div`
   position: absolute;
   left: ${T.pagePad};
   bottom: clamp(${T.spacing[48]}, 8vh, 96px);
-  display: flex;
-  align-items: center;
-  gap: ${T.spacing[16]};
+  ${flexRow(T.spacing[16])}
   z-index: 6;
   color: ${({ $accent }) => $accent};
   transition: color ${T.transition.slow};

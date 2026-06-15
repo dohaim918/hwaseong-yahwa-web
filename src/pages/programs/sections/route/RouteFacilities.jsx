@@ -1,5 +1,5 @@
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-//  RouteFacilities — 동선 모달 우하단 시설 범례 (Figma 518:4864)
+//  RouteFacilities — 동선 모달 우하단 시설 범례
 //  ────────────────────────────────────────────────
 //  안내소 · 화장실 · 의료 · 주차장 4행 (아이콘 + 라벨)
 //  라벨은 UI_TEXT.routeModal.legend 에서 주입
@@ -9,20 +9,22 @@ import styled from "@emotion/styled"
 import { T, alpha, glass, flexCol, flexRow } from "@/styles/theme"
 import { InfoIcon, RestroomIcon, MedicalIcon, ParkingIcon } from "@/components/ui/icons"
 
+// accent: true → 야별 강조색 (의료 · 주차장) / 나머지(안내소 · 화장실)는 dim
+// iconProps → 안내소(InfoIcon)는 viewBox 16 기반이라 원 테두리가 두껍게 보여 strokeWidth 보정
 const FACILITIES = [
-  { key: "info", Icon: InfoIcon },
+  { key: "info", Icon: InfoIcon, iconProps: { strokeWidth: 1 } },
   { key: "restroom", Icon: RestroomIcon },
-  { key: "medical", Icon: MedicalIcon },
-  { key: "parking", Icon: ParkingIcon },
+  { key: "medical", Icon: MedicalIcon, accent: true },
+  { key: "parking", Icon: ParkingIcon, accent: true },
 ]
 
-export default function RouteFacilities({ legend }) {
+export default function RouteFacilities({ legend, accent }) {
   return (
     <Card>
-      {FACILITIES.map(({ key, Icon }) => (
+      {FACILITIES.map(({ key, Icon, accent: active, iconProps }) => (
         <Row key={key}>
-          <IconWrap>
-            <Icon size={18} />
+          <IconWrap $active={active} $accent={accent}>
+            <Icon size={18} {...iconProps} />
           </IconWrap>
           <Label>{legend[key]}</Label>
         </Row>
@@ -49,10 +51,10 @@ const Row = styled.div`
 const IconWrap = styled.span`
   display: inline-grid;
   place-items: center;
-  color: ${alpha(T.white, 0.37)};
+  color: ${({ $active, $accent }) => ($active ? $accent : alpha(T.white, 0.37))};
 `
 
 const Label = styled.span`
-  font-size: 13px;
+  font-size: ${T.fontSize.xs};
   color: ${alpha(T.white, 0.37)};
 `

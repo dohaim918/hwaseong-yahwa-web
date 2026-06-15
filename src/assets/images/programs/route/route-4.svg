@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_레이어_2" data-name="레이어 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 2182 1400">
+  <defs>
+    <style>
+      .cls-1 {
+        opacity: 0;
+      }
+
+      .cls-1, .cls-2, .cls-3 {
+        fill: none;
+      }
+
+      .cls-4 {
+        filter: url(#outer-glow-6);
+      }
+
+      .cls-5 {
+        filter: url(#outer-glow-2);
+      }
+
+      .cls-6 {
+        filter: url(#outer-glow-3);
+      }
+
+      .cls-7 {
+        filter: url(#outer-glow-4);
+      }
+
+      .cls-8 {
+        filter: url(#outer-glow-5);
+      }
+
+      .cls-9 {
+        filter: url(#outer-glow-1);
+      }
+
+      .cls-2 {
+        stroke: #fff;
+        stroke-dasharray: 4 8;
+        stroke-width: 3px;
+      }
+
+      .cls-2, .cls-3 {
+        stroke-linecap: round;
+        stroke-miterlimit: 10;
+      }
+
+      .cls-3 {
+        stroke: #a78bfa;
+        stroke-width: 9px;
+      }
+    </style>
+    <filter id="outer-glow-1" x="1035" y="330" width="188" height="603" filterUnits="userSpaceOnUse">
+      <feOffset dx="0" dy="0"/>
+      <feGaussianBlur result="blur" stdDeviation="5"/>
+      <feFlood flood-color="#a78bfa" flood-opacity="1"/>
+      <feComposite in2="blur" operator="in"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="outer-glow-2" x="936" y="857" width="190" height="327" filterUnits="userSpaceOnUse">
+      <feOffset dx="0" dy="0"/>
+      <feGaussianBlur result="blur-2" stdDeviation="5"/>
+      <feFlood flood-color="#a78bfa" flood-opacity="1"/>
+      <feComposite in2="blur-2" operator="in"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="outer-glow-3" x="734" y="560" width="276" height="355" filterUnits="userSpaceOnUse">
+      <feOffset dx="0" dy="0"/>
+      <feGaussianBlur result="blur-3" stdDeviation="5"/>
+      <feFlood flood-color="#a78bfa" flood-opacity="1"/>
+      <feComposite in2="blur-3" operator="in"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="outer-glow-4" x="1039" y="334" width="172" height="587" filterUnits="userSpaceOnUse">
+      <feOffset dx="0" dy="0"/>
+      <feGaussianBlur result="blur-4" stdDeviation="5"/>
+      <feFlood flood-color="#a78bfa" flood-opacity="1"/>
+      <feComposite in2="blur-4" operator="in"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="outer-glow-5" x="948" y="869" width="166" height="303" filterUnits="userSpaceOnUse">
+      <feOffset dx="0" dy="0"/>
+      <feGaussianBlur result="blur-5" stdDeviation="5"/>
+      <feFlood flood-color="#a78bfa" flood-opacity="1"/>
+      <feComposite in2="blur-5" operator="in"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="outer-glow-6" x="737" y="572" width="261" height="331" filterUnits="userSpaceOnUse">
+      <feOffset dx="0" dy="0"/>
+      <feGaussianBlur result="blur-6" stdDeviation="5"/>
+      <feFlood flood-color="#a78bfa" flood-opacity="1"/>
+      <feComposite in2="blur-6" operator="in"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="_레이어_1-2" data-name="레이어 1">
+    <g>
+      <g class="cls-9">
+        <path class="cls-3" d="M1193.86,374.55l-38.88-23.08c-14.12,19.2-17.51,92.05-17.51,92.05l-81.32,37.27s33.88,148.52,45.84,219.22c5,29.6,9.85,70.02,9.84,96.37v107.4"/>
+      </g>
+      <g class="cls-5">
+        <polyline class="cls-3" points="965.52 885.99 964.79 1028.83 1029.61 1126.27 1029.61 1154.51 1097.38 1154.51"/>
+      </g>
+      <g class="cls-6">
+        <path class="cls-3" d="M980.58,588.67c-15,5-77.6,31.56-120.47,34.07-29.73,1.74-42.17-15.42-54.96-28.99,0,0-59.48,46.68-50.07,99.01s47.44,71.15,72.66,76.8,28.52,14.21,33.6,24.66,25.98,10.73,27.67,20.89,2.54,30.49,2.54,39.25,3.39,31.62,31.91,31.62h42.07"/>
+      </g>
+      <g class="cls-7">
+        <path class="cls-2" d="M1193.86,374.55l-38.88-23.08c-14.12,19.2-17.51,92.05-17.51,92.05l-81.32,37.27s33.88,148.52,45.84,219.22c5,29.6,9.85,70.02,9.84,96.37v107.4"/>
+      </g>
+      <g class="cls-8">
+        <polyline class="cls-2" points="965.52 885.99 964.79 1028.83 1029.61 1126.27 1029.61 1154.51 1097.38 1154.51"/>
+      </g>
+      <g class="cls-4">
+        <path class="cls-2" d="M980.58,588.67c-15,5-77.6,31.56-120.47,34.07-29.73,1.74-42.17-15.42-54.96-28.99,0,0-59.48,46.68-50.07,99.01s47.44,71.15,72.66,76.8,28.52,14.21,33.6,24.66,25.98,10.73,27.67,20.89,2.54,30.49,2.54,39.25,3.39,31.62,31.91,31.62h42.07"/>
+      </g>
+      <rect class="cls-1" width="2182" height="1400"/>
+    </g>
+  </g>
+</svg>
