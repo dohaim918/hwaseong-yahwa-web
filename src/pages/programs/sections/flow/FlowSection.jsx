@@ -1,5 +1,5 @@
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-//  FlowSection — FLOW OF NIGHT (Figma 463:3436, 1야 기준)
+//  FlowSection — FLOW OF NIGHT (1야 기준)
 //  ────────────────────────────────────────────────
 //  ProgSectionFrame. night prop → 야별 데이터·accent.
 //  좌: 헤더 + 타임라인 / 우: 핵심 포인트 패널 / 하단: 스탯바
@@ -9,7 +9,7 @@
 
 import { useState } from "react"
 import styled from "@emotion/styled"
-import { T, flexCol } from "@/styles/theme"
+import { T, flexCol, flexRow } from "@/styles/theme"
 import { PROGRAM_ASSETS } from "@/data/programAssets"
 import { UI_TEXT } from "@/data/uiText"
 import { getTimelineItems, getFlowPoint } from "@/data/nightData"
@@ -195,8 +195,7 @@ const Left = styled.div`
 `
 
 const PanelCol = styled.div`
-  display: flex;
-  align-items: flex-end;
+  ${flexRow(0, "flex-end")}
   min-height: 0;
 
   @media (max-width: ${T.bp.tablet}) {

@@ -248,8 +248,7 @@ const SnsBtn = styled.button`
   width: var(--sns-size);
   height: var(--sns-size);
   border-radius: ${T.radius.sm};
-  display: flex;
-  align-items: center;
+  ${flexRow()}
   justify-content: center;
   color: ${T.sub};
   background: ${alpha(T.white, 0.05)};

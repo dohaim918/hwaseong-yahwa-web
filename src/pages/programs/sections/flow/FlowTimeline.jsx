@@ -1,5 +1,5 @@
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-//  FlowTimeline — 세로 레일 + 5개 시간 행 (Figma 463:3775 / 532:12695)
+//  FlowTimeline — 세로 레일 + 5개 시간 행
 //  ────────────────────────────────────────────────
 //  구조: [레일 컬럼(독립)] · [행 컬럼]
 //    행 = [시간 + 내용]  ↔  [장소 pill]  (justify-between)
@@ -114,11 +114,11 @@ const RailCell = styled.div`
   justify-content: center;
 `
 
-// 활성: 큰 밝은 원 + 넓은 글로우 / 비활성: 작은 dim 원 (Figma 533:15004 — 크기 명확히 구분)
+// 활성: 큰 밝은 원 + 넓은 글로우 / 비활성: 작은 dim 원 (크기 명확히 구분)
 const Dot = styled.span`
   position: relative;
   z-index: 1;
-  /* 활성: 18px / 비활성: 10px — Figma inset -83% 비례로 크기 차이 뚜렷하게 */
+  /* 활성: 18px / 비활성: 10px — 크기 차이 뚜렷하게 */
   width: ${({ $active }) => ($active ? "clamp(14px, 1.2vw, 18px)" : "clamp(7px, 0.65vw, 10px)")};
   aspect-ratio: 1 / 1;
   border-radius: 50%;
@@ -129,7 +129,7 @@ const Dot = styled.span`
     background ${T.transition.mid},
     border-color ${T.transition.mid},
     box-shadow ${T.transition.mid};
-  /* 활성 글로우 halo — Figma inset -83.33% 비례 (18px → ±15px) */
+  /* 활성 글로우 halo — 18px → ±15px */
   box-shadow: ${({ $active, $accent }) =>
     $active
       ? `0 0 20px 4px ${alpha($accent, 0.9)}, 0 0 48px 12px ${alpha($accent, 0.45)}`
@@ -158,7 +158,7 @@ const Rows = styled.div`
 `
 
 // 활성/비활성 행 상태 스타일을 한 곳에서 분기
-//   활성: blur20 + 핑크 가로 밴드 + 직각 + 밝은 위아래 라인 (Figma 532:12697)
+//   활성: blur20 + 핑크 가로 밴드 + 직각 + 밝은 위아래 라인
 //   비활성: opacity 40% + 둥근 모서리 + 흐린 라인  (blur는 활성만 — FlowerDeco SVG가 blur에 잡혀 아티팩트 방지)
 const rowState = ($active, $accent) =>
   $active
@@ -180,10 +180,8 @@ const rowState = ($active, $accent) =>
 
 const Row = styled.button`
   position: relative;
-  display: flex;
-  align-items: center;
+  ${flexRow(`clamp(${T.spacing[12]}, 2vw, ${T.spacing[24]})`)}
   justify-content: space-between;
-  gap: clamp(${T.spacing[12]}, 2vw, ${T.spacing[24]});
   flex: 1;
   min-height: 0;
   width: 100%;
@@ -244,7 +242,7 @@ const Body = styled.div`
   min-width: 0;
 `
 
-// 활성: 24px + gradient / 비활성: 22px + flat accent (Figma 532:12701 vs 532:12716)
+// 활성: 24px + gradient / 비활성: 22px + flat accent
 const Title = styled.span`
   display: block;
   ${serif()}

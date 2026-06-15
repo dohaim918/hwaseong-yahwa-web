@@ -82,11 +82,8 @@ const SIZE = {
 
 const r = (size, bp, key) => SIZE[size][bp]?.[key] ?? SIZE[size][key]
 
-const STYLE_PROPS = new Set(["$variant", "$size", "$accent", "$gradient", "$bordered", "$radius"])
-
-const StyledBtn = styled("button", {
-  shouldForwardProp: (prop) => !STYLE_PROPS.has(prop),
-})`
+// $ prefix transient prop 은 emotion(styled DOM 태그)이 자동으로 DOM 전달에서 제외
+const StyledBtn = styled.button`
   display: inline-flex;
   align-items: center;
   justify-content: center;
