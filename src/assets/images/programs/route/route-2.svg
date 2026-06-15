@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_레이어_2" data-name="레이어 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 2182 1400">
+  <defs>
+    <style>
+      .cls-1 {
+        opacity: 0;
+      }
+
+      .cls-1, .cls-2, .cls-3, .cls-4, .cls-5, .cls-6, .cls-7, .cls-8, .cls-9, .cls-10 {
+        fill: none;
+      }
+
+      .cls-11 {
+        filter: url(#outer-glow-2);
+      }
+
+      .cls-12 {
+        filter: url(#outer-glow-3);
+      }
+
+      .cls-13 {
+        filter: url(#outer-glow-1);
+      }
+
+      .cls-2 {
+        stroke-dasharray: 4.05 8.11;
+      }
+
+      .cls-2, .cls-3, .cls-4, .cls-5, .cls-6, .cls-7, .cls-8, .cls-9, .cls-10 {
+        stroke-linecap: round;
+        stroke-miterlimit: 10;
+      }
+
+      .cls-2, .cls-3, .cls-5, .cls-6, .cls-7, .cls-8, .cls-9, .cls-10 {
+        stroke: #fff;
+        stroke-width: 3px;
+      }
+
+      .cls-3 {
+        stroke-dasharray: 4.15 8.3;
+      }
+
+      .cls-4 {
+        stroke: #ff9f43;
+        stroke-width: 9px;
+      }
+
+      .cls-5 {
+        stroke-dasharray: 4.18 8.36;
+      }
+
+      .cls-6 {
+        stroke-dasharray: 3.99 7.97;
+      }
+
+      .cls-8 {
+        stroke-dasharray: 3.97 7.94;
+      }
+
+      .cls-9 {
+        stroke-dasharray: 4.06 8.13;
+      }
+
+      .cls-10 {
+        stroke-dasharray: 4.26 8.52;
+      }
+    </style>
+    <filter id="outer-glow-1" x="1342" y="491" width="178" height="342" filterUnits="userSpaceOnUse">
+      <feOffset dx="0" dy="0"/>
+      <feGaussianBlur result="blur" stdDeviation="5"/>
+      <feFlood flood-color="#ff9f43" flood-opacity="1"/>
+      <feComposite in2="blur" operator="in"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="outer-glow-2" x="936" y="775" width="464" height="397" filterUnits="userSpaceOnUse">
+      <feOffset dx="0" dy="0"/>
+      <feGaussianBlur result="blur-2" stdDeviation="5"/>
+      <feFlood flood-color="#ff9f43" flood-opacity="1"/>
+      <feComposite in2="blur-2" operator="in"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="outer-glow-3" x="1141" y="324" width="190" height="222" filterUnits="userSpaceOnUse">
+      <feOffset dx="0" dy="0"/>
+      <feGaussianBlur result="blur-3" stdDeviation="10"/>
+      <feFlood flood-color="#ff9f43" flood-opacity="1"/>
+      <feComposite in2="blur-3" operator="in"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="_레이어_1-2" data-name="레이어 1">
+    <g>
+      <g class="cls-13">
+        <path class="cls-4" d="M1370.76,803.87c10.73-21.77,21.51-41.85,31.38-56.74,31.06-46.87,63.64-156.63,66.64-166.02,8.47-26.54,22.02-61.55,22.02-61.55"/>
+      </g>
+      <g class="cls-11">
+        <path class="cls-4" d="M964.64,882.39v75.08s145.92,0,145.92,0v195.03h132.05s25.13-.56,29.93-31.06,12.71-104,12.71-104c0,0,7.34-43.86,26.54-84.52,13.1-27.74,35.93-82.3,58.97-129.05"/>
+      </g>
+      <g class="cls-12">
+        <path class="cls-4" d="M1214.37,501.77c-11.58-12.42-39.06-49.22-38.68-81.6.4-34.09,31.62-59.86,31.62-59.86l79.81,39.91"/>
+      </g>
+      <g>
+        <path class="cls-7" d="M1370.76,803.87c.3-.6.59-1.2.89-1.79"/>
+        <path class="cls-8" d="M1375.19,794.98c9.25-18.31,18.43-35.01,26.94-47.84,31.06-46.87,63.64-156.63,66.64-166.02,6.41-20.1,15.74-45.05,19.89-55.98"/>
+        <path class="cls-7" d="M1490.08,521.42c.46-1.2.72-1.86.72-1.86"/>
+      </g>
+      <g>
+        <line class="cls-7" x1="964.64" y1="882.39" x2="964.64" y2="884.39"/>
+        <line class="cls-5" x1="964.64" y1="892.75" x2="964.64" y2="951.29"/>
+        <polyline class="cls-7" points="964.64 955.47 964.64 957.47 966.64 957.47"/>
+        <line class="cls-2" x1="974.75" y1="957.47" x2="1104.5" y2="957.47"/>
+        <polyline class="cls-7" points="1108.56 957.47 1110.56 957.47 1110.56 959.47"/>
+        <line class="cls-9" x1="1110.56" y1="967.6" x2="1110.56" y2="1146.44"/>
+        <polyline class="cls-7" points="1110.56 1150.5 1110.56 1152.5 1112.56 1152.5"/>
+        <path class="cls-6" d="M1120.53,1152.5h122.07s25.13-.56,29.93-31.06c4.8-30.49,12.71-104,12.71-104,0,0,7.34-43.86,26.54-84.52,12.6-26.68,34.2-78.18,56.34-123.68"/>
+        <path class="cls-7" d="M1369.88,805.67c.29-.6.59-1.2.88-1.79"/>
+      </g>
+      <g>
+        <path class="cls-7" d="M1214.37,501.77c-.43-.46-.88-.95-1.35-1.48"/>
+        <path class="cls-3" d="M1207.69,493.95c-13.06-16.39-32.31-46.64-32-73.77.3-25.94,18.45-47.06,27.12-55.68"/>
+        <path class="cls-7" d="M1205.81,361.63c.95-.86,1.5-1.32,1.5-1.32l1.79.89"/>
+        <line class="cls-10" x1="1216.72" y1="365.02" x2="1281.52" y2="397.42"/>
+        <line class="cls-7" x1="1285.34" y1="399.32" x2="1287.12" y2="400.22"/>
+      </g>
+      <rect class="cls-1" width="2182" height="1400"/>
+    </g>
+  </g>
+</svg>

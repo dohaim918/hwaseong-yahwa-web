@@ -89,11 +89,9 @@ export const textGradStops = (stops, deg = 135) => `
 export const fadeUp = (delay = 0) =>
   `animation: fadeUp 0.75s cubic-bezier(.22,.68,0,1.2) ${delay}s both;`
 
-// ── 스크롤 다운 방향 등장 — inView=false 숨김 / true 재생 / 사용: ${({ $in }) => revealUp($in, 0.3)}
+// ── 스크롤 다운 방향 등장 — inView=false 숨김 / true 재생(fadeUp 재사용) / 사용: ${({ $in }) => revealUp($in, 0.3)}
 export const revealUp = (inView, delay = 0) =>
-  inView
-    ? `animation: fadeUp 0.75s cubic-bezier(.22,.68,0,1.2) ${delay}s both;`
-    : `opacity: 0; transform: translateY(26px);`
+  inView ? fadeUp(delay) : `opacity: 0; transform: translateY(26px);`
 
 // ── serif 폰트 + 굵기 (라벨·제목·값 공통) — 사용: ${serif()} / ${serif(700)}
 export const serif = (weight = 600) => `

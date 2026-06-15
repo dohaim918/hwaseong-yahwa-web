@@ -139,8 +139,7 @@ const ContentRight = styled.div`
 
 // ── info 박스 ──────────────────────────────────────────
 const InfoBox = styled.dl`
-  display: flex;
-  align-items: center;
+  ${flexRow()}
   width: 100%;
   max-width: ${T.contentW};
   margin: 0;

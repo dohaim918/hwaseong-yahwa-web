@@ -161,10 +161,8 @@ const StatCell = styled.div`
 const StatNum = styled.dd`
   order: 1;
   margin: 0;
-  display: flex;
-  align-items: baseline;
+  ${flexRow("2px", "baseline")}
   justify-content: center;
-  gap: 2px;
 `
 
 const NumVal = styled.span`

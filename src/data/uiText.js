@@ -241,7 +241,10 @@ export const UI_TEXT = {
   routeModal: {
     // ── 메인 헤더 (지도 위)
     guideText: "시간의 흐름을 따라 이어지는 주요 지점과\n이동 경로를 한눈에 확인해보세요.",
-    pinHint: "📍 핀을 선택하면 상세 정보를 확인할 수 있어요",
+    pinHint: "핀을 선택하면 상세 정보를 확인할 수 있어요",
+
+    // 포인트 개수 단위 — Meta("5개 포인트") · 사이드바("총 5개 포인트") 공통
+    pointsUnit: "개 포인트",
 
     // ── 왼쪽 사이드바 (동선 요약)
     sidebar: {
@@ -260,7 +263,6 @@ export const UI_TEXT = {
 
     // ── 오른쪽 포인트 패널 (패널 오픈 후)
     panel: {
-      counterFormat: "/ 05", // "01 / 05"
       allPointsLabel: "전체 포인트", // 우상단 배지
       programLabel: "PROGRAM", // 프로그램 섹션 레이블
       infoLabels: {
@@ -269,9 +271,6 @@ export const UI_TEXT = {
         recommend: "추천", // 추천: 포토존, 공연 관람
       },
     },
-
-    // ── 하단 내비게이션
-    nav: { prev: "<", next: ">" },
   },
 
   // ─────────────────────────────────────
@@ -280,11 +279,11 @@ export const UI_TEXT = {
   progModal: {
     programsLabel: "주요 프로그램",
     tipLabel: "TIP",
-    metaIcons: {
-      schedule: "별", // ✦ 아이콘
-      location: "핀", // 📍 아이콘
-      category: "태그", // 🏷 아이콘
-    },
+    metaItems: [
+      { key: "schedule", label: "일정" },
+      { key: "location", label: "장소" },
+      { key: "category", label: "분류" },
+    ],
     closeLabel: MODAL_COMMON.closeLabel,
     bookingLabel: MODAL_COMMON.bookingLabel,
   },

@@ -48,16 +48,37 @@ export const getTimelineItems = (id) =>
     place,
   })) ?? []
 
+// "19:00" + "약 20분" → "19:00 ~ 19:20" (stay 의 분을 time 에 더해 종료 시각 산출)
+const addStay = (time, stay) => {
+  const min = Number(String(stay).match(/(\d+)\s*분/)?.[1])
+  if (!min) return time
+  const t = Number(time.slice(0, 2)) * 60 + Number(time.slice(3)) + min
+  const pad = (n) => String(n).padStart(2, "0")
+  return `${time} ~ ${pad(Math.floor(t / 60) % 24)}:${pad(t % 60)}`
+}
+
+// walk("도보 약 N분 (약 Nm)") → 본문 / 거리 괄호 분리
+//   walkMain "도보 약 N분" · walkDist "(약 Nm)" — 미니에서 거리만 숨기기 위함
+//   괄호 없는 값("출발 지점" 등)은 walkMain=원본, walkDist=null
+const splitWalk = (walk = "") => {
+  const i = walk.indexOf("(")
+  if (i === -1) return { walkMain: walk, walkDist: null }
+  return { walkMain: walk.slice(0, i).trim(), walkDist: walk.slice(i) }
+}
+
 /** route 웨이포인트 (전체 필드) */
 export const getWaypoints = (id) =>
   getNight(id)?.programs.map((p) => ({
     step: p.step,
     time: p.time,
+    timeRange: addStay(p.time, p.stay), // 패널 정보 "시간" 행
     label: p.place,
     program: p.name,
     address: p.address,
-    walk: p.walk,
+    walk: p.walk, // 패널 정보 "이동" 행 (통짜)
+    ...splitWalk(p.walk), // walkMain / walkDist (거리 괄호 분리)
     stay: p.stay,
+    rec: p.rec, // 패널 정보 "추천" 행
     desc: p.desc,
     highlights: p.highlights,
     tip: p.tip,

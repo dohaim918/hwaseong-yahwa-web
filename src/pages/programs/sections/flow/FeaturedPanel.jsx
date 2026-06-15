@@ -1,5 +1,5 @@
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-//  FeaturedPanel — 핵심 포인트 패널 (Figma 463:3906)
+//  FeaturedPanel — 핵심 포인트 패널
 //  ────────────────────────────────────────────────
 //  · 데스크탑: 우측 고정 카드 (행 클릭 시 내용 갱신) — 자체 Card 프레임 + 상하 Shimmer
 //  · 모바일/태블릿(asOverlay): 공용 ModalFrame 으로 띄움 (포털·겉틀·닫기·포커스락 공용)
@@ -184,7 +184,7 @@ const TipBox = styled.div`
   ${glass("4px")}
 `
 
-// Figma 533:17251 — tip 아이콘 78px(1920px 기준)~48px, mini 이하 숨김
+// tip 아이콘 78px(1920px 기준)~48px, mini 이하 숨김
 const TipIcon = styled.img`
   flex-shrink: 0;
   width: clamp(48px, 4vw, 78px);

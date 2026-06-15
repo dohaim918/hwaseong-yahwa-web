@@ -1,5 +1,5 @@
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-//  FlowSection — FLOW OF NIGHT (Figma 463:3436, 1야 기준)
+//  FlowSection — FLOW OF NIGHT (1야 기준)
 //  ────────────────────────────────────────────────
 //  ProgSectionFrame. night prop → 야별 데이터·accent.
 //  좌: 헤더 + 타임라인 / 우: 핵심 포인트 패널 / 하단: 스탯바
@@ -9,25 +9,38 @@
 
 import { useState } from "react"
 import styled from "@emotion/styled"
-import { T, flexCol } from "@/styles/theme"
+import { T, flexCol, flexRow } from "@/styles/theme"
 import { PROGRAM_ASSETS } from "@/data/programAssets"
 import { UI_TEXT } from "@/data/uiText"
 import { getTimelineItems, getFlowPoint } from "@/data/nightData"
 import { useResponsive } from "@/hooks/useResponsive"
-import { useMvpModal } from "@/components/ui/MvpModal"
 import ProgSectionFrame from "@/pages/programs/ProgSectionFrame"
+import ProgramStatsBar from "@/pages/programs/ProgramStatsBar"
+import RouteModal from "@/pages/programs/sections/route/RouteModal"
 import FlowTimeline from "./FlowTimeline"
 import FeaturedPanel from "./FeaturedPanel"
-import FlowStats from "./FlowStats"
 
 const t = UI_TEXT.flowOfNight
 
 // 우측 패널 폭 — Main 그리드·FlowerDeco 위치가 공유 (드리프트 방지)
 const PANEL_W = "clamp(330px, calc(25vw + 40px), 600px)"
 
+const getStatsItems = (stats, labels, icons) => [
+  { key: "totalTime", icon: icons.time, label: labels.totalTime, value: stats.totalTime },
+  { key: "walkDist", icon: icons.walk, label: labels.walkDist, value: stats.walkDist },
+  { key: "viewerAge", icon: icons.age, label: labels.viewerAge, value: stats.viewerAge },
+  {
+    key: "difficulty",
+    icon: icons.difficulty,
+    label: labels.difficulty,
+    value: stats.difficulty,
+    gaugeValue: stats.difficultyLevel,
+  },
+]
+
 export default function FlowSection({ night }) {
-  const mvpModal = useMvpModal()
   const { isMobileOrTablet } = useResponsive()
+  const [routeOpen, setRouteOpen] = useState(false)
 
   const [selectedStep, setSelectedStep] = useState(night.flowOfNight.featuredStep)
   const [tipOpen, setTipOpen] = useState(false)
@@ -45,6 +58,7 @@ export default function FlowSection({ night }) {
   const flowIcons = PROGRAM_ASSETS.flowIcons[night.id]
   const flowBg = PROGRAM_ASSETS.flowBgs[night.id]
   const flowDeco = PROGRAM_ASSETS.flowDecos[night.id]
+  const statsItems = getStatsItems(night.flowOfNight.stats, t.statsLabels, flowIcons)
 
   const handleSelect = (step) => {
     setSelectedStep(step)
@@ -52,79 +66,83 @@ export default function FlowSection({ night }) {
   }
 
   return (
-    <ProgSectionFrame
-      night={night}
-      bg={flowBg}
-      bgKey={night.id}
-      bgOpacity={0.6}
-      mobileBgOpacity={0.8}
-      bgBlendMode="lighten"
-      topFade={{ size: "clamp(120px, 16vh, 220px)", opacity: 0.9, z: 2 }}
-      glows={[
-        {
-          side: "top",
-          width: "min(900px, 80vw)",
-          height: "360px",
-          opacity: 0.1,
-          shape: "ellipse 60% 100% at 50% 0%",
-          stop: 70,
-        },
-      ]}
-      layoutGap={`clamp(${T.spacing[16]}, 2.2vh, ${T.spacing[32]})`}
-      header={{
-        label: t.sectionLabel,
-        title: night.flowOfNight.h2,
-        desc: t.desc,
-        animDelay: 0.3,
-      }}
-    >
-      {({ accent, animIn }) => (
-        <>
-          <Main>
-            <Left>
-              {flowDeco && <FlowerDeco src={flowDeco} alt="" aria-hidden="true" $animIn={animIn} />}
-              <FlowTimeline
-                items={items}
-                selectedStep={selectedStep}
-                onSelect={handleSelect}
-                accent={accent}
-                titleGrad={night.style.flowTitleGrad}
-                animIn={animIn}
-              />
-            </Left>
+    <>
+      <ProgSectionFrame
+        night={night}
+        bg={flowBg}
+        bgKey={night.id}
+        bgOpacity={0.6}
+        mobileBgOpacity={0.8}
+        bgBlendMode="lighten"
+        topFade={{ size: "clamp(120px, 16vh, 220px)", opacity: 0.9, z: 2 }}
+        glows={[
+          {
+            side: "top",
+            width: "min(900px, 80vw)",
+            height: "360px",
+            opacity: 0.1,
+            shape: "ellipse 60% 100% at 50% 0%",
+            stop: 70,
+          },
+        ]}
+        layoutGap={`clamp(${T.spacing[16]}, 2.2vh, ${T.spacing[32]})`}
+        header={{
+          label: t.sectionLabel,
+          title: night.flowOfNight.h2,
+          desc: t.desc,
+          animDelay: 0.3,
+        }}
+      >
+        {({ accent, animIn }) => (
+          <>
+            <Main>
+              <Left>
+                {flowDeco && (
+                  <FlowerDeco src={flowDeco} alt="" aria-hidden="true" $animIn={animIn} />
+                )}
+                <FlowTimeline
+                  items={items}
+                  selectedStep={selectedStep}
+                  onSelect={handleSelect}
+                  accent={accent}
+                  titleGrad={night.style.flowTitleGrad}
+                  animIn={animIn}
+                />
+              </Left>
 
-            <PanelCol>
+              <PanelCol>
+                <FeaturedPanel
+                  point={point}
+                  accent={accent}
+                  tipIcon={flowIcons.tip}
+                  animIn={animIn}
+                />
+              </PanelCol>
+            </Main>
+
+            <ProgramStatsBar
+              items={statsItems}
+              accent={accent}
+              animIn={animIn}
+              actionLabel={t.routeBtn}
+              onAction={() => setRouteOpen(true)}
+            />
+
+            {isMobileOrTablet && tipOpen && (
               <FeaturedPanel
                 point={point}
                 accent={accent}
                 tipIcon={flowIcons.tip}
-                animIn={animIn}
+                asOverlay
+                onClose={() => setTipOpen(false)}
               />
-            </PanelCol>
-          </Main>
+            )}
+          </>
+        )}
+      </ProgSectionFrame>
 
-          <FlowStats
-            stats={night.flowOfNight.stats}
-            labels={t.statsLabels}
-            icons={flowIcons}
-            accent={accent}
-            animIn={animIn}
-            routeLabel={t.routeBtn}
-            onRoute={() => mvpModal.open(accent)}
-          />
-
-          {isMobileOrTablet && tipOpen && (
-            <FeaturedPanel
-              point={point}
-              accent={accent}
-              tipIcon={flowIcons.tip}
-              asOverlay
-              onClose={() => setTipOpen(false)}
-            />
-          )}
-        </>
-      )}
-    </ProgSectionFrame>
+      <RouteModal night={night} open={routeOpen} onClose={() => setRouteOpen(false)} />
+    </>
   )
 }
 
@@ -177,8 +195,7 @@ const Left = styled.div`
 `
 
 const PanelCol = styled.div`
-  display: flex;
-  align-items: flex-end;
+  ${flexRow(0, "flex-end")}
   min-height: 0;
 
   @media (max-width: ${T.bp.tablet}) {
