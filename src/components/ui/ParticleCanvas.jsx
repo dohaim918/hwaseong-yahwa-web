@@ -69,7 +69,11 @@ export default function ParticleCanvas({ mousePos, opacity = 1, blendMode = "sof
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
     }
     resize()
-    const ro = new ResizeObserver(resize)
+    let drawStatic = null
+    const ro = new ResizeObserver(() => {
+      resize()
+      drawStatic?.()
+    })
     ro.observe(canvas)
 
     // 화면 너비에 따라 파티클 수 조정 — 소형 화면 밀도 과다 방지
@@ -84,14 +88,17 @@ export default function ParticleCanvas({ mousePos, opacity = 1, blendMode = "sof
 
     // ── reduced motion: 정적인 점만 한 번 그리고 종료
     if (reducedMotion) {
-      ctx.clearRect(0, 0, visibleW(), visibleH())
-      pts.forEach((p) => {
-        const [r, g, b] = COLOR_MAP[p.col]
-        ctx.beginPath()
-        ctx.arc(p.x, p.y, p.r * 0.8, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(${r},${g},${b},0.4)`
-        ctx.fill()
-      })
+      drawStatic = () => {
+        ctx.clearRect(0, 0, visibleW(), visibleH())
+        pts.forEach((p) => {
+          const [r, g, b] = COLOR_MAP[p.col]
+          ctx.beginPath()
+          ctx.arc(p.x, p.y, p.r * 0.8, 0, Math.PI * 2)
+          ctx.fillStyle = `rgba(${r},${g},${b},0.4)`
+          ctx.fill()
+        })
+      }
+      drawStatic()
       return () => ro.disconnect()
     }
 

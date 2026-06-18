@@ -1,23 +1,12 @@
 import styled from "@emotion/styled"
-import { T, alpha, focusRing, revealUp, flexRow } from "@/styles/theme"
+import { T, alpha } from "@/styles/theme"
+import { focusRing, hoverLastIconX, revealUp, flexRow } from "@/styles/mixins"
 import { ArrowRightIcon, FlowerIcon } from "@/components/ui/icons"
 import { useMvpModal } from "@/components/ui/MvpModal"
 
 // ─────────────────────────────────────────────
-//  SectionBar
-//  사용처:
-//    VenueSection   → label="VENUE"   sub="화성에서 만나요"  link="관람 안내 보기"
-//    GallerySection → label="GALLERY" sub="지난 밤의 기억들" link="전체 갤러리"
-//
-//  사용 예시:
-//    <SectionBar
-//      label={UI_TEXT.venue.sectionLabel}
-//      sub={UI_TEXT.venue.sectionSub}
-//      link={UI_TEXT.venue.guideLink}
-//      color={T.amber}
-//      visible={animIn}
-//      onLinkClick={() => {}}
-//    />
+//  SectionBar — 섹션 상단 바 (★ LABEL · sub / link →)
+//  사용처: VenueSection(VENUE) · GallerySection(GALLERY)
 // ─────────────────────────────────────────────
 export default function SectionBar({
   label,
@@ -110,10 +99,6 @@ const Sub = styled.span`
   color: ${T.sub};
   white-space: nowrap;
 
-  @media (max-width: ${T.bp.mini}) {
-    font-size: ${T.fontSize.xxs};
-  }
-
   &::before {
     content: "";
     display: block;
@@ -147,13 +132,7 @@ const LinkButton = styled.button`
     color: ${T.white};
   }
 
-  svg {
-    transition: transform ${T.transition.fast};
-  }
-
-  &:hover svg {
-    transform: translateX(3px);
-  }
+  ${hoverLastIconX()}
 
   ${({ $color }) => focusRing($color)}
 `

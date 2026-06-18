@@ -1,5 +1,6 @@
 import styled from "@emotion/styled"
-import { T, GRADIENT, flexCol } from "@/styles/theme"
+import { T, GRADIENT } from "@/styles/theme"
+import { flexCol } from "@/styles/mixins"
 import { UI_TEXT } from "@/data/uiText"
 import FullSection from "@/components/layout/FullSection"
 import SectionBar from "@/components/ui/SectionBar"
@@ -38,8 +39,6 @@ export default function GallerySection() {
 
   return (
     <GalleryShell ref={secRef} accent={T.violet}>
-      {/* 배경 레이어 */}
-      <BgGrad />
       <EdgeFade side="top" size="clamp(200px, 30vh, 320px)" opacity={0.85} z={1} />
       <EdgeFade side="bottom" size="clamp(120px, 18vh, 189px)" opacity={0.9} z={1} />
       {/* 좌우 edge fade — side thumb 위에 올라와야 해서 z=6 */}
@@ -102,30 +101,6 @@ const GalleryShell = styled(FullSection)`
 const DecoImg = styled(SectionDecoImg)`
   bottom: 0;
   transform: translateX(-50%);
-`
-
-// 갤러리 섹션 전용 딥 바이올렛 배경값 — 1회성 특수 그라디언트라 전역 토큰화하지 않고
-// (시스템 컬러만 토큰화 원칙) 의도된 값임을 드러내려 로컬 상수로 묶어둠.
-const GALLERY_BG = {
-  coreFrom: "#160c2e", // radial 중심
-  coreMid: "#0c0818", // radial 중간
-  topGrad: "#0d0820", // linear 상단
-  bottomGrad: "#080d1a", // linear 하단
-}
-
-// ── 배경 레이어
-const BgGrad = styled.div`
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  background:
-    radial-gradient(
-      108% 108% at 50% 50%,
-      ${GALLERY_BG.coreFrom} 0%,
-      ${GALLERY_BG.coreMid} 40%,
-      ${T.bgBase} 100%
-    ),
-    linear-gradient(180deg, ${GALLERY_BG.topGrad} 0%, ${GALLERY_BG.bottomGrad} 100%);
 `
 
 // ── 콘텐츠 Inner (z-index 없음 — stacking context 만들지 않아야 edge fade가 SideThumb 위에 올라옴)

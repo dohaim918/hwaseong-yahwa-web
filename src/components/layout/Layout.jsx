@@ -15,12 +15,15 @@ import NavBar from "@/components/layout/NavBar"
 import CustomCursor from "@/components/ui/CustomCursor"
 import RouteLoader from "@/components/ui/RouteLoader"
 import { MvpModalProvider } from "@/components/ui/MvpModal"
-import { T, focusRing } from "@/styles/theme"
-
+import { T } from "@/styles/theme"
+import { focusRing } from "@/styles/mixins"
 export default function Layout() {
   const [accent, setAccent] = useState(T.pink)
   const mainRef = useRef(null)
   const { pathname } = useLocation()
+
+  // 예약 페이지는 체크아웃 전용 미니 헤더(BookingHeader)를 직접 그림 → 전역 NavBar 숨김
+  const hideNav = pathname === "/booking"
 
   // 라우트가 바뀌어도 Main 스크롤 컨테이너는 유지된다.
   // 그래서 /programs → / → /programs 이동 시 이전 섹션 위치가 남지 않도록 pathname 변경 때만 초기화한다.
@@ -34,7 +37,7 @@ export default function Layout() {
     <MvpModalProvider>
       <SkipLink href="#main-content">본문 바로가기</SkipLink>
       <CustomCursor accent={accent} />
-      <NavBar accent={accent} />
+      {!hideNav && <NavBar accent={accent} />}
       <Main ref={mainRef} id="main-content" tabIndex="-1">
         {/* 페이지 lazy 로딩은 여기서만 일어나도록 — Layout (NavBar/Cursor) 은 항상 마운트 유지 */}
         <Suspense fallback={<RouteLoader />}>

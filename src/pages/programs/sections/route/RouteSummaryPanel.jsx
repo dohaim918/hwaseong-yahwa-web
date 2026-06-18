@@ -7,8 +7,8 @@
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 import styled from "@emotion/styled"
-import { T, alpha, flexCol, flexRow, accentLine, serif, focusRing } from "@/styles/theme"
-
+import { T, alpha, accentLine } from "@/styles/theme"
+import { flexCol, flexRow, serif, focusRing } from "@/styles/mixins"
 export default function RouteSummaryPanel({
   waypoints,
   sidebar,

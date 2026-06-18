@@ -195,19 +195,10 @@ const NIGHT_03 = {
 
   reservation: {
     cardTitle: "올림의 빛",
-    scheduleLabel: "매주 토요일",
     dayOfWeek: "토요일",
     startTime: "18:30",
-    calendarNote: "매주 토요일만 예약 가능합니다",
     tags: ["미디어아트", "코스 선택", "감성콘서트"],
     emoji: "🌊",
-    timeSlots: [
-      { time: "18:30", label: "저녁 입장", status: "available" },
-      { time: "19:30", label: "저녁 입장", status: "available" },
-      { time: "20:00", label: "저녁 입장", status: "closing" },
-      { time: "20:30", label: "저녁 입장", status: "sold_out" },
-    ],
-    notices: ["입장 마감은 21:00입니다."],
   },
 
   finalInvitation: {

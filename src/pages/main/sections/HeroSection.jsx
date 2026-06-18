@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom"
 import styled from "@emotion/styled"
-import { T, alpha, GRADIENT, fadeUp, flexCol, flexRow } from "@/styles/theme"
+import { T, alpha, GRADIENT } from "@/styles/theme"
+import { fadeUp, flexCol, flexRow, serif } from "@/styles/mixins"
 import { UI_TEXT } from "@/data/uiText"
 import FullSection from "@/components/layout/FullSection"
 import { ArrowRightIcon, StarIcon } from "@/components/ui/icons"
@@ -155,29 +156,25 @@ const HeroLabelRow = styled(SectionLabelRow)`
 `
 
 const LabelText = styled.span`
-  font-size: ${T.fontSize.sm};
+  /* 12~16px 연속 (480px 12 → 1280px 16) — 히어로 라벨 전용 */
+  font-size: clamp(12px, calc(0.5vw + 9.6px), 16px);
   font-weight: 700;
   letter-spacing: 4px;
   color: ${T.pink};
   white-space: nowrap;
-  transition:
-    font-size ${T.transition.mid},
-    letter-spacing ${T.transition.mid};
+  transition: letter-spacing ${T.transition.mid};
 
   @media (max-width: ${T.bp.mobile}) {
-    font-size: ${T.fontSize.xs};
     letter-spacing: 2px;
   }
   @media (max-width: ${T.bp.mini}) {
-    font-size: ${T.fontSize.xxs};
     font-weight: 500;
   }
 `
 
 const Title = styled.h1`
-  font-family: ${T.fontSerif};
+  ${serif(900)}
   font-size: ${T.fontSize.hero};
-  font-weight: 900;
   line-height: 1.2;
   letter-spacing: -2px;
   margin-top: ${T.spacing[8]};
@@ -228,13 +225,11 @@ const Sub = styled.p`
 `
 
 const EventDate = styled.span`
-  font-size: ${T.fontSize.sm};
+  font-size: ${T.fontSize.smFluid};
   font-weight: 500;
   letter-spacing: 1px;
   color: ${alpha(T.sub, 0.6)};
-  transition: font-size ${T.transition.mid};
   @media (max-width: ${T.bp.mini}) {
-    font-size: ${T.fontSize.xs};
     letter-spacing: 0.5px;
   }
   ${fadeUp(0.62)}

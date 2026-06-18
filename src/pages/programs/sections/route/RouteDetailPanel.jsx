@@ -7,18 +7,8 @@
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 import styled from "@emotion/styled"
-import {
-  T,
-  pad2,
-  alpha,
-  flexCol,
-  flexRow,
-  glass,
-  serif,
-  accentFill,
-  focusRing,
-  shimmerLine,
-} from "@/styles/theme"
+import { T, pad2, alpha, accentFill, shimmerLine } from "@/styles/theme"
+import { flexCol, flexRow, glass, serif, focusRing } from "@/styles/mixins"
 import { ClockIcon, MapPinIcon, TicketStarIcon, ChevronIcon } from "@/components/ui/icons"
 import { Shimmer, OutlinePill } from "@/components/ui/Deco"
 

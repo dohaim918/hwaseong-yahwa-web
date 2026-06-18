@@ -1,6 +1,7 @@
 import { forwardRef } from "react"
 import styled from "@emotion/styled"
-import { T, sectionAccent } from "@/styles/theme"
+import { T } from "@/styles/theme"
+import { sectionAccent } from "@/styles/mixins"
 import { EdgeFade } from "@/components/ui/Deco"
 
 // 두 섹션 셸의 공통 골격 — accent 주면 상단 accent 라인 자동 주입

@@ -191,19 +191,10 @@ const NIGHT_02 = {
 
   reservation: {
     cardTitle: "여정의 흐름",
-    scheduleLabel: "매주 금요일",
     dayOfWeek: "금요일",
     startTime: "19:00",
-    calendarNote: "매주 금요일만 예약 가능합니다",
     tags: ["성곽 투어", "불꽃 퍼포먼스", "DJ 라이브"],
     emoji: "🔥",
-    timeSlots: [
-      { time: "19:00", label: "저녁 입장", status: "available" },
-      { time: "19:30", label: "저녁 입장", status: "available" },
-      { time: "20:00", label: "저녁 입장", status: "closing" },
-      { time: "20:30", label: "저녁 입장", status: "sold_out" },
-    ],
-    notices: ["입장 마감은 21:00입니다."],
   },
 
   finalInvitation: {

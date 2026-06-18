@@ -12,7 +12,8 @@
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 import styled from "@emotion/styled"
-import { T, alpha, pad2, focusRing, serif, flexCol, flexRow } from "@/styles/theme"
+import { T, alpha, pad2 } from "@/styles/theme"
+import { focusRing, serif, flexCol, flexRow } from "@/styles/mixins"
 import { ChevronIcon } from "@/components/ui/icons"
 import { SrOnly } from "@/components/ui/Deco"
 
@@ -212,17 +213,12 @@ const TotalNum = styled.span`
 
 const Quote = styled.p`
   ${serif(400)}
-  font-size: ${T.fontSize.sm};
+  font-size: ${T.fontSize.smFluid};
   color: ${alpha(T.white, 0.39)};
   letter-spacing: 0.02em;
   text-align: center;
   word-break: keep-all;
   animation: fadeIn ${T.transition.slow} both;
-  transition: font-size ${T.transition.mid};
-
-  @media (max-width: ${T.bp.mini}) {
-    font-size: ${T.fontSize.xs};
-  }
 `
 
 const QAccent = styled.span`

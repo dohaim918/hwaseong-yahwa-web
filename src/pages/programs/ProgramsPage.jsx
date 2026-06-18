@@ -88,7 +88,7 @@ export default function ProgramsPage() {
       <ExperienceSection night={NIGHTS[currentId - 1]} />
 
       {/* ── 3. FLOW OF NIGHT 섹션 ── */}
-      <FlowSection night={NIGHTS[currentId - 1]} />
+      <FlowSection key={currentId} night={NIGHTS[currentId - 1]} />
 
       {/* ── 4. FINAL 섹션 (Footer 내장) ── */}
       <FinalSection night={NIGHTS[currentId - 1]} />

@@ -1,6 +1,6 @@
 import styled from "@emotion/styled"
-import { T, alpha, focusRing } from "@/styles/theme"
-
+import { T, alpha } from "@/styles/theme"
+import { focusRing } from "@/styles/mixins"
 export default function ProgTabs({ cards, activeIdx, onChange }) {
   return (
     <TabRow>

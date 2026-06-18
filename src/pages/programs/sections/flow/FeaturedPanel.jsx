@@ -8,17 +8,8 @@
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 import styled from "@emotion/styled"
-import {
-  T,
-  alpha,
-  accentFill,
-  glass,
-  revealUp,
-  shimmerLine,
-  serif,
-  flexCol,
-  flexRow,
-} from "@/styles/theme"
+import { T, alpha, accentFill, shimmerLine } from "@/styles/theme"
+import { glass, revealUp, serif, flexCol, flexRow } from "@/styles/mixins"
 import { ShimmerPair, OutlinePill } from "@/components/ui/Deco"
 import { StarIcon } from "@/components/ui/icons"
 import ModalFrame from "@/components/ui/ModalFrame"

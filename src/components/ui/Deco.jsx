@@ -2,7 +2,8 @@
 // 재사용 데코 컴포넌트 모음: 선, 그라디언트 텍스트, 페이드 레이어, 카드 장식.
 
 import styled from "@emotion/styled"
-import { T, alpha, accentFill, glow, revealUp, flexRow } from "@/styles/theme"
+import { T, alpha, accentFill } from "@/styles/theme"
+import { glow, revealUp, flexRow, serif } from "@/styles/mixins"
 import { StarIcon } from "@/components/ui/icons"
 
 // 텍스트 일부에 그라디언트 스타일을 입힐 때 사용.
@@ -91,9 +92,8 @@ const TickerLine = styled(GradLine)`
 
 // 티커 가운데 문구 — 브레이크포인트별 폰트·자간 축소.
 const TickerText = styled.span`
-  font-family: ${T.fontSerif};
+  ${serif(700)}
   font-size: ${T.fontSize.md};
-  font-weight: 700;
   color: ${({ $color }) => alpha($color, 0.6)};
   letter-spacing: 4px;
   white-space: nowrap;
@@ -160,6 +160,7 @@ export function ShimmerPair({ bottomProps, ...rest }) {
 //   $tight  — 위아래 패딩 축소 (팁 태그처럼 더 납작하게)
 //   $accent — 지정 시 accent 채움(테두리·글자 + 은은한 배경) / 미지정 시 중립(T.sub)
 //   $sm     — 작은 라벨 칩(xxs·bold·작은 padding·테두리 alpha) — RouteModal Tag·RouteDetailPanel Badge 용
+//   $fill   — 배경 직접 오버라이드 (예: outlineFill(accent) 진한 채움 / alpha(c,0.18) 배지) — 없으면 기본 채움
 export const OutlinePill = styled.span`
   display: inline-flex;
   align-items: center;
@@ -172,8 +173,8 @@ export const OutlinePill = styled.span`
   border: 1px solid
     ${({ $accent, $sm }) => ($accent ? ($sm ? alpha($accent, 0.4) : $accent) : alpha(T.sub, 0.3))};
   border-radius: ${T.radius.pill};
-  /* accent: 은은한 accent 채움 / 중립: Button 아웃라인 variant 의 베이스 배경 */
-  background: ${({ $accent }) => ($accent ? accentFill($accent) : alpha(T.bgDark, 0.4))};
+  /* $fill 우선 / accent: 은은한 accent 채움 / 중립: Button 아웃라인 variant 의 베이스 배경 */
+  background: ${({ $accent, $fill }) => $fill ?? ($accent ? accentFill($accent) : alpha(T.bgDark, 0.4))};
   font-size: ${({ $sm }) => ($sm ? T.fontSize.xxs : "clamp(13px, 1vw, 18px)")};
   ${({ $sm }) => $sm && `font-weight: 700;`}
   line-height: 1;

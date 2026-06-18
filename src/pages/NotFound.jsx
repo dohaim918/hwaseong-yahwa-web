@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom"
 import styled from "@emotion/styled"
-import { T, alpha, flexCol, flexRow } from "@/styles/theme"
+import { T, alpha } from "@/styles/theme"
+import { flexCol, flexRow } from "@/styles/mixins"
 import Button from "@/components/ui/Button"
 
 // ── 404 — 존재하지 않는 경로

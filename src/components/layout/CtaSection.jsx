@@ -1,22 +1,13 @@
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-//  CtaSection — 마무리 CTA + Footer 섹션 공용 골격
-//  ────────────────────────────────────────────────
-//  메인(MainCtaSection)·프로그램(FinalSection) 마지막 섹션이 공유.
-//  height:100dvh → CTA 영역(flex:1) + Footer 하단 고정.
-//  배경·글로우·버튼쌍(gradient+outline /booking)을 내장하고,
-//  페이지별 차이는 슬롯/스칼라 prop 으로만 주입한다.
-//
-//  슬롯: bgImage(배경) · overlay(틴트) · deco(상단 데코) · header(타이틀) · belowButtons(StatsBar 등)
-//  스칼라: bg(래퍼 색) · maxWidth · tabBar(패딩 오프셋) · borderTop · footerAccent
-//  버튼: primaryAction/secondaryAction({as,to}|{onClick}) — 버튼 동작은 호출부에서 주입
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// 메인·프로그램 마지막 CTA + Footer 공용 골격.
 
 import styled from "@emotion/styled"
-import { T, alpha, glow, revealUp, flexCol, flexRow } from "@/styles/theme"
+import { T, alpha } from "@/styles/theme"
+import { glow, revealUp, flexCol, flexRow } from "@/styles/mixins"
 import { EdgeFade } from "@/components/ui/Deco"
 import Button from "@/components/ui/Button"
 import Footer from "@/components/layout/Footer"
 import { ColumnSection } from "@/components/layout/FullSection"
+import { ArrowRightIcon } from "@/components/ui/icons"
 
 export default function CtaSection({
   secRef,
@@ -39,7 +30,6 @@ export default function CtaSection({
 }) {
   return (
     <ColumnSection ref={secRef} accent={accent}>
-      {/* ── CTA 영역 (배경 + 콘텐츠) ── */}
       <CtaWrapper $bg={bg}>
         {bgImage}
         {overlay}
@@ -49,18 +39,17 @@ export default function CtaSection({
         <GlowAmber $animIn={animIn} aria-hidden="true" />
         {deco}
 
-        {/* ── CTA 콘텐츠 ── */}
         <CtaArea $accent={accent} $tabBar={tabBar} $borderTop={borderTop}>
           <Inner $maxWidth={maxWidth}>
             {header}
 
             <Btns $animIn={animIn}>
-              {/* 채움(gradient) — 동작은 primaryAction 으로 주입 */}
               <Button {...primaryAction} accent={accent} variant="gradient" size="lg">
                 {primaryLabel}
               </Button>
               <Button {...secondaryAction} accent={accent} variant="outline" size="lg">
                 {secondaryLabel}
+                <ArrowRightIcon size={17} />
               </Button>
             </Btns>
 

@@ -1,7 +1,8 @@
 import styled from "@emotion/styled"
-import { T, alpha, revealUp, focusRing, flexCol, flexRow } from "@/styles/theme"
+import { T, alpha } from "@/styles/theme"
+import { revealUp, focusRing, flexCol, flexRow, serif } from "@/styles/mixins"
 import { PROGRAM_ASSETS } from "@/data/programAssets"
-import { StarIcon } from "@/components/ui/icons"
+import { ArrowRightIcon, StarIcon } from "@/components/ui/icons"
 import CardDeco from "./CardDeco"
 
 const getMaskGrad = (maskSide) =>
@@ -12,6 +13,7 @@ export default function NightCard({
   active,
   hasHover,
   onEnter = () => {},
+  onActivate,
   isCarousel,
   maskSide,
   animIn,
@@ -20,11 +22,12 @@ export default function NightCard({
   const { id, nightCode, num, color, style, subtitle, keyword, hoverDesc, hoverCta } = card
   const imgs = PROGRAM_ASSETS.cards[id]
 
-  // 키보드 접근성 — Tab 으로 카드 포커스, Enter/Space 로 active 토글
+  // 비활성: 클릭/Enter 로 활성화 / 활성: 해당 야 프로그램 페이지로 이동
+  const handleAction = () => (active && onActivate ? onActivate() : onEnter())
   const onKey = (e) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault()
-      onEnter()
+      handleAction()
     }
   }
 
@@ -41,7 +44,7 @@ export default function NightCard({
       $animIn={animIn}
       $animIdx={animIdx}
       onPointerEnter={onEnter}
-      onClick={onEnter}
+      onClick={handleAction}
       onFocus={onEnter}
       onKeyDown={onKey}
       data-cursor-hover
@@ -70,7 +73,10 @@ export default function NightCard({
             </Kw>
             <HoverInfo $active={active}>
               <HoverDesc>{hoverDesc}</HoverDesc>
-              <CtaText $color={color}>{hoverCta} →</CtaText>
+              <CtaText $color={color}>
+                {hoverCta}
+                <ArrowRightIcon size={14} />
+              </CtaText>
             </HoverInfo>
           </Btm>
         </Content>
@@ -215,9 +221,8 @@ const NumWrap = styled.div`
 `
 
 const NumText = styled.span`
-  font-family: ${T.fontSerif};
+  ${({ $big }) => serif($big ? 700 : 600)}
   font-size: ${({ $big }) => ($big ? "clamp(44px, 6.8vw, 66px)" : "clamp(40px, 6.4vw, 62px)")};
-  font-weight: ${({ $big }) => ($big ? 700 : 600)};
   line-height: 1.1;
   letter-spacing: 1px;
   ${({ $g }) => $g}
@@ -234,9 +239,8 @@ const NightStar = styled.span`
 `
 
 const Sub = styled.span`
-  font-family: ${T.fontSerif};
+  ${serif(500)}
   font-size: clamp(14px, 2.1vw, 20px);
-  font-weight: 500;
   text-align: center;
   letter-spacing: 0.03em;
   color: ${({ $color }) => $color};
@@ -275,9 +279,8 @@ const KwLabel = styled.span`
 `
 
 const KwText = styled.span`
-  font-family: ${T.fontSerif};
+  ${serif(600)}
   font-size: ${T.fontSize.md};
-  font-weight: 600;
   color: ${({ $color }) => $color};
   transition: font-size ${T.transition.mid};
 
@@ -322,7 +325,7 @@ const HoverDesc = styled.p`
 `
 
 const CtaText = styled.span`
-  ${flexRow()}
+  ${flexRow(T.spacing[6])}
   justify-content: center;
   padding-top: ${T.spacing[8]};
   font-size: ${T.fontSize.sm};

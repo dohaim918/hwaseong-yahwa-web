@@ -3,8 +3,8 @@
 
 import { useId, useState } from "react"
 import styled from "@emotion/styled"
-import { T, alpha, accentFill, focusRing, glass } from "@/styles/theme"
-
+import { T, alpha, accentFill } from "@/styles/theme"
+import { focusRing, glass } from "@/styles/mixins"
 export default function Tooltip({ accent, content, ariaLabel, children }) {
   const [open, setOpen] = useState(false)
   const popId = useId()

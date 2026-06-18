@@ -20,13 +20,23 @@ export const ROUTE_COMMON = {
 export const BOOKING_COMMON = {
   steps: ["프로그램", "날짜·시간", "인원·티켓", "결제", "예약완료"],
   closingTime: "21:00",
-  maxParty: 6,
-  groupDiscount: { minPeople: 10, discountRate: 15, label: "단체 10인 이상 시 15% 할인" },
+  maxParty: 9,
+  groupDiscount: {
+    minPeople: 10,
+    discountRate: 15,
+    label: "10인 이상은 단체 예약 문의",
+  },
+  slotLabel: "저녁 입장",
+  slotStatuses: ["available", "available", "closing", "sold_out"],
+  slotTimesByStart: {
+    "19:00": ["19:00", "19:30", "20:00", "20:30"],
+    "18:30": ["18:30", "19:30", "20:00", "20:30"],
+  },
   ticketPrices: [
     { type: "성인", price: 20000, unit: "원 / 인" },
     { type: "청소년", price: 15000, unit: "원 / 인" },
     { type: "어린이", price: 10000, unit: "원 / 인" },
-    { type: "영유아", price: 0, unit: "무료", note: "만 7세 이하" },
+    { type: "영유아", price: 0, unit: "무료 · 만 7세 이하" },
   ],
   ticketIssueNote: "결제 완료 즉시 모바일 티켓이 발급됩니다",
 }

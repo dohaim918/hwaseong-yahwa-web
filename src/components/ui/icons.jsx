@@ -138,17 +138,6 @@ export function TicketIcon({ size = 24, color = "currentColor", ...rest }) {
   )
 }
 
-export function CalendarIcon({ size = 24, color = "currentColor", ...rest }) {
-  return (
-    <Svg size={size} viewBox="0 0 24 24" {...rest}>
-      <rect x="3" y="4.5" width="18" height="17" rx="2" stroke={color} strokeWidth="1.5" strokeLinejoin="round"/>
-      <path d="M3 9.5H21" stroke={color} strokeWidth="1.5"/>
-      <path d="M8 2.5V6" stroke={color} strokeWidth="1.5" strokeLinecap="round"/>
-      <path d="M16 2.5V6" stroke={color} strokeWidth="1.5" strokeLinecap="round"/>
-    </Svg>
-  )
-}
-
 // 요일/일정 표기용 반짝임 아이콘 (ProgModal meta — 매주 목요일 등)
 // viewBox 를 그림 영역(≈2~14)에 맞춰 좁혀 다른 메타 아이콘과 광학 크기를 맞춤.
 // strokeWidth 0.8 → viewBox 축소(스케일 1.33) 보정해 실제 ≈1.06px (MapPin 1px과 유사)
@@ -263,19 +252,26 @@ export function CarIcon({ size = 32, color = "currentColor", ...rest }) {
 //  3. 방향 · 인터랙션 아이콘
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-// → 가로선이 포함된 이동 화살표: CTA처럼 이동 의미를 강조할 때 사용
-export function ArrowRightIcon({ size = 18, color = "currentColor", strokeWidth = 1.6, ...rest }) {
+function ArrowLineIcon({
+  size = 18,
+  color = "currentColor",
+  strokeWidth = 1.6,
+  dir = "right",
+  ...rest
+}) {
+  const isLeft = dir === "left"
+
   return (
     <Svg size={size} viewBox="0 0 18 18" {...rest}>
       <path
-        d="M3.5 9H13.2"
+        d={isLeft ? "M14.5 9H4.8" : "M3.5 9H13.2"}
         stroke={color}
         strokeWidth={strokeWidth}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
-        d="M9.7 5.2L13.5 9L9.7 12.8"
+        d={isLeft ? "M8.3 5.2L4.5 9L8.3 12.8" : "M9.7 5.2L13.5 9L9.7 12.8"}
         stroke={color}
         strokeWidth={strokeWidth}
         strokeLinecap="round"
@@ -283,6 +279,15 @@ export function ArrowRightIcon({ size = 18, color = "currentColor", strokeWidth 
       />
     </Svg>
   )
+}
+
+// → 가로선이 포함된 이동 화살표: CTA처럼 이동 의미를 강조할 때 사용
+export function ArrowRightIcon(props) {
+  return <ArrowLineIcon {...props} />
+}
+
+export function ArrowLeftIcon(props) {
+  return <ArrowLineIcon dir="left" {...props} />
 }
 
 // > 꺾쇠만 있는 화살표: 목록 이동, 펼침, 가벼운 보조 링크에 사용
@@ -316,6 +321,39 @@ export function ExpandIcon({ size = 24, color = "currentColor", ...rest }) {
         strokeLinecap="round"
         strokeLinejoin="round"
       />
+    </Svg>
+  )
+}
+
+// ✓ 체크 — 단계 완료 · 카드/약관 선택 표시용
+export function CheckIcon({ size = 16, color = "currentColor", strokeWidth = 2, ...rest }) {
+  return (
+    <Svg size={size} viewBox="0 0 16 16" {...rest}>
+      <path
+        d="M3.5 8.5L6.5 11.5L12.5 4.5"
+        stroke={color}
+        strokeWidth={strokeWidth}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </Svg>
+  )
+}
+
+// + 더하기 — 인원 스테퍼 증가
+export function PlusIcon({ size = 16, color = "currentColor", strokeWidth = 1.6, ...rest }) {
+  return (
+    <Svg size={size} viewBox="0 0 16 16" {...rest}>
+      <path d="M8 3.2V12.8M3.2 8H12.8" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" />
+    </Svg>
+  )
+}
+
+// − 빼기 — 인원 스테퍼 감소
+export function MinusIcon({ size = 16, color = "currentColor", strokeWidth = 1.6, ...rest }) {
+  return (
+    <Svg size={size} viewBox="0 0 16 16" {...rest}>
+      <path d="M3.2 8H12.8" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" />
     </Svg>
   )
 }

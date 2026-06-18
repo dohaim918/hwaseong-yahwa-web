@@ -11,8 +11,8 @@ import AnimatedBgImage from "@/components/ui/AnimatedBgImage"
 import { EdgeFade, SectionGlow } from "@/components/ui/Deco"
 import SectionHeader from "@/components/ui/SectionHeader"
 import { useSectionAccent } from "@/hooks/useSectionAccent"
-import { T, flexCol } from "@/styles/theme"
-
+import { T } from "@/styles/theme"
+import { flexCol } from "@/styles/mixins"
 export default function ProgSectionFrame({
   night,
   bg,

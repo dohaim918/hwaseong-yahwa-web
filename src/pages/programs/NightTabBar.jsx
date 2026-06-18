@@ -18,8 +18,8 @@
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 import styled from "@emotion/styled"
-import { T, alpha, focusRing, glass, accentLine, flexRow } from "@/styles/theme"
-
+import { T, alpha, accentLine } from "@/styles/theme"
+import { focusRing, glass, flexRow } from "@/styles/mixins"
 export default function NightTabBar({ nights, currentId, onSelect, visible }) {
   return (
     <TabBar $visible={visible} aria-label="야 선택" aria-hidden={!visible}>
@@ -96,7 +96,7 @@ const TabBtn = styled.button`
   position: relative;
   height: 100%;
   ${flexRow()}
-  font-size: ${T.fontSize.sm};
+  font-size: ${T.fontSize.smFluid};
   font-weight: ${({ $active }) => ($active ? 700 : 400)};
   color: ${({ $active, $accent }) => ($active ? $accent : T.sub)};
   letter-spacing: 0.5px;
@@ -111,7 +111,6 @@ const TabBtn = styled.button`
   ${({ $accent }) => focusRing(alpha($accent, 0.7))}
 
   @media (max-width: ${T.bp.mini}) {
-    font-size: ${T.fontSize.xs};
     letter-spacing: 0.3px;
   }
 `

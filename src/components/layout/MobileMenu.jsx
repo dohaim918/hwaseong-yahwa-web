@@ -2,7 +2,8 @@ import { useRef } from "react"
 import { Link, useLocation } from "react-router-dom"
 import styled from "@emotion/styled"
 import { css } from "@emotion/react"
-import { T, alpha, pad2, focusRing, glass, glow, flexCol, flexRow } from "@/styles/theme"
+import { T, alpha, pad2 } from "@/styles/theme"
+import { focusRing, glass, glow, flexCol, flexRow, serif } from "@/styles/mixins"
 import { UI_TEXT } from "@/data/uiText"
 import { CloseIcon, ArrowRightIcon } from "@/components/ui/icons"
 import Button from "@/components/ui/Button"
@@ -35,6 +36,7 @@ export default function MobileMenu({ isOpen, onClose, accent = T.pink, onMvpOpen
 
   return (
     <Overlay
+      id="mobile-menu"
       $isOpen={isOpen}
       onClick={onClose}
       role="dialog"
@@ -43,7 +45,7 @@ export default function MobileMenu({ isOpen, onClose, accent = T.pink, onMvpOpen
       aria-hidden={!isOpen}
     >
       <Inner ref={innerRef} $isOpen={isOpen} onClick={(e) => e.stopPropagation()}>
-        <CloseBtn ref={closeBtnRef} onClick={onClose} aria-label="닫기">
+        <CloseBtn ref={closeBtnRef} type="button" onClick={onClose} aria-label="닫기">
           <CloseIcon size={28} />
         </CloseBtn>
         <Glow $accent={accent} />
@@ -129,7 +131,7 @@ const Inner = styled.div`
   height: 100%;
   ${flexCol()}
   justify-content: center;
-  padding: ${T.navHeight} ${T.rsvPad} ${T.spacing[48]} clamp(${T.spacing[32]}, 8vw, 68px);
+  padding: ${T.navHeight} ${T.panelPad} ${T.spacing[48]} clamp(${T.spacing[32]}, 8vw, 68px);
   position: relative;
   overflow-y: auto;
   background:
@@ -205,8 +207,7 @@ const menuItemStyle = css`
   column-gap: ${T.spacing[20]};
   align-items: center;
   font-size: clamp(32px, 5.2vw, 52px);
-  font-family: ${T.fontSerif};
-  font-weight: 700;
+  ${serif(700)}
   line-height: 1.16;
   letter-spacing: -0.5px;
   color: ${T.sub};

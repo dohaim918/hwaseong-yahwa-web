@@ -1,6 +1,7 @@
 import { useState } from "react"
 import styled from "@emotion/styled"
-import { T, alpha, revealUp, flexCol, flexRow } from "@/styles/theme"
+import { T, alpha } from "@/styles/theme"
+import { revealUp, glass, flexCol, flexRow } from "@/styles/mixins"
 import { ChevronIcon, ExpandIcon } from "@/components/ui/icons"
 
 const RATIO = 1.78
@@ -16,8 +17,7 @@ const SIDE_OPACITY_HOVER = [0.78, 0.5, 0.28]
 const borderGlass = (bAlpha, blur) => `
   background:${alpha(T.bgDark, 0.36)};
   border:1px solid ${alpha(T.violet, bAlpha)};
-  backdrop-filter:blur(${blur});
-  -webkit-backdrop-filter:blur(${blur});`
+  ${glass(blur)}`
 const glassHover = (bg, glow) => `
   background:${alpha(T.violet, bg)};
   border-color:${T.violet};
@@ -253,8 +253,11 @@ const ArrowBtn = styled.button`
   cursor: pointer;
   color: ${alpha(T.white, 0.85)};
   ${borderGlass(0.3, "4px")}
-  transition: background ${T.transition.mid}, border-color ${T.transition.mid}, box-shadow ${T
-    .transition.mid}, transform ${T.transition.spring};
+  transition:
+    background ${T.transition.mid},
+    border-color ${T.transition.mid},
+    box-shadow ${T.transition.mid},
+    transform ${T.transition.spring};
 
   svg {
     width: 20px;
