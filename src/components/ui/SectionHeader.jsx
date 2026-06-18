@@ -8,7 +8,8 @@
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 import styled from "@emotion/styled"
-import { T, revealUp, serif, flexCol } from "@/styles/theme"
+import { T } from "@/styles/theme"
+import { revealUp, serif, flexCol } from "@/styles/mixins"
 import { SectionLabelRow } from "@/components/ui/Deco"
 
 export default function SectionHeader({
@@ -35,11 +36,7 @@ export default function SectionHeader({
       )}
 
       {/* 제목 */}
-      {title && (
-        <TitleWrap>
-          <Title $gradient={titleGradient}>{title}</Title>
-        </TitleWrap>
-      )}
+      {title && <Title $gradient={titleGradient}>{title}</Title>}
 
       {/* 설명 */}
       {desc && <Desc>{desc}</Desc>}
@@ -86,10 +83,6 @@ const LabelText = styled.span`
   @media (max-width: ${T.bp.mobile}) {
     letter-spacing: 2px;
   }
-`
-
-const TitleWrap = styled.div`
-  ${flexCol()}
 `
 
 const Title = styled.h2`

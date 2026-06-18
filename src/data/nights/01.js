@@ -193,19 +193,11 @@ const NIGHT_01 = {
 
   reservation: {
     cardTitle: "달빛이 시작되는 성곽",
-    scheduleLabel: "매주 목요일",
     dayOfWeek: "목요일",
     startTime: "19:00",
-    calendarNote: "매주 목요일만 예약 가능합니다",
     tags: ["야경감상", "능행차 재현", "전통공연"],
     emoji: "🌕",
-    timeSlots: [
-      { time: "19:00", label: "저녁 입장", status: "available" },
-      { time: "19:30", label: "저녁 입장", status: "available" },
-      { time: "20:00", label: "저녁 입장", status: "closing" },
-      { time: "20:30", label: "저녁 입장", status: "sold_out" },
-    ],
-    notices: ["입장 마감은 21:00입니다.", "개막일 당일 예약은 현장 접수만 가능합니다."],
+    extraNotices: ["개막일 당일 예약은 현장 접수만 가능합니다."],
   },
 
   finalInvitation: {

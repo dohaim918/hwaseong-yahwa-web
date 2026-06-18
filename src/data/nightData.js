@@ -26,7 +26,6 @@ export const NIGHTS = [NIGHT_01, NIGHT_02, NIGHT_03, NIGHT_04]
 //  기본 헬퍼
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 export const getNight = (id) => NIGHTS.find((n) => n.id === id)
-export const getNightByIndex = (index) => NIGHTS[index]
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //  섹션별 computed 헬퍼  (programs[] → 각 섹션 형태로 변환)
@@ -66,6 +65,57 @@ const splitWalk = (walk = "") => {
   return { walkMain: walk.slice(0, i).trim(), walkDist: walk.slice(i) }
 }
 
+const buildReservationSlots = (startTime) => {
+  const times = BOOKING_COMMON.slotTimesByStart[startTime] ?? BOOKING_COMMON.slotTimesByStart["19:00"]
+  return times.map((time, index) => ({
+    time,
+    label: BOOKING_COMMON.slotLabel,
+    status: BOOKING_COMMON.slotStatuses[index] ?? "available",
+  }))
+}
+
+const getReservationBase = (night) => {
+  const { extraNotices = [], timeSlots, ...reservation } = night.reservation
+  const scheduleLabel = reservation.scheduleLabel ?? `매주 ${reservation.dayOfWeek}`
+  return {
+    ...BOOKING_COMMON,
+    id: night.id,
+    nightCode: night.nightCode,
+    color: night.color,
+    style: night.style,
+    cardSubtitle: night.card.subtitle,
+    ...reservation,
+    scheduleLabel,
+    calendarNote: reservation.calendarNote ?? `${scheduleLabel}만 예약 가능합니다`,
+    timeSlots: timeSlots ?? buildReservationSlots(reservation.startTime),
+    notices: [`입장 마감은 ${BOOKING_COMMON.closingTime}입니다.`, ...extraNotices],
+  }
+}
+
+export const getInitialTickets = () =>
+  Object.fromEntries(BOOKING_COMMON.ticketPrices.map((ticket, index) => [ticket.type, index === 0 ? 1 : 0]))
+
+export const formatWon = (n) => `${Number(n).toLocaleString("ko-KR")}원`
+
+export const getBookingTotals = (tickets) => {
+  const lines = BOOKING_COMMON.ticketPrices.map((ticket) => {
+    const count = tickets[ticket.type] ?? 0
+    return { ...ticket, count, subtotal: count * ticket.price }
+  })
+  const partyCount = lines.reduce((sum, line) => sum + line.count, 0)
+  const total = lines.reduce((sum, line) => sum + line.subtotal, 0)
+  return { lines, partyCount, total }
+}
+
+export const getPartySummary = (lines, unit = "명") =>
+  lines
+    .filter((line) => line.count > 0)
+    .map((line) => `${line.type} ${line.count}${unit}`)
+    .join(" · ")
+
+export const formatBookingSchedule = (date, time, entryLabel = "입장") =>
+  date && time ? `${date.year}년 ${date.month + 1}월 ${date.day}일 · ${time} ${entryLabel}` : ""
+
 /** route 웨이포인트 (전체 필드) */
 export const getWaypoints = (id) =>
   getNight(id)?.programs.map((p) => ({
@@ -89,11 +139,11 @@ export const getWaypoints = (id) =>
 export const getExperienceCards = (id) =>
   getNight(id)
     ?.programs.filter((p) => p.cardTitle)
-    .map(({ category, cardTitle, cardDesc }, index) => ({
+    .map(({ step, category, cardTitle, cardDesc }) => ({
       category,
       title: cardTitle,
       desc: cardDesc,
-      image: PROGRAM_ASSETS.experience[id]?.[index] ?? null,
+      image: PROGRAM_ASSETS.experience[id]?.[Number(step) - 1] ?? null,
     })) ?? []
 
 /** flowOfNight 패널 — 특정 step 의 핵심 포인트 데이터 (행 클릭 시 갱신용) */
@@ -113,13 +163,6 @@ export const getFlowPoint = (id, step) => {
   }
 }
 
-/** flowOfNight 기본 핵심 포인트 (featuredStep 진입점) */
-export const getFeaturedPoint = (id) => {
-  const n = getNight(id)
-  if (!n) return null
-  return getFlowPoint(id, n.flowOfNight.featuredStep)
-}
-
 /** 카드 섹션용 — colorDark 포함 */
 export const getCardData = () =>
   NIGHTS.map(({ id, nightCode, num, color, colorDark, style, card }) => ({
@@ -132,42 +175,25 @@ export const getCardData = () =>
     ...card,
   }))
 
-/** 배너 페이지용 */
-export const getBannerData = () =>
-  NIGHTS.map(({ id, nightCode, nightName, num, navLabel, color, style, banner }) => ({
-    id,
-    nightCode,
-    nightName,
-    num,
-    navLabel,
-    color,
-    style,
-    ...banner,
-  }))
-
 /** 예약 Step01 카드 목록 */
 export const getReservationCards = () =>
-  NIGHTS.map(({ id, num, color, style, reservation }) => ({
-    id,
-    num,
-    color,
-    style,
-    ...reservation,
-  }))
+  NIGHTS.map((night) => {
+    const reservation = getReservationBase(night)
+    return {
+      id: night.id,
+      num: night.num,
+      color: night.color,
+      style: night.style,
+      cardTitle: reservation.cardTitle,
+      scheduleLabel: reservation.scheduleLabel,
+      startTime: reservation.startTime,
+      tags: reservation.tags,
+    }
+  })
 
 /** 예약 상세 (id 기준, BOOKING_COMMON 포함) */
 export const getReservationData = (id) => {
   const n = getNight(id)
   if (!n) return null
-  // ⚠️ reservation 의 키와 BOOKING_COMMON 의 키가 충돌할 경우
-  //    BOOKING_COMMON 이 우선됨 (의도: 공통 값 보장)
-  return {
-    id: n.id,
-    nightCode: n.nightCode,
-    color: n.color,
-    style: n.style,
-    cardSubtitle: n.card.subtitle,
-    ...n.reservation,
-    ...BOOKING_COMMON,
-  }
+  return getReservationBase(n)
 }

@@ -1,5 +1,6 @@
 import styled from "@emotion/styled"
-import { T, alpha, flexRow } from "@/styles/theme"
+import { T, alpha } from "@/styles/theme"
+import { flexRow } from "@/styles/mixins"
 import { Ring, ShimmerPair } from "@/components/ui/Deco"
 
 export default function CardDeco({ imgs, style, color, active, hasHover }) {

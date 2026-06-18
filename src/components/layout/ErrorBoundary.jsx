@@ -1,6 +1,7 @@
 import { Component } from "react"
 import styled from "@emotion/styled"
-import { T, alpha, flexCol, flexRow } from "@/styles/theme"
+import { T, alpha } from "@/styles/theme"
+import { flexCol, flexRow } from "@/styles/mixins"
 import Button from "@/components/ui/Button"
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

@@ -6,7 +6,8 @@
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 import styled from "@emotion/styled"
-import { T, alpha, glass, flexCol, flexRow } from "@/styles/theme"
+import { T, alpha } from "@/styles/theme"
+import { glass, flexCol, flexRow } from "@/styles/mixins"
 import { InfoIcon, RestroomIcon, MedicalIcon, ParkingIcon } from "@/components/ui/icons"
 
 // accent: true → 야별 강조색 (의료 · 주차장) / 나머지(안내소 · 화장실)는 dim

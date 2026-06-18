@@ -3,7 +3,7 @@
 //  ────────────────────────────────────────────────
 //  CtaSection 공용 골격 사용 (CTA 영역 flex:1 + Footer 내장, height:100dvh).
 //  night prop → accent·버튼 그라디언트만 야별. 메타 값/문구는 전 야 공통 고정.
-//  채움(gradient)=프로그램 보기 / 외곽선(outline)=예약하기 →
+//  채움(gradient)=프로그램 보기 / 외곽선(outline)=예약하기
 //  ※ gradient 버튼은 추후 '전체 프로그램 모달'로 교체 예정 — 현재는 준비중(MvpModal) placeholder.
 //  탭바(NightTabBar) 노출 상태이므로 CtaSection 에 tabBar 로 상단 패딩 오프셋 반영.
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

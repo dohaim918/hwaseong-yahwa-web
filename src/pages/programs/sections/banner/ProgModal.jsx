@@ -1,10 +1,7 @@
-// ProgModal — BannerSection "자세히 보기" 트리거 모달 (480px frame).
-// ModalFrame 공용 겉틀 안에 야별 modal 콘텐츠 채움.
-// 배경은 야별 전용 이미지(modalBgs[id]) — exclusion 블렌드로 어두운 패널과 어우러짐.
-
 import { Link } from "react-router-dom"
 import styled from "@emotion/styled"
-import { T, alpha, accentFill, serif, glass, flexCol, flexRow } from "@/styles/theme"
+import { T, alpha, accentFill } from "@/styles/theme"
+import { serif, glass, flexCol, flexRow } from "@/styles/mixins"
 import { UI_TEXT } from "@/data/uiText"
 import { PROGRAM_ASSETS } from "@/data/programAssets"
 import { getModalPrograms } from "@/data/nightData"
@@ -30,10 +27,8 @@ export default function ProgModal({ open, onClose, night }) {
   const bg = PROGRAM_ASSETS.modalBgs[id]
   const titleId = `prog-modal-title-${id}`
 
-  // 미니에서는 우측 메타 컬럼이 안 맞아 → 라벨 옆 ⓘ 툴팁으로 메타를 띄운다.
   const { isMini } = useResponsive()
 
-  // 인라인(SideColumn)·툴팁 양쪽에서 동일하게 재사용
   const metaRows = t.metaItems.map(({ key, label }) => {
     const Icon = META_ICONS[key]
 
@@ -62,10 +57,8 @@ export default function ProgModal({ open, onClose, night }) {
             <BadgeNum $grad={style.heroGrad}>{modal.badgeLabel}</BadgeNum>
           </Badge>
           <TitleGroup>
-            <SubTheme $accent={color} id={titleId}>
-              {modal.subTheme}
-            </SubTheme>
-            <MainTitle>{modal.mainTitle}</MainTitle>
+            <SubTheme $accent={color}>{modal.subTheme}</SubTheme>
+            <MainTitle id={titleId}>{modal.mainTitle}</MainTitle>
           </TitleGroup>
         </Header>
 
@@ -112,17 +105,16 @@ export default function ProgModal({ open, onClose, night }) {
         </ProgramsBlock>
 
         <ButtonRow>
-          <Button variant="outline" size="sm" accent={color} radius={T.radius.sm} onClick={onClose}>
+          <Button variant="outline" size="sm" accent={color} onClick={onClose}>
             {t.closeLabel}
           </Button>
           <Button
             as={Link}
-            to="/booking"
+            to={`/booking?night=${id}`}
             variant="gradient"
             size="sm"
             accent={color}
             bordered
-            radius={T.radius.sm}
           >
             {t.bookingLabel}
           </Button>
@@ -251,7 +243,6 @@ const MainTitle = styled.h2`
 `
 
 // 설명 + 메타를 묶어 우측 정렬(좁은 컬럼). 좌측 여백으로 배경 이미지가 비친다.
-// gap 16 (토큰 없음, 최근접 18px)
 const SideColumn = styled.div`
   align-self: flex-end;
   ${flexCol(T.spacing[16])}
@@ -331,7 +322,6 @@ const ProgramsCard = styled.div`
   }
 `
 
-// padding 20 (토큰 없음, 최근접 18px)
 const ProgramRow = styled.div`
   ${flexRow(T.spacing[12])}
   padding: 0 ${T.spacing[20]};
@@ -347,7 +337,6 @@ const ProgName = styled.p`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  /* 1행만 밝게(#f0eeff), 2~3행은 0.8 디밍 */
   color: ${({ $first }) => ($first ? T.main : alpha(T.main, 0.8))};
   transition: font-size ${T.transition.fast};
   @media (max-width: ${T.bp.mini}) {
@@ -375,7 +364,7 @@ const ProgTime = styled(ProgMeta)`
   color: ${T.sub};
 `
 
-// padding 8·20 (토큰 없음, 최근접 9px·19px)
+// 팁 박스 — 프로그램 행과 같은 좌우 리듬
 const TipBox = styled.div`
   ${flexRow(T.spacing[12])}
   padding: ${T.spacing[8]} ${T.spacing[20]};

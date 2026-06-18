@@ -1,5 +1,6 @@
 import styled from "@emotion/styled"
-import { T, alpha, vDivider, serif, flexCol, flexRow } from "@/styles/theme"
+import { T, alpha } from "@/styles/theme"
+import { vDivider, serif, flexCol, flexRow } from "@/styles/mixins"
 import {
   BusIcon,
   CarIcon,
@@ -72,24 +73,16 @@ const InfoHead = styled.dt`
 `
 
 const InfoLabel = styled.span`
-  font-size: ${T.fontSize.sm};
+  font-size: ${T.fontSize.smFluid};
   color: ${T.amber};
-
-  @media (max-width: ${T.bp.mini}) {
-    font-size: ${T.fontSize.xs};
-  }
 `
 
 const InfoValue = styled.dd`
   margin: 0;
   ${serif(700)}
-  font-size: ${T.fontSize.sm};
+  font-size: ${T.fontSize.smFluid};
   color: ${alpha(T.main, 0.72)};
   white-space: nowrap;
-
-  @media (max-width: ${T.bp.tablet}) {
-    font-size: ${T.fontSize.xs};
-  }
 `
 
 const AccessItem = styled.li`
@@ -98,7 +91,7 @@ const AccessItem = styled.li`
   justify-content: center;
   flex: 1;
 
-  ${vDivider(T.amber, { height: "52px", opacity: 0.2, right: `-${T.spacing[4]}` })}
+  ${vDivider(T.amber, { height: "48px", opacity: 0.2, right: `-${T.spacing[6]}` })}
 
   svg {
     opacity: 0.9;

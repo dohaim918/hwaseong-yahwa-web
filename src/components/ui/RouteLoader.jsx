@@ -1,7 +1,7 @@
 import { keyframes } from "@emotion/react"
 import styled from "@emotion/styled"
-import { T, alpha, flexCol } from "@/styles/theme"
-
+import { T, alpha } from "@/styles/theme"
+import { flexCol } from "@/styles/mixins"
 export default function RouteLoader({ label = "페이지 로딩중..." }) {
   return (
     <Loader role="status" aria-live="polite" aria-label={label}>
@@ -76,11 +76,7 @@ const Eyebrow = styled.span`
 
 const Text = styled.span`
   display: block;
-  font-size: ${T.fontSize.sm};
+  font-size: ${T.fontSize.smFluid};
   font-weight: 600;
   color: ${alpha(T.main, 0.86)};
-
-  @media (max-width: ${T.bp.mini}) {
-    font-size: ${T.fontSize.xs};
-  }
 `

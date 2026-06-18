@@ -9,7 +9,8 @@
 
 import { useState } from "react"
 import styled from "@emotion/styled"
-import { T, flexCol, flexRow } from "@/styles/theme"
+import { T } from "@/styles/theme"
+import { flexCol, flexRow } from "@/styles/mixins"
 import { PROGRAM_ASSETS } from "@/data/programAssets"
 import { UI_TEXT } from "@/data/uiText"
 import { getTimelineItems, getFlowPoint } from "@/data/nightData"
@@ -44,14 +45,6 @@ export default function FlowSection({ night }) {
 
   const [selectedStep, setSelectedStep] = useState(night.flowOfNight.featuredStep)
   const [tipOpen, setTipOpen] = useState(false)
-
-  // 야 전환 감지 → 기본 step 으로 리셋 (렌더 중 prop 변화 처리 · effect setState 회피)
-  const [prevNightId, setPrevNightId] = useState(night.id)
-  if (prevNightId !== night.id) {
-    setPrevNightId(night.id)
-    setSelectedStep(night.flowOfNight.featuredStep)
-    setTipOpen(false)
-  }
 
   const items = getTimelineItems(night.id)
   const point = getFlowPoint(night.id, selectedStep)

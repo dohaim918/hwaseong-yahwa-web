@@ -7,7 +7,8 @@
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 import styled from "@emotion/styled"
-import { T, alpha, revealUp, focusRing, flexCol } from "@/styles/theme"
+import { T, alpha } from "@/styles/theme"
+import { revealUp, focusRing, flexCol } from "@/styles/mixins"
 import { UI_TEXT } from "@/data/uiText"
 import { getExperienceCards } from "@/data/nightData"
 import { PROGRAM_ASSETS } from "@/data/programAssets"
@@ -114,7 +115,7 @@ const AllBtn = styled.button`
   align-items: center;
   gap: ${T.spacing[4]};
   padding: 0;
-  font-size: ${T.fontSize.sm};
+  font-size: ${T.fontSize.smFluid};
   line-height: 1.5;
   color: ${({ $accent }) => alpha($accent, 0.38)};
   cursor: pointer;
@@ -125,10 +126,6 @@ const AllBtn = styled.button`
   }
 
   ${({ $accent }) => focusRing(alpha($accent, 0.7))}
-
-  @media (max-width: ${T.bp.mobile}) {
-    font-size: ${T.fontSize.xs};
-  }
 `
 
 // ── 카드 그리드 (남은 공간 전부 차지) ────────

@@ -1,13 +1,13 @@
 import { useLayoutEffect, useRef, useState } from "react"
 import styled from "@emotion/styled"
-import { focusRing } from "@/styles/theme"
+import { focusRing } from "@/styles/mixins"
 import NightCard from "./NightCard"
 import ProgTabs from "./ProgTabs"
 
 const GAP = 12
 const MIN_CARD_W = 220
 
-export default function ProgCarousel({ cards, activeIdx, onActiveChange }) {
+export default function ProgCarousel({ cards, activeIdx, onActiveChange, onActivate }) {
   const [wrapW, setWrapW] = useState(0)
   const wrapRef = useRef(null)
   const touchStartX = useRef(null)
@@ -32,6 +32,7 @@ export default function ProgCarousel({ cards, activeIdx, onActiveChange }) {
     }
   }, [])
 
+  // 1.8 = 중앙 카드 + 양옆 peek 비율 (카드가 래퍼 폭의 약 56% 차지)
   const cardW = Math.max(MIN_CARD_W, wrapW > 0 ? Math.round((wrapW - GAP) / 1.8) : MIN_CARD_W)
   const peek = wrapW > 0 ? Math.max(0, Math.round((wrapW - cardW) / 2)) : 60
   const trackX = peek - activeIdx * (cardW + GAP)
@@ -49,7 +50,8 @@ export default function ProgCarousel({ cards, activeIdx, onActiveChange }) {
   }
 
   const activateItem = (idx) => {
-    if (idx !== activeIdx) onActiveChange(idx)
+    if (idx === activeIdx) onActivate?.(cards[idx].id)
+    else onActiveChange(idx)
   }
 
   return (

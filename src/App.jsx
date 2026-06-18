@@ -9,7 +9,7 @@ import ErrorBoundary from "@/components/layout/ErrorBoundary"
 const MainPage = lazy(() => import("@/pages/main/MainPage"))
 const ProgramsPage = lazy(() => import("@/pages/programs/ProgramsPage"))
 const NotFound = lazy(() => import("@/pages/NotFound"))
-// const BookingPage = lazy(() => import("@/pages/booking/BookingPage"))
+const BookingPage = lazy(() => import("@/pages/booking/BookingPage"))
 
 export default function App() {
   return (
@@ -18,7 +18,7 @@ export default function App() {
         <Route element={<Layout />}>
           <Route path="/" element={<MainPage />} />
           <Route path="/programs" element={<ProgramsPage />} />
-          {/* <Route path="/booking" element={<BookingPage />} /> */}
+          <Route path="/booking" element={<BookingPage />} />
 
           {/* 404 — NotFound 페이지 */}
           <Route path="*" element={<NotFound />} />

@@ -10,16 +10,8 @@
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 import styled from "@emotion/styled"
-import {
-  T,
-  alpha,
-  revealUp,
-  focusRing,
-  accentLine,
-  serif,
-  flexCol,
-  flexRow,
-} from "@/styles/theme"
+import { T, alpha, accentLine } from "@/styles/theme"
+import { revealUp, focusRing, serif, flexCol, flexRow, glass } from "@/styles/mixins"
 import { MapPinIcon } from "@/components/ui/icons"
 import { OutlinePill } from "@/components/ui/Deco"
 
@@ -164,7 +156,7 @@ const rowState = ($active, $accent) =>
   $active
     ? `
       opacity: 1;
-      backdrop-filter: blur(20px);
+      ${glass("20px")}
       border-radius: 0;
       background: linear-gradient(90deg, ${alpha($accent, 0)} 0%, ${alpha($accent, 0.08)} 50%, ${alpha($accent, 0.06)} 90%, ${alpha($accent, 0)} 100%);
       border-image: ${accentLine($accent, { peak: 0.4 })} 1;

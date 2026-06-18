@@ -1,5 +1,6 @@
 import styled from "@emotion/styled"
-import { T, alpha, accentLine, focusRing, flexCol, flexRow } from "@/styles/theme"
+import { T, alpha, accentLine } from "@/styles/theme"
+import { focusRing, flexCol, flexRow } from "@/styles/mixins"
 import { UI_TEXT } from "@/data/uiText"
 import {
   FacebookIcon,
@@ -368,11 +369,9 @@ const Ext = styled.span`
 // ─────────────────────────────────────────────────────
 
 const CopyBar = styled.div`
-  display: flex;
+  ${flexRow(T.spacing[12])}
   flex-wrap: wrap;
-  align-items: center;
   justify-content: space-between;
-  gap: ${T.spacing[12]};
   padding: ${T.spacing[16]} ${T.pagePad} ${T.spacing[28]};
   border-top: 1px solid ${alpha(T.white, 0.04)};
 

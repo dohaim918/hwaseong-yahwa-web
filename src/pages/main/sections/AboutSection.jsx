@@ -1,16 +1,7 @@
 import { Link } from "react-router-dom"
 import styled from "@emotion/styled"
-import {
-  T,
-  alpha,
-  GRADIENT,
-  revealUp,
-  glass,
-  glow,
-  serif,
-  flexCol,
-  flexRow,
-} from "@/styles/theme"
+import { T, alpha, GRADIENT } from "@/styles/theme"
+import { revealUp, glass, glow, serif, flexCol, flexRow } from "@/styles/mixins"
 import { UI_TEXT } from "@/data/uiText"
 import SectionHeader from "@/components/ui/SectionHeader"
 import FullSection from "@/components/layout/FullSection"
@@ -175,13 +166,9 @@ const NumVal = styled.span`
 
 const NumUnit = styled.span`
   ${serif(500)}
-  font-size: ${T.fontSize.md};
+  font-size: ${T.fontSize.mdFluid};
   line-height: 1;
   color: ${({ $color }) => $color};
-
-  @media (max-width: ${T.bp.mini}) {
-    font-size: ${T.fontSize.sm};
-  }
 `
 
 const StatLabel = styled.dt`

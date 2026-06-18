@@ -201,19 +201,10 @@ const NIGHT_04 = {
 
   reservation: {
     cardTitle: "고요의 빛",
-    scheduleLabel: "매주 일요일",
     dayOfWeek: "일요일",
     startTime: "18:30",
-    calendarNote: "매주 일요일만 예약 가능합니다",
     tags: ["달빛 산책", "클래식 공연", "엔딩 세레머니"],
     emoji: "🌙",
-    timeSlots: [
-      { time: "18:30", label: "저녁 입장", status: "available" },
-      { time: "19:30", label: "저녁 입장", status: "available" },
-      { time: "20:00", label: "저녁 입장", status: "closing" },
-      { time: "20:30", label: "저녁 입장", status: "sold_out" },
-    ],
-    notices: ["입장 마감은 21:00입니다."],
   },
 
   finalInvitation: {

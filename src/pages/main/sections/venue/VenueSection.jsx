@@ -1,5 +1,6 @@
 import styled from "@emotion/styled"
-import { T, alpha, GRADIENT, revealUp, glass, flexCol, flexRow } from "@/styles/theme"
+import { T, alpha, GRADIENT } from "@/styles/theme"
+import { revealUp, glass, flexCol, flexRow } from "@/styles/mixins"
 import { UI_TEXT } from "@/data/uiText"
 import SectionHeader from "@/components/ui/SectionHeader"
 import FullSection from "@/components/layout/FullSection"
@@ -180,20 +181,19 @@ const AccessHead = styled.div`
 `
 
 const AccessTitle = styled.span`
-  font-size: ${T.fontSize.sm};
+  font-size: ${T.fontSize.smFluid};
   color: ${alpha(T.amber, 0.6)};
   letter-spacing: 2px;
   white-space: nowrap;
 
   @media (max-width: ${T.bp.mobile}) {
-    font-size: ${T.fontSize.xs};
     letter-spacing: 1.5px;
   }
 `
 
 const AccessList = styled.ul`
   display: flex;
-  gap: ${T.spacing[8]};
+  gap: ${T.spacing[12]};
   width: 100%;
 
   @media (max-width: ${T.bp.mini}) {

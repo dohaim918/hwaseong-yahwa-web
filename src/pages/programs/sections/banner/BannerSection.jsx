@@ -16,7 +16,8 @@
 
 import { forwardRef, useState } from "react"
 import styled from "@emotion/styled"
-import { T, alpha, serif, flexCol, flexRow } from "@/styles/theme"
+import { T, alpha, outlineFill } from "@/styles/theme"
+import { serif, flexCol, flexRow } from "@/styles/mixins"
 import { UI_TEXT } from "@/data/uiText"
 import { PROGRAM_ASSETS } from "@/data/programAssets"
 import FullSection from "@/components/layout/FullSection"
@@ -69,7 +70,7 @@ const BannerSection = forwardRef(function BannerSection({ night, nights, onSelec
               <Desc>{banner.description}</Desc>
               <Tags>
                 {banner.tags.map((tag) => (
-                  <Tag key={tag} $accent={color}>
+                  <Tag key={tag} $accent={color} $fill={outlineFill(color)}>
                     {tag}
                   </Tag>
                 ))}
@@ -184,15 +185,10 @@ const TextBlock = styled.div`
 `
 
 const NightCode = styled.span`
-  font-size: ${T.fontSize.md};
+  font-size: ${T.fontSize.mdFluid};
   font-weight: 700;
   letter-spacing: 4px;
   color: ${({ $accent }) => $accent};
-  transition: font-size ${T.transition.mid};
-
-  @media (max-width: ${T.bp.mobile}) {
-    font-size: ${T.fontSize.sm};
-  }
 `
 
 // ── 1야 + 시작의 빛 묶음 ──
@@ -247,17 +243,14 @@ const Subtitle = styled.p`
 `
 
 const Desc = styled.p`
-  font-size: ${T.fontSize.md};
+  font-size: ${T.fontSize.mdFluid};
   line-height: 1.8;
   letter-spacing: 0.3px;
   color: ${alpha(T.white, 0.62)};
   white-space: pre-line;
-  transition:
-    font-size ${T.transition.mid},
-    line-height ${T.transition.mid};
+  transition: line-height ${T.transition.mid};
 
   @media (max-width: ${T.bp.mobile}) {
-    font-size: ${T.fontSize.sm};
     line-height: 1.7;
   }
 `
@@ -274,13 +267,11 @@ const Tags = styled.div`
   }
 `
 
-// 공용 OutlinePill(accent 변형) — 테두리·배경·라운드 공용, 폰트/패딩만 배너용으로 확장
+// 공용 OutlinePill(accent 변형) — 테두리·라운드 공용, 폰트/패딩만 배너용으로 확장 (배경은 $fill 주입)
 const Tag = styled(OutlinePill)`
   padding: ${T.spacing[8]} ${T.spacing[16]};
   font-size: ${T.fontSize.md};
   letter-spacing: 0.3px;
-  background: ${({ $accent }) =>
-    `linear-gradient(135deg, ${alpha($accent, 0.25)}, ${alpha($accent, 0.15)}), ${alpha(T.bgDark, 0.8)}`};
   transition: font-size ${T.transition.mid};
 
   @media (max-width: ${T.bp.mobile}) {

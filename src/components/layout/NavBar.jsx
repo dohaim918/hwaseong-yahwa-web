@@ -7,7 +7,8 @@ import { useState } from "react"
 import { Link, NavLink } from "react-router-dom"
 import styled from "@emotion/styled"
 import { css } from "@emotion/react"
-import { T, alpha, glass, accentLine, flexCol, flexRow } from "@/styles/theme"
+import { T, alpha, accentLine } from "@/styles/theme"
+import { glass, flexCol, flexRow } from "@/styles/mixins"
 import { UI_TEXT } from "@/data/uiText"
 import MobileMenu from "@/components/layout/MobileMenu"
 import Button from "@/components/ui/Button"
@@ -52,7 +53,14 @@ export default function NavBar({ accent = T.pink }) {
             </DesktopBookBtn>
           )}
 
-          <Hamburger $open={isOpen} onClick={() => setIsOpen((p) => !p)} aria-label="메뉴">
+          <Hamburger
+            type="button"
+            $open={isOpen}
+            onClick={() => setIsOpen((p) => !p)}
+            aria-label="메뉴"
+            aria-controls="mobile-menu"
+            aria-expanded={isOpen}
+          >
             <Bar />
             <Bar />
             <Bar />

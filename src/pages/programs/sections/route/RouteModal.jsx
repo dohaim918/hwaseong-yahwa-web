@@ -8,7 +8,8 @@
 
 import { useId, useMemo, useRef, useState } from "react"
 import styled from "@emotion/styled"
-import { T, pad2, flexCol, flexRow, textGrad, serif, alpha } from "@/styles/theme"
+import { T, pad2, textGrad, outlineFill } from "@/styles/theme"
+import { flexCol, flexRow, serif } from "@/styles/mixins"
 import { PROGRAM_ASSETS } from "@/data/programAssets"
 import { MapPinIcon, ClockIcon } from "@/components/ui/icons"
 import { UI_TEXT } from "@/data/uiText"
@@ -38,7 +39,9 @@ export default function RouteModal({ night, open, onClose }) {
   const activeIdx = waypoints.findIndex((w) => w.step === activeStep)
   const activeWp = waypoints[activeIdx] ?? null
   const panelOpen = Boolean(activeWp)
-  const activeImg = panelOpen ? (PROGRAM_ASSETS.experience[night.id]?.[activeIdx] ?? null) : null
+  const activeImg = panelOpen
+    ? (PROGRAM_ASSETS.experience[night.id]?.[Number(activeWp.step) - 1] ?? null)
+    : null
   const sheetStep = activeStep || routeStep.last
   const sheetIdx = waypoints.findIndex((w) => w.step === sheetStep)
   const sheetWp = waypoints[sheetIdx] ?? null
@@ -133,7 +136,7 @@ export default function RouteModal({ night, open, onClose }) {
 
         {/* 상단 안내 (지도 위 헤더 공간) — 지도와 함께 좌측 이동 */}
         <TopGuide $shifted={!isMobileOrTablet && panelOpen}>
-          <Tag $sm $accent={accent}>
+          <Tag $sm $accent={accent} $fill={outlineFill(accent)}>
             {tag}
           </Tag>
           <GuideRest $panelOpen={panelOpen}>
@@ -170,12 +173,10 @@ const Stage = styled.div`
   container-type: inline-size;
 `
 
-// ── 공통 태그 칩 — OutlinePill $sm 기반 (중앙 정렬 + 넓은 자간만 추가)
+// ── 공통 태그 칩 — OutlinePill $sm 기반 (중앙 정렬 + 넓은 자간만 추가, 배경은 $fill 로 주입)
 const Tag = styled(OutlinePill)`
   align-self: center;
   letter-spacing: 3px;
-  background: ${({ $accent }) =>
-    `linear-gradient(135deg, ${alpha($accent, 0.25)}, ${alpha($accent, 0.15)}), ${alpha(T.bgDark, 0.8)}`};
 `
 
 // ── 상단 안내 (태그 + 타이틀 + 설명 + 메타)

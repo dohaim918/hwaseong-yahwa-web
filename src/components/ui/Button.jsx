@@ -5,12 +5,12 @@
 //    accent   — night 색 (T.pink/amber/emerald/violet) — gradient 는 buttonGrad(accent) 로 파생 (기본: T.pink)
 //    gradient — 풀 그라디언트 문자열 직접 지정 (예외 디자인용 탈출구)
 //    bordered — gradient 버튼에 테두리 추가
-//    radius   — border-radius 오버라이드 (기본: T.radius.pill)
+//    iconMotion — 'right' | 'left'  (기본: right)
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 import styled from "@emotion/styled"
-import { T, alpha, focusRing, buttonGrad } from "@/styles/theme"
-
+import { T, alpha, buttonGrad, outlineFill } from "@/styles/theme"
+import { focusRing, hoverLastIconX } from "@/styles/mixins"
 export default function Button({
   as,
   variant = "gradient",
@@ -18,13 +18,23 @@ export default function Button({
   accent = T.pink,
   gradient,
   bordered,
-  radius,
+  iconMotion = "right",
   type = "button",
   onClick,
   disabled = false,
   children,
   ...props
 }) {
+  const disabledLinkProps = as && disabled ? { "aria-disabled": true, tabIndex: -1 } : {}
+  const handleClick = (e) => {
+    if (disabled) {
+      e.preventDefault()
+      e.stopPropagation()
+      return
+    }
+    onClick?.(e)
+  }
+
   return (
     <StyledBtn
       as={as}
@@ -33,11 +43,12 @@ export default function Button({
       $accent={accent}
       $gradient={gradient}
       $bordered={bordered}
-      $radius={radius}
+      $iconMotion={iconMotion}
       type={as ? undefined : type}
-      onClick={onClick}
-      disabled={disabled}
+      onClick={handleClick}
+      disabled={as ? undefined : disabled}
       {...props}
+      {...disabledLinkProps}
     >
       {children}
     </StyledBtn>
@@ -82,8 +93,12 @@ const SIZE = {
 
 const r = (size, bp, key) => SIZE[size][bp]?.[key] ?? SIZE[size][key]
 
-// $ prefix transient prop 은 emotion(styled DOM 태그)이 자동으로 DOM 전달에서 제외
-const StyledBtn = styled.button`
+// $ transient prop 차단(as={Link} 로 Link 렌더 시 $variant 등의 DOM 누수 방지)
+// ⚠️ as 는 반드시 제외(forward 금지). as 를 forward 하면 emotion 엘리먼트 교체가 깨져
+//    <a> 대신 <button as="[object Object]"> 로 렌더 → to 가 href 가 안 돼 라우팅 먹통.
+const StyledBtn = styled("button", {
+  shouldForwardProp: (prop) => !String(prop).startsWith("$") && prop !== "as",
+})`
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -111,10 +126,12 @@ const StyledBtn = styled.button`
     flex-shrink: 0;
   }
 
+  ${({ $iconMotion }) => hoverLastIconX($iconMotion)}
+
   height: ${({ $size }) => SIZE[$size].height};
   padding: ${({ $size }) => SIZE[$size].padding};
   font-size: ${({ $size }) => SIZE[$size].fontSize};
-  border-radius: ${({ $radius, $size }) => $radius ?? SIZE[$size].radius};
+  border-radius: ${({ $size }) => SIZE[$size].radius};
   letter-spacing: ${({ $size }) => SIZE[$size].letterSpacing};
 
   /* ── gradient ── */
@@ -142,31 +159,27 @@ const StyledBtn = styled.button`
     $variant === "outline" &&
     `
     color: ${$accent};
-    background:
-      linear-gradient(135deg, ${alpha($accent, 0.1)}, ${alpha($accent, 0.05)}),
-      ${alpha(T.bgDark, 0.8)};
+    background: ${outlineFill($accent, 0.1, 0.05)};
     border: 1.5px solid ${$accent};
     box-shadow: ${SIZE[$size].shadow($accent)};
 
     &:hover:not(:disabled) {
-      background:
-        linear-gradient(135deg, ${alpha($accent, 0.25)}, ${alpha($accent, 0.15)}),
-        ${alpha(T.bgDark, 0.8)};
+      background: ${outlineFill($accent)};
       box-shadow: ${SIZE[$size].shadowHover($accent)};
     }
     &:active:not(:disabled) {
-      background:
-        linear-gradient(135deg, ${alpha($accent, 0.2)}, ${alpha($accent, 0.1)}),
-        ${alpha(T.bgDark, 0.8)};
+      background: ${outlineFill($accent, 0.2, 0.1)};
       transform: scale(0.96);
     }
   `}
 
-  &:disabled {
+  &:disabled,
+  &[aria-disabled="true"] {
     opacity: 0.4;
+    pointer-events: none;
   }
 
-  ${({ $accent, $radius, $size }) => focusRing(alpha($accent, 0.7), $radius ?? SIZE[$size].radius)}
+  ${({ $accent, $size }) => focusRing(alpha($accent, 0.7), SIZE[$size].radius)}
 
   @media (max-width: ${T.bp.mobile}) {
     height: ${({ $size }) => r($size, "mobile", "height")};

@@ -36,7 +36,7 @@ export const UI_TEXT = {
     date: "09.20 — 09.29",
     location: "UNESCO HWASEONG",
     ctaPrimary: "프로그램 보기",
-    ctaSecondary: "예약하기 →",
+    ctaSecondary: "예약하기",
   },
 
   // ─────────────────────────────────────
@@ -141,7 +141,7 @@ export const UI_TEXT = {
     },
     desc: "인기 프로그램은 조기 마감됩니다 · 4야간 · 수원화성 일원",
     ctaPrimary: "프로그램 보기",
-    ctaSecondary: "예약하기 →",
+    ctaSecondary: "예약하기",
   },
 
   // ─────────────────────────────────────
@@ -192,7 +192,7 @@ export const UI_TEXT = {
     h2: "화성의 밤, 지금 만나보세요",
     // Image 2 정확한 텍스트
     desc: "빛과 역사, 공연과 야경이 어우러진 특별한 밤.\n화성야화의 여정을 지금 예약하고 직접 경험해보세요.",
-    ctaPrimary: "예약하기 →",
+    ctaPrimary: "예약하기",
     ctaSecondary: "프로그램 보기",
     // Image 2 메타 바 — 레이블 + 고정값 (전 야 공통)
     meta: {
@@ -220,19 +220,92 @@ export const UI_TEXT = {
       title: "인원과 티켓을 선택해주세요",
       desc: `최대 ${BOOKING_COMMON.maxParty}명까지 예매하실 수 있습니다.`,
     },
-    step4: { title: "결제 정보를 입력해주세요" },
-    step5: {
-      title: "예약이 완료되었습니다",
-      ticketNote: BOOKING_COMMON.ticketIssueNote,
+    step4: {
+      title: "결제 정보를 입력해주세요",
+      desc: "예매 확인 문자는 입력하신 연락처로 발송됩니다.",
     },
-    groupDiscount: `${BOOKING_COMMON.groupDiscount.label} · 단체예약 문의 →`,
+    groupDiscount: `${BOOKING_COMMON.groupDiscount.label} · ${BOOKING_COMMON.groupDiscount.discountRate}% 할인`,
     slotStatus: { available: "여유 있음", closing: "마감 임박", sold_out: "매진" },
     closingNotice: `입장 마감은 ${BOOKING_COMMON.closingTime}입니다.`,
     summaryLabel: "예약 요약",
     totalPriceLabel: "총 결제 금액",
-    prevBtn: "← 이전",
-    nextBtn: "다음 →",
-    payBtn: "결제 완료 →",
+    partyUnit: "명",
+    prevBtn: "이전",
+    nextBtn: "다음",
+    payBtn: "결제 완료",
+
+    // ── 상단 헤더 (체크아웃 전용 미니 헤더)
+    header: {
+      backLabel: "프로그램",
+      backTo: "/programs",
+      homeAria: "화성야화 메인으로",
+    },
+
+    // ── Step2 캘린더 · 시간
+    calendar: {
+      weekdays: ["일", "월", "화", "수", "목", "금", "토"],
+      selectedLabel: "선택된 일정",
+      prevAria: "이전 달",
+      nextAria: "다음 달",
+      entryLabel: "입장",
+    },
+    slotSectionLabel: "일정 시간",
+
+    // ── Step4 예매자 정보 · 결제수단 · 약관
+    payer: {
+      title: "예매자 정보",
+      fields: [
+        { id: "name", label: "이름", required: true, placeholder: "홍길동", type: "text" },
+        { id: "phone", label: "연락처", required: true, placeholder: "010-1234-5678", type: "tel" },
+        {
+          id: "email",
+          label: "이메일",
+          required: false,
+          placeholder: "example@email.com",
+          type: "email",
+        },
+      ],
+    },
+    validation: {
+      nameRequired: "이름을 입력해주세요.",
+      nameFormat: "이름은 한글 또는 영문 2자 이상으로 입력해주세요.",
+      phoneRequired: "연락처를 입력해주세요.",
+      phoneFormat: "010으로 시작하는 휴대폰 번호 11자리를 입력해주세요.",
+      emailFormat: "이메일 형식을 확인해주세요.",
+    },
+    paymentTitle: "결제 수단",
+    paymentMethods: [
+      { id: "card", label: "신용카드" },
+      { id: "kakao", label: "카카오페이" },
+      { id: "payco", label: "페이코" },
+      { id: "naver", label: "네이버페이" },
+      { id: "toss", label: "토스페이" },
+      { id: "vbank", label: "가상계좌" },
+    ],
+    agreements: [
+      { id: "terms", required: true, label: "이용약관 동의" },
+      { id: "privacy", required: true, label: "개인정보 수집·이용 동의" },
+      { id: "marketing", required: false, label: "마케팅 정보 수신 동의" },
+    ],
+    agreeTag: { required: "필수", optional: "선택" },
+    agreeView: "보기",
+    issueNote: BOOKING_COMMON.ticketIssueNote,
+
+    // ── Step5 완료 + 모바일 티켓 카드
+    complete: {
+      title: { plain: "예약이 ", accent: "완료", rest: "되었습니다!" },
+      desc: "화성야화의 밤이 여러분을 기다립니다.\n예매 확인 문자가 발송되었습니다.",
+      ticketBrand: "화성야화 · HWASEONG YAHWA",
+      ticketNoPrefix: "NO.",
+      fields: { day: "운영 요일", time: "입장 시간", party: "인원", payment: "결제 수단" },
+      finalTotalLabel: "최종 결제 금액",
+      confirmBtn: "예약 확인",
+      saveBtn: "티켓 저장 / 인쇄",
+    },
+
+    // ── 하단 푸터 바
+    footerEmptyHint: "야를 선택해주세요",
+    footerSelectedSuffix: "를 선택하셨습니다",
   },
 
   // ─────────────────────────────────────

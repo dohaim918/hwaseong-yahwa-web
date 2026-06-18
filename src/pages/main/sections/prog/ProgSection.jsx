@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 import styled from "@emotion/styled"
-import { T, textGrad, revealUp, glow, flexRow } from "@/styles/theme"
+import { T, textGrad } from "@/styles/theme"
+import { revealUp, glow, flexRow } from "@/styles/mixins"
 import { getCardData } from "@/data/nightData"
 import { UI_TEXT } from "@/data/uiText"
 import { PROGRAM_ASSETS } from "@/data/programAssets"
@@ -24,6 +26,8 @@ export default function ProgSection() {
   const [activeId, setActiveId] = useState(null)
   const [carouselIdx, setCarouselIdx] = useState(0)
   const hasHover = activeId !== null
+  const navigate = useNavigate()
+  const goNight = (id) => navigate(`/programs?night=${id}`)
   const { isMobileOrTablet } = useResponsive()
   // accent 가 카드 hover/캐러셀에 따라 동적이라 color:null 로 자동 적용을 끄고 직접 제어
   const { ref: secRef, inView, animIn, setAccent } = useSectionAccent(1, { color: null })
@@ -64,7 +68,12 @@ export default function ProgSection() {
 
         {isMobileOrTablet ? (
           <CarouselAnim $animIn={animIn}>
-            <ProgCarousel cards={cards} activeIdx={carouselIdx} onActiveChange={setCarouselIdx} />
+            <ProgCarousel
+              cards={cards}
+              activeIdx={carouselIdx}
+              onActiveChange={setCarouselIdx}
+              onActivate={goNight}
+            />
           </CarouselAnim>
         ) : (
           <CardsRow onPointerLeave={() => setActiveId(null)}>
@@ -75,6 +84,7 @@ export default function ProgSection() {
                 active={activeId === card.id}
                 hasHover={hasHover}
                 onEnter={() => setActiveId(card.id)}
+                onActivate={() => goNight(card.id)}
                 animIn={animIn}
                 animIdx={idx}
               />

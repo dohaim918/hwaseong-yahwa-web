@@ -11,8 +11,8 @@
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 import styled from "@emotion/styled"
-import { T, alpha, pad2, focusRing, accentLine, serif, flexCol, flexRow } from "@/styles/theme"
-
+import { T, alpha, pad2, accentLine } from "@/styles/theme"
+import { focusRing, serif, flexCol, flexRow } from "@/styles/mixins"
 export default function NightIndexRail({ nights, currentId, onSelect, accent }) {
   const total = nights.length
 

@@ -1,15 +1,6 @@
 import styled from "@emotion/styled"
-import {
-  T,
-  alpha,
-  revealUp,
-  gradientBorder,
-  vDivider,
-  serif,
-  glass,
-  flexCol,
-  flexRow,
-} from "@/styles/theme"
+import { T, alpha } from "@/styles/theme"
+import { revealUp, gradientBorder, vDivider, serif, glass, flexCol, flexRow } from "@/styles/mixins"
 import Button from "@/components/ui/Button"
 import { ArrowRightIcon } from "@/components/ui/icons"
 
@@ -84,9 +75,8 @@ const BAR_STYLE = {
 const barStyle = (variant) => BAR_STYLE[variant] ?? BAR_STYLE.flow
 
 const Bar = styled.div`
-  display: flex;
+  ${flexRow()}
   flex-wrap: wrap;
-  align-items: center;
   justify-content: space-between;
   column-gap: ${({ $variant }) => barStyle($variant).columnGap};
   row-gap: ${({ $variant }) => barStyle($variant).rowGap};

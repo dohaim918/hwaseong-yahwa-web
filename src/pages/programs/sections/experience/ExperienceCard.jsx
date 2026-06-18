@@ -6,7 +6,8 @@
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 import styled from "@emotion/styled"
-import { T, alpha, revealUp, glass, serif, flexCol } from "@/styles/theme"
+import { T, alpha } from "@/styles/theme"
+import { revealUp, glass, serif, flexCol } from "@/styles/mixins"
 import { ShimmerPair } from "@/components/ui/Deco"
 
 // 이미지↔콘텐츠 음수 margin (큰 화면일수록 더 겹침)

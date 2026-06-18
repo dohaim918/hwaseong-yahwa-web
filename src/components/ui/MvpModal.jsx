@@ -110,12 +110,8 @@ const Title = styled.h2`
 const Desc = styled.p`
   margin: ${T.spacing[12]} auto 0;
   max-width: 270px;
-  font-size: ${T.fontSize.sm};
+  font-size: ${T.fontSize.smFluid};
   line-height: 1.8;
   color: ${T.sub};
   word-break: keep-all;
-  transition: font-size ${T.transition.mid};
-  @media (max-width: ${T.bp.mini}) {
-    font-size: ${T.fontSize.xs};
-  }
 `

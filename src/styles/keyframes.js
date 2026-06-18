@@ -47,18 +47,6 @@ export const keyframes = `
     to   { opacity: 1; transform: scale(1); }
   }
 
-  /* 갤러리 캐러셀 슬라이드 전환 */
-  @keyframes carouselFade {
-    from {
-      opacity: 0;
-      transform: scale(0.97) translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1) translateY(0);
-    }
-  }
-
   /* 배경 오브 부유 */
   @keyframes orbFloat {
     0%,
